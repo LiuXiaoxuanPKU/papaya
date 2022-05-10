@@ -1,0 +1,154 @@
+// 0.5
+// {"network": "bert-large-cased", "algorithm": null, "batch_size": 8, "ips": 42.9, "bacth_time": 0.184283, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651818170.28}
+// {"network": "bert-large-cased", "algorithm": null, "batch_size": 24, "layer_num": null, "ips": -1}
+// {"network": "bert-large-cased", "algorithm": null, "batch_size": 40, "layer_num": null, "ips": -1}
+// {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 8, "ips": 20.97, "bacth_time": 0.355421, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651818279.24}
+// {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 24, "ips": 35.28, "bacth_time": 0.661552, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651818319.02}
+// {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 40, "ips": 40.44, "bacth_time": 0.966668, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651818361.25}
+// {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 56, "layer_num": null, "ips": -1}
+// {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 72, "layer_num": null, "ips": -1}
+// 0.6
+// {"network": "bert-large-cased", "algorithm": null, "batch_size": 8, "ips": 42.4, "bacth_time": 0.187223, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651818660.68}
+// {"network": "bert-large-cased", "algorithm": null, "batch_size": 24, "layer_num": null, "ips": -1}
+// {"network": "bert-large-cased", "algorithm": null, "batch_size": 40, "layer_num": null, "ips": -1}
+// {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 8, "ips": 20.97, "bacth_time": 0.353028, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651818769.66}
+// {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 24, "ips": 34.21, "bacth_time": 0.675699, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651818809.1}
+// {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 40, "ips": 40.69, "bacth_time": 0.96735, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651818850.51}
+// {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 56, "ips": 42.28, "bacth_time": 1.307722, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651818893.07}
+// {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 72, "ips": 42.7, "bacth_time": 1.659426, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651818938.79}
+// {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 88, "ips": 44.21, "bacth_time": 1.997501, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651818986.34}
+// {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 104, "layer_num": null, "ips": -1}
+// {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 120, "layer_num": null, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 9, "ips": 45.04, "bacth_time": 0.196882, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651821189.01}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 10, "ips": 47.06, "bacth_time": 0.208684, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651821229.43}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 11, "ips": 43.77, "bacth_time": 0.252074, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651821269.94}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 12, "ips": 45.87, "bacth_time": 0.260353, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651821310.57}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 13, "ips": 47.21, "bacth_time": 0.275463, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651821350.97}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 14, "ips": 47.43, "bacth_time": 0.294659, "layer_num": 24, "hidden_size": 1024, "tstamp": 1651821394.89}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 15, "layer_num": null, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 4, "ips": 36.88, "bacth_time": 0.105783, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652048035.71}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 8, "ips": 42.51, "bacth_time": 0.185367, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652048074.94}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 12, "ips": 46.17, "bacth_time": 0.25972, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652048115.69}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 16, "ips": 45.84, "bacth_time": 0.343186, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652048155.83}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 20, "ips": 49.97, "bacth_time": 0.398737, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652048197.06}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 28, "ips": 49.81, "bacth_time": 0.562172, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652048238.59}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 4, "ips": 13.03, "bacth_time": 0.302857, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058031.69}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 8, "ips": 22.73, "bacth_time": 0.342973, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058072.4}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 12, "ips": 28.62, "bacth_time": 0.417955, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058113.47}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 16, "ips": 31.26, "bacth_time": 0.505775, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058154.74}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 20, "ips": 35.87, "bacth_time": 0.554604, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058197.25}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 28, "ips": 37.55, "bacth_time": 0.738845, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058240.81}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 36, "ips": 39.44, "bacth_time": 0.90514, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058285.98}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 44, "ips": 40.72, "bacth_time": 1.078352, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058331.37}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 52, "ips": 40.9, "bacth_time": 1.275234, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058377.41}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 60, "ips": 43.17, "bacth_time": 1.390754, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058425.02}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 68, "ips": 42.88, "bacth_time": 1.588284, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058473.28}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 76, "ips": 44.04, "bacth_time": 1.719853, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058522.28}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 84, "ips": 43.68, "bacth_time": 1.919549, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058574.47}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 92, "ips": 44.04, "bacth_time": 2.081047, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058625.06}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 100, "ips": 45.7, "bacth_time": 2.188174, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058676.2}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 108, "ips": 44.3, "bacth_time": 2.435358, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058729.7}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 116, "ips": 45.06, "bacth_time": 2.571832, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058784.61}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 124, "ips": 44.58, "bacth_time": 2.78431, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058841.74}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 132, "ips": 45.12, "bacth_time": 2.925452, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058898.94}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 140, "ips": 45.94, "bacth_time": 3.048289, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652058956.12}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 148, "ips": 44.92, "bacth_time": 3.299985, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652059014.46}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 156, "ips": 45.59, "bacth_time": 3.422542, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652059073.72}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 164, "ips": 45.18, "bacth_time": 3.633724, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652059134.61}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 172, "ips": 45.45, "bacth_time": 3.787003, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652059196.26}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 180, "ips": 45.65, "bacth_time": 3.940015, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652059258.75}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 188, "ips": 44.65, "bacth_time": 4.20796, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652059322.52}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 196, "ips": 45.43, "bacth_time": 4.316571, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652059386.81}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 4, "ips": 26.65, "bacth_time": 0.145766, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652064396.56}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 8, "ips": 37.71, "bacth_time": 0.194725, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652064433.56}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 12, "ips": 43.6, "bacth_time": 0.262358, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652064471.44}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 16, "ips": 44.73, "bacth_time": 0.343067, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652064509.81}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 20, "ips": 48.15, "bacth_time": 0.401244, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652064547.9}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 28, "ips": 47.04, "bacth_time": 0.594792, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652064586.89}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 36, "ips": 46.42, "bacth_time": 0.764911, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652064627.13}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 44, "ips": 47.16, "bacth_time": 0.924325, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652064669.32}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 52, "ips": 45.02, "bacth_time": 1.156891, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652064712.37}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 60, "ips": 47.64, "bacth_time": 1.260375, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652064756.3}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 68, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 76, "layer_num": 24, "ips": -1}
+# limit = 0.75
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 4, "ips": 36.32, "bacth_time": 0.106767, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652065681.47}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 8, "ips": 42.65, "bacth_time": 0.185934, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652065718.61}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 12, "ips": 46.09, "bacth_time": 0.259366, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652065755.92}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 16, "ips": 46.68, "bacth_time": 0.341734, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652065792.5}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 20, "ips": 49.86, "bacth_time": 0.402041, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652065831.47}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 28, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 36, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 24, "ips": 45.99, "bacth_time": 0.521321, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652066176.23}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 32, "ips": 47.13, "bacth_time": 0.677678, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652066218.09}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 48, "layer_num": 24, "ips": -1}
+# limit = 0.6
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 4, "ips": 36.24, "bacth_time": 0.108091, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652066396.55}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 8, "ips": 42.35, "bacth_time": 0.187041, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652066434.03}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 12, "ips": 45.76, "bacth_time": 0.261245, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652066472.14}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 16, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 20, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 4, "ips": 26.4, "bacth_time": 0.141795, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652066582.41}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 8, "ips": 39.17, "bacth_time": 0.195158, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652066619.55}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 12, "ips": 44.72, "bacth_time": 0.262427, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652066656.76}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 16, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "L1-part", "batch_size": 20, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 4, "ips": 12.35, "bacth_time": 0.316836, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652066978.52}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 8, "ips": 22.2, "bacth_time": 0.342847, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067016.03}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 12, "ips": 27.8, "bacth_time": 0.420241, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067053.41}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 16, "ips": 31.11, "bacth_time": 0.50487, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067092.0}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 20, "ips": 34.37, "bacth_time": 0.565294, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067131.11}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 24, "ips": 35.19, "bacth_time": 0.664433, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067171.77}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 28, "ips": 37.39, "bacth_time": 0.73838, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067213.71}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 32, "ips": 39.23, "bacth_time": 0.815053, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067254.51}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 36, "ips": 39.37, "bacth_time": 0.909552, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067296.14}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 40, "ips": 41.52, "bacth_time": 0.962003, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067338.43}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 44, "ips": 40.82, "bacth_time": 1.075544, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067380.91}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 48, "ips": 41.37, "bacth_time": 1.157484, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067424.09}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 52, "ips": 40.71, "bacth_time": 1.272405, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067467.36}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 56, "ips": 42.57, "bacth_time": 1.315555, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067514.82}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 60, "ips": 43.29, "bacth_time": 1.381468, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067559.14}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 64, "ips": 42.76, "bacth_time": 1.488842, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067607.49}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 68, "ips": 42.77, "bacth_time": 1.585806, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067652.73}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 72, "ips": 43.04, "bacth_time": 1.675365, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067701.78}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 76, "ips": 43.95, "bacth_time": 1.728343, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067747.66}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 80, "ips": 44.98, "bacth_time": 1.771855, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067796.7}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 84, "ips": 43.76, "bacth_time": 1.91954, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067842.68}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 88, "ips": 43.86, "bacth_time": 2.000333, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652067893.1}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 92, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 96, "layer_num": 24, "ips": -1}
+# limit = 0.5
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 8, "ips": 42.42, "bacth_time": 0.186587, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068062.29}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 12, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 16, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 8, "ips": 22.58, "bacth_time": 0.343102, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068170.84}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 12, "ips": 27.79, "bacth_time": 0.421529, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068209.02}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 16, "ips": 31.57, "bacth_time": 0.496048, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068248.27}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 20, "ips": 34.81, "bacth_time": 0.563307, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068287.59}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 24, "ips": 35.32, "bacth_time": 0.666164, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068328.13}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 28, "ips": 37.49, "bacth_time": 0.735895, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068369.22}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 32, "ips": 38.79, "bacth_time": 0.819761, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068410.82}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 36, "ips": 38.94, "bacth_time": 0.90757, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068451.11}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 40, "ips": 41.6, "bacth_time": 0.961294, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068492.65}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 44, "ips": 40.73, "bacth_time": 1.070082, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068534.24}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 48, "ips": 41.49, "bacth_time": 1.158456, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068577.18}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 52, "ips": 40.36, "bacth_time": 1.277452, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068621.24}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 56, "ips": 42.11, "bacth_time": 1.316959, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068665.86}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 60, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 64, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 8, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 12, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 8, "ips": 22.42, "bacth_time": 0.346183, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068920.11}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 12, "ips": 27.48, "bacth_time": 0.425227, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068959.24}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 16, "ips": 31.26, "bacth_time": 0.498548, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652068998.74}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 20, "ips": 34.37, "bacth_time": 0.563626, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652069037.96}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 24, "ips": 34.82, "bacth_time": 0.663979, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652069078.29}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 28, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 32, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 1, "ips": 13.23, "bacth_time": 0.075317, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652069663.47}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 2, "ips": 22.04, "bacth_time": 0.086696, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652069703.08}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 3, "ips": 29.58, "bacth_time": 0.096352, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652069742.31}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 4, "ips": 36.1, "bacth_time": 0.108212, "layer_num": 24, "hidden_size": 1024, "tstamp": 1652069778.46}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 5, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 6, "layer_num": 24, "ips": -1}
+
