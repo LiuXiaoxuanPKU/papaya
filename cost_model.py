@@ -1,85 +1,64 @@
-import json
-from typing import Dict, Callable
-import scipy.optimize as optimization
-import matplotlib.pyplot as plt
 import numpy as np
+from sortedcontainers import SortedKeyList
+
+from fitter import Fitter, FitterPool, ModelFnPool
+from util import Util, Viewer
+
+
+class Point:
+    def __init__(self, bsize: int, mem: int, ips: int) -> None:
+        self.bsize = bsize
+        self.mem = mem
+        self.ips = ips
 
 
 class Model:
-    def __init__(self, mem_dir: str, ips_dir: str) -> None:
-        self.fit_methods = {
-            "leastsq": self.fit_leastsq
-        }
-        self.mem_data = self.load_mem_data(mem_dir)
-        self.ips_data = self.load_ips_data(ips_dir)
-        self.mem_model = self.fit_mem(self.mem_data)
-        
-        batch_time_data = {}
-        for bz in self.ips_data:
-            batch_time_data[bz] = self.ips_data[bz]["batch_time"]
-        self.ips_model = self.fit_ips(batch_time_data)
+    def __init__(self, mem_dir: str, ips_dir: str, fit_method: Fitter) -> None:
+        self.fit_method = fit_method
 
-        # plot ips fit
-        self.plot_fit(self.ips_model, np.array(list(self.ips_data.keys())), np.array([self.ips_data[k]["ips"] for k in self.ips_data]), "ips")
-        # plot memory fit
-        self.plot_fit(self.mem_model, np.array(list(self.mem_data.keys())), np.array(list(self.mem_data.values())), "mem")
+        self.mem_data = Util.load_data(mem_dir, "batch_size", "peak")
+        self.btime_data = Util.load_data(ips_dir, "batch_size", "bacth_time")
 
-    def load_mem_data(self, mem_dir: str) -> Dict[int, int]:
-        with open(mem_dir, 'r') as f:
-            lines = f.readlines()
-        data = {}
-        for line in lines:
-            obj = json.loads(line)
-            data[obj["batch_size"]] = obj["peak"]
-        return data
+        batches = self.mem_data.keys()
+        self.range = (min(batches), max(batches))
 
-    def load_ips_data(self, ips_dir: str) -> Dict[int, int]:
-        with open(ips_dir, 'r') as f:
-            lines = f.readlines()
-        data = {}
-        for line in lines:
-            obj = json.loads(line)
-            data[obj["batch_size"]] = {"ips": obj["ips"], "batch_time": obj["bacth_time"]}
-        return data
+        self.mem_model = fit_method(self.mem_data, ModelFnPool.linear)
+        btime_model = fit_method(self.btime_data, ModelFnPool.linear)
+        self.ips_model = lambda bsize: bsize / btime_model(bsize)
 
-    def fit_ips(self, ips_data: Dict[int, int]) -> None:
-        def func(x: np.array, a: float, b: float):
-            return a * x + b
-        batch_time_model = self.fit_methods["leastsq"](ips_data, func)
-        def ips_model(bz):
-            return bz / batch_time_model(bz)
-        return ips_model
+    def predict(self, bsize: float) -> Point:
+        return Point(bsize, self.mem_model(bsize), self.ips_model(bsize))
 
-    def fit_mem(self, mem_data: Dict[int, int]) -> None:
-        def func(x: np.array, a: float, b: float):
-            return a * x + b
-        return self.fit_methods["leastsq"](mem_data, func)
+    def __gt__(self, other) -> bool:
+        other_sorted_points = SortedKeyList(key=lambda point: point.mem)
+        MIN, MAX = other.range
+        for bsize in range(MIN, MAX + 1):
+            other_sorted_points.add(other.predict(bsize))
 
-    def predict(self, bz: float) -> Dict[str, float]:
-        predict_mem = self.mem_model(bz)
-        predict_ips = self.ips_model(bz)
-        return {"batch_size": bz, "mem": predict_mem, "ips": predict_ips}
+        MIN, MAX = self.range
+        for bsize in range(MIN, MAX + 1):
+            self_point = self.predict(bsize)
+            nearest_other_point = other_sorted_points[
+                other_sorted_points.bisect_key_left(
+                    self_point.mem)]
+            if nearest_other_point.ips > self_point.ips:
+                return True
 
-    def fit_leastsq(self, 
-                    data: Dict[int, int], 
-                    func: Callable[[np.array, float, float], np.array]) -> Callable[[float], float]:
-        xs, ys = np.array(list(data.keys())), np.array(list(data.values()))
-        popt, pcov = optimization.curve_fit(func, xs, ys)
-
-        def model(x):
-            return func(x, *popt)
-        return model
-    
-    def plot_fit(self, model: Callable[[np.array], float], x: np.array, y: np.array, output_name: str) -> None:
-        plt.scatter(x, y, label="actual")
-        plt.plot(x, model(x), label="predict")
-        plt.xlabel("batch size")
-        plt.legend()
-        plt.savefig(output_name)
-        plt.close()
+        return False
 
 
 if __name__ == "__main__":
     mem_dir = "text_classification/results/mem_results.json"
     ips_dir = "text_classification/results/speed_results.json"
-    model = Model(mem_dir, ips_dir)
+
+    model = Model(mem_dir, ips_dir, FitterPool.fit_leastsq)
+    other = Model(mem_dir, ips_dir, FitterPool.fit_leastsq)
+
+    assert (model > other) == False
+
+    # plot ips fit
+    Viewer.plot_fit(model.ips_model, np.array(list(model.btime_data.keys())), np.array(
+        [bsize / model.btime_data[bsize] for bsize in model.btime_data]), "ips")
+    # plot memory fit
+    Viewer.plot_fit(model.mem_model, np.array(list(model.mem_data.keys())), np.array(
+        list(model.mem_data.values())), "mem")
