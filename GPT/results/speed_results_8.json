@@ -1,0 +1,73 @@
+{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 8, "ips": 9.47, "batch_time": 0.845087, "tstamp": 1652693720.07}
+{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 16, "ips": 17.52, "batch_time": 0.913158, "tstamp": 1652693737.11}
+{"network": "transformer_lm_gpt3_small", "algorithm": null, "batch_size": 24, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": null, "batch_size": 32, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": null, "batch_size": 40, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 8, "ips": 9.55, "batch_time": 0.837703, "tstamp": 1652693804.76}
+{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 16, "ips": 18.09, "batch_time": 0.884245, "tstamp": 1652693821.63}
+{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 24, "ips": 23.03, "batch_time": 1.042293, "tstamp": 1652693838.8}
+{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 32, "ips": 27.98, "batch_time": 1.143602, "tstamp": 1652693856.15}
+{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 40, "ips": 31.1, "batch_time": 1.286311, "tstamp": 1652693882.89}
+{"network": "transformer_lm_gpt3_small", "algorithm": "ckpt", "batch_size": 48, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "ckpt", "batch_size": 56, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "ckpt", "batch_size": 64, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "alg": "cpu-off", "batch_size": 8, "ips": 8.97, "batch_time": 0.892142, "tstamp": 1652693951.66}
+{"network": "transformer_lm_gpt3_small", "alg": "cpu-off", "batch_size": 16, "ips": 16.04, "batch_time": 0.997465, "tstamp": 1652693968.8}
+{"network": "transformer_lm_gpt3_small", "alg": "cpu-off", "batch_size": 24, "ips": 21.41, "batch_time": 1.12108, "tstamp": 1652693986.05}
+{"network": "transformer_lm_gpt3_small", "alg": "cpu-off", "batch_size": 32, "ips": 24.62, "batch_time": 1.299835, "tstamp": 1652694003.54}
+{"network": "transformer_lm_gpt3_small", "alg": "cpu-off", "batch_size": 40, "ips": 27.92, "batch_time": 1.432551, "tstamp": 1652694021.11}
+{"network": "transformer_lm_gpt3_small", "algorithm": "cpu-off", "batch_size": 48, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "cpu-off", "batch_size": 56, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "cpu-off", "batch_size": 64, "ips": -1}
+{"network": "transformer_lm_gpt3_medium", "alg": null, "batch_size": 8, "ips": 7.94, "batch_time": 1.007533, "tstamp": 1652694103.21}
+{"network": "transformer_lm_gpt3_medium", "algorithm": null, "batch_size": 16, "ips": -1}
+{"network": "transformer_lm_gpt3_medium", "algorithm": null, "batch_size": 24, "ips": -1}
+{"network": "transformer_lm_gpt3_medium", "algorithm": null, "batch_size": 32, "ips": -1}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 8, "ips": 7.57, "batch_time": 1.056289, "tstamp": 1652694184.28}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 16, "ips": 12.07, "batch_time": 1.325708, "tstamp": 1652694204.92}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 24, "ips": 15.04, "batch_time": 1.595896, "tstamp": 1652694225.83}
+{"network": "transformer_lm_gpt3_medium", "algorithm": "ckpt", "batch_size": 32, "ips": -1}
+{"network": "transformer_lm_gpt3_medium", "algorithm": "ckpt", "batch_size": 40, "ips": -1}
+{"network": "transformer_lm_gpt3_medium", "algorithm": "ckpt", "batch_size": 48, "ips": -1}
+{"network": "transformer_lm_gpt3_medium", "alg": "cpu-off", "batch_size": 8, "ips": 6.68, "batch_time": 1.198408, "tstamp": 1652694307.76}
+{"network": "transformer_lm_gpt3_medium", "alg": "cpu-off", "batch_size": 16, "ips": 10.47, "batch_time": 1.528893, "tstamp": 1652694328.64}
+{"network": "transformer_lm_gpt3_medium", "alg": "cpu-off", "batch_size": 24, "ips": 12.7, "batch_time": 1.89, "tstamp": 1652694349.84}
+{"network": "transformer_lm_gpt3_medium", "alg": "cpu-off", "batch_size": 32, "ips": 14.21, "batch_time": 2.25185, "tstamp": 1652694371.55}
+{"network": "transformer_lm_gpt3_medium", "algorithm": "cpu-off", "batch_size": 40, "ips": -1}
+{"network": "transformer_lm_gpt3_medium", "algorithm": "cpu-off", "batch_size": 48, "ips": -1}
+{"network": "transformer_lm_gpt3_medium", "algorithm": "cpu-off", "batch_size": 56, "ips": -1}
+{"network": "transformer_lm_gpt3_large", "algorithm": null, "batch_size": 8, "ips": -1}
+{"network": "transformer_lm_gpt3_large", "algorithm": null, "batch_size": 16, "ips": -1}
+{"network": "transformer_lm_gpt3_large", "algorithm": null, "batch_size": 24, "ips": -1}
+{"network": "transformer_lm_gpt3_large", "alg": "ckpt", "batch_size": 8, "ips": 6.43, "batch_time": 1.244781, "tstamp": 1652694539.38}
+{"network": "transformer_lm_gpt3_large", "alg": "ckpt", "batch_size": 16, "ips": 9.22, "batch_time": 1.734425, "tstamp": 1652694566.01}
+{"network": "transformer_lm_gpt3_large", "algorithm": "ckpt", "batch_size": 24, "ips": -1}
+{"network": "transformer_lm_gpt3_large", "algorithm": "ckpt", "batch_size": 32, "ips": -1}
+{"network": "transformer_lm_gpt3_large", "algorithm": "ckpt", "batch_size": 40, "ips": -1}
+{"network": "transformer_lm_gpt3_large", "alg": "cpu-off", "batch_size": 8, "ips": 5.61, "batch_time": 1.426784, "tstamp": 1652694673.19}
+{"network": "transformer_lm_gpt3_large", "alg": "cpu-off", "batch_size": 16, "ips": 8.19, "batch_time": 1.953033, "tstamp": 1652694700.07}
+{"network": "transformer_lm_gpt3_large", "algorithm": "cpu-off", "batch_size": 24, "ips": -1}
+{"network": "transformer_lm_gpt3_large", "algorithm": "cpu-off", "batch_size": 32, "ips": -1}
+{"network": "transformer_lm_gpt3_large", "algorithm": "cpu-off", "batch_size": 40, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "alg": "ckpt-cpu-off", "batch_size": 8, "ips": 9.47, "batch_time": 0.844446, "tstamp": 1652721709.65}
+{"network": "transformer_lm_gpt3_small", "alg": "ckpt-cpu-off", "batch_size": 16, "ips": 15.38, "batch_time": 1.040157, "tstamp": 1652721726.77}
+{"network": "transformer_lm_gpt3_small", "alg": "ckpt-cpu-off", "batch_size": 24, "ips": 21.3, "batch_time": 1.126829, "tstamp": 1652721744.01}
+{"network": "transformer_lm_gpt3_small", "alg": "ckpt-cpu-off", "batch_size": 32, "ips": 24.95, "batch_time": 1.282489, "tstamp": 1652721761.37}
+{"network": "transformer_lm_gpt3_small", "alg": "ckpt-cpu-off", "batch_size": 40, "ips": 28.25, "batch_time": 1.416151, "tstamp": 1652721779.06}
+{"network": "transformer_lm_gpt3_small", "algorithm": "ckpt-cpu-off", "batch_size": 48, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "ckpt-cpu-off", "batch_size": 56, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "ckpt-cpu-off", "batch_size": 64, "ips": -1}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt-cpu-off", "batch_size": 8, "ips": 6.59, "batch_time": 1.213639, "tstamp": 1652721852.79}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt-cpu-off", "batch_size": 16, "ips": 10.37, "batch_time": 1.543077, "tstamp": 1652721873.85}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt-cpu-off", "batch_size": 24, "ips": 12.77, "batch_time": 1.878742, "tstamp": 1652721895.4}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt-cpu-off", "batch_size": 32, "ips": 13.8, "batch_time": 2.318398, "tstamp": 1652721917.37}
+{"network": "transformer_lm_gpt3_medium", "algorithm": "ckpt-cpu-off", "batch_size": 40, "ips": -1}
+{"network": "transformer_lm_gpt3_medium", "algorithm": "ckpt-cpu-off", "batch_size": 48, "ips": -1}
+{"network": "transformer_lm_gpt3_medium", "algorithm": "ckpt-cpu-off", "batch_size": 56, "ips": -1}
+{"network": "transformer_lm_gpt3_large", "alg": "ckpt-cpu-off", "batch_size": 8, "ips": 5.66, "batch_time": 1.413475, "tstamp": 1652722008.04}
+{"network": "transformer_lm_gpt3_large", "alg": "ckpt-cpu-off", "batch_size": 16, "ips": 8.26, "batch_time": 1.936651, "tstamp": 1652722034.89}
+{"network": "transformer_lm_gpt3_large", "algorithm": "ckpt-cpu-off", "batch_size": 24, "ips": -1}
+{"network": "transformer_lm_gpt3_large", "algorithm": "ckpt-cpu-off", "batch_size": 32, "ips": -1}
+{"network": "transformer_lm_gpt3_large", "algorithm": "ckpt-cpu-off", "batch_size": 40, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 3, "ips": 3.8, "batch_time": 0.789766, "tstamp": 1652760399.78}
+{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 3, "ips": 3.74, "batch_time": 0.803162, "tstamp": 1652760442.84}

@@ -17,5 +17,11 @@ class ModelFnPool:
 class FitterPool:
     def fit_leastsq(data: Data, fn: ModelFn) -> Prediction:
         xs, ys = np.array(list(data.keys())), np.array(list(data.values()))
-        popt, _ = optimization.curve_fit(ModelFnPool.linear, xs, ys)
+        # print("[xs]", xs)
+        # print("[ys]", ys)
+        guess_k = (ys[-1]-ys[-2])/(xs[-1]-xs[-2])
+        guess_b = ys[0] - guess_k * xs[0] 
+        popt, _ = optimization.curve_fit(ModelFnPool.linear, xs, ys, \
+            [guess_k, guess_b])
+        # print(popt)
         return lambda x: fn(x, *popt)

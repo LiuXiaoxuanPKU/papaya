@@ -1,0 +1,12 @@
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 4, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 8, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 4, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 8, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 4, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 8, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 48, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 52, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 24, "layer_num": 36, "ips": -1}
+{"network": "bert-large-cased", "algorithm": null, "batch_size": 28, "layer_num": 36, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "ckpt", "batch_size": 244, "layer_num": 36, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "ckpt", "batch_size": 248, "layer_num": 36, "ips": -1}

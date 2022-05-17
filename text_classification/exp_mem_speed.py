@@ -194,7 +194,7 @@ if __name__ == "__main__":
         networks = ['bert-large-cased']
         batch_sizes = list(range(4, 300, 4))
         # batch_sizes = [24, 32, 40, 48]
-        algs = ['L1']
+        algs = ['ckpt']
     else:
         networks = ['bert-large-cased']
         algs = [None, 'L1', 'L1.2']

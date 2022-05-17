@@ -37,4 +37,4 @@ for alg in results:
 ax.set_title("Bert Large on V100", size=16)
 ax.set_xlabel("batch size", size=16)
 ax.set_ylabel("throughput (record/s)", size=16)
-fig.savefig('../graphs/mem_optimization')
+fig.savefig('../graphs/mem_optimization.pdf')
