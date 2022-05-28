@@ -1,4 +1,3 @@
-from tkinter import font
 import matplotlib.pyplot as plt
 import json
 
@@ -46,11 +45,11 @@ for alg in results:
         marker = "o"
         alg_name = alg
     ax.plot(results[alg].keys(), results[alg].values(), label=alg_name, marker=marker, lw=1, ms=7)
-    ax.legend(prop={"size":14})
+    ax.legend(prop={"size":16})
     # ax.set_yscale("log")
-plt.xticks(fontsize=16)
-plt.yticks(fontsize=16)
+plt.xticks(16)
+plt.yticks(16)
 ax.set_title("Bert of different layers on V100", size=18)
 ax.set_xlabel("batch size", size=18)
 ax.set_ylabel("throughput (records/s)", size=18)
-fig.savefig('../graphs/layer_num.pdf', bbox_inches='tight')
+fig.savefig('../graphs/layer_num', bbox_inches='tight')

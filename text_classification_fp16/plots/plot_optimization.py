@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import json
 
 results = {}
-filename = '../results/speed_results_no_limit_48.json'
+filename = '../results/V100/speed_results_no_limit_36.json'
 with open(filename, 'r') as f:
     lines = f.readlines()
     for line in lines:
@@ -31,10 +31,14 @@ alg_map = {
 
 fig, ax = plt.subplots()
 for alg in results:
+    print(alg)
     ax.plot(results[alg].keys(), results[alg].values(), label=alg_map[alg], marker='o')
-    ax.legend()
+    ax.legend(loc="lower right", prop={'size': 16})
     # ax.set_yscale("log")
-ax.set_title("Bert Large on V100", size=16)
-ax.set_xlabel("batch size", size=16)
-ax.set_ylabel("throughput (record/s)", size=16)
-fig.savefig('../graphs/mem_optimization')
+plt.xticks(fontsize=16)
+plt.yticks(fontsize=16)
+
+ax.set_title("Bert 36 with FP16 on V100", size=18)
+ax.set_xlabel("batch size", size=18)
+ax.set_ylabel("throughput (record/s)", size=18)
+fig.savefig('../graphs/mem_optimization_36.pdf', bbox_inches='tight')

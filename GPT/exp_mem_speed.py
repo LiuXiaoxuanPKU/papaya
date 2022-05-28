@@ -75,7 +75,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     networks = ["transformer_lm_gpt3_small"]
-    algs = ["swap"]
+    algs = [None, "ckpt", "L1", "swap"]
     # algs = ["ckpt-cpu-off"]
     actnn_level = None
     

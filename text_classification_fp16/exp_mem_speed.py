@@ -184,7 +184,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", type=str, default='linear_scan')
     parser.add_argument("--retry", type=int, default=1)
-    parser.add_argument("--layer_num", type=int, default=24)
+    parser.add_argument("--layer_num", type=int, default=48)
     parser.add_argument("--hidden_size", type=int, default=1024)
     parser.add_argument("--get_mem", action='store_true')
     args = parser.parse_args()
@@ -194,7 +194,7 @@ if __name__ == "__main__":
         networks = ['bert-large-cased']
         batch_sizes = list(range(4, 64, 4)) + list(range(64, 600, 8)) 
         # batch_sizes = [24, 32, 40, 48]
-        algs = ['swap']
+        algs = ['L1']
     else:
         networks = ['bert-large-cased']
         algs = [None, 'L1', 'L1.2']

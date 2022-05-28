@@ -40,19 +40,22 @@ if __name__ == "__main__":
     result_dir = "graphs/Swin-Transformer/"
     suffix = "pdf"
 
+    print("------------------Org---------------")
     is_org = lambda obj : obj['algorithm'] == None and obj['fp16'] == "O1" and obj['ckpt'] == False 
     org_mem, org_btime, org_mem_model, org_btime_model, org_ips_model = \
         plot_helper(is_org, mem_dir, ips_dir)
-    print("predict", org_mem_model(np.array(list(org_mem.keys()))))
-    print("org", org_mem)
+    
+    print("------------------Swap---------------")
     is_swap = lambda obj : obj['algorithm'] == "swap" and obj['fp16'] == "O1"
     swap_mem, swap_btime, swap_mem_model, swap_btime_model, swap_ips_model = \
         plot_helper(is_swap, mem_dir, ips_dir)
 
+    print("------------------Ckpt---------------")
     is_ckpt = lambda obj : obj['ckpt'] == True and obj['fp16'] == "O1"
     ckpt_mem, ckpt_btime, ckpt_mem_model, ckpt_btime_model, ckpt_ips_model = \
          plot_helper(is_ckpt, mem_dir, ips_dir) 
-    
+
+    print("------------------Quantize---------------")
     is_quantize = lambda obj : obj['algorithm'] == "L1" and obj['fp16'] == "O1"
     quantize_mem, quantize_btime, quantize_mem_model, quantize_btime_model, quantize_ips_model = \
          plot_helper(is_quantize, mem_dir, ips_dir) 

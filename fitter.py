@@ -2,6 +2,7 @@ from typing import Callable, Dict
 import scipy.optimize as optimization
 
 import numpy as np
+from sklearn.metrics import r2_score
 
 Data = Dict[int, int]
 ModelFn = Callable[[np.array, float, float], np.array]
@@ -23,5 +24,8 @@ class FitterPool:
         guess_b = ys[0] - guess_k * xs[0] 
         popt, _ = optimization.curve_fit(ModelFnPool.linear, xs, ys, \
             [guess_k, guess_b])
-        # print(popt)
+        
+        print(popt)
+        ret = lambda x: fn(x, *popt)
+        print("R^2 score", r2_score(ys, ret(xs)))
         return lambda x: fn(x, *popt)
