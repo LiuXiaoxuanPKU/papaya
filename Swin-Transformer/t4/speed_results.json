@@ -1,0 +1,6 @@
+{"network": "swin_large", "algorithm": null, "batch_size": 8, "ips": 30.7, "tstamp": 1652306415.44}
+{"network": "swin_large", "algorithm": null, "batch_size": 8, "ips": 27.42, "tstamp": 1652306489.26}
+{"network": "swin_large", "algorithm": null, "fp16": "O1", "batch_size": 8, "ips": 28.78, "tstamp": 1652306552.04}
+{"network": "swin_large", "algorithm": null, "fp16": "O2", "batch_size": 8, "ips": 41.78, "tstamp": 1652306608.97}
+{"network": "swin_large", "batch_size": 8, "ips": 41.55, "algorithm": null, "fp16": "O2", "ckpt": false, "tstamp": 1652306684.43}
+{"network": "swin_large", "batch_size": 8, "ips": 36.52, "algorithm": null, "fp16": "O2", "ckpt": true, "tstamp": 1652306727.69}
