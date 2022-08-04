@@ -20,20 +20,22 @@ class Experiment:
 
     def do_plot(machine_tag):
         algo = "GPT"
-        re_dir = "{}/{}/results/".format(algo,machine_tag)
         mem_dir = "{}/{}/results/mem_results.json".format(algo,machine_tag)
         ips_dir = "{}/{}/results/speed_results.json".format(algo,machine_tag)
         result_dir = "graphs/{}/{}/".format(algo,machine_tag)
-        for path in [re_dir,result_dir]:
-            Path(path).mkdir(parents=True, exist_ok=True)
         suffix = "pdf"
-        print("-----------------{}@{} Params-----------------".format(algo,machine_tag))
-        print ("{:<8} {:<10} {:<10} {:<10} {:<10} {:<12} {:<12}".format('Method','Alpha','Beta','Gamma','Delta','Mem R','Latency R'))
+        if not Path(mem_dir).is_file() or not Path(ips_dir).is_file():
+            print("Error: No experiment data found. Pease run expriment from scratch with --run-new for {}@{}".format(algo,machine_tag))
+            return
+        Path(result_dir).mkdir(parents=True, exist_ok=True)
+
 
         #print("-----------------Org-----------------")
         is_org = lambda obj : obj['alg'] == None and obj["network"] == "transformer_lm_gpt3_small"
         org_mem, org_btime, org_mem_model, org_btime_model, org_ips_model,\
         alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_org, mem_dir, ips_dir)
+        print("-----------------{}@{} Params-----------------".format(algo,machine_tag))
+        print ("{:<8} {:<10} {:<10} {:<10} {:<10} {:<12} {:<12}".format('Method','Alpha','Beta','Gamma','Delta','Mem R','Latency R'))
         print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Org',\
         alpha,beta,gamma,delta,mem_score,btime_score))
 

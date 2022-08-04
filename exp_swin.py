@@ -36,15 +36,15 @@ class Experiment:
 
     def do_plot(machine_tag):
         algo = "Swin-Transformer"
-        re_dir = "{}/{}/results/".format(algo,machine_tag)
         mem_dir = "{}/{}/results/mem_results.json".format(algo,machine_tag)
         ips_dir = "{}/{}/results/speed_results.json".format(algo,machine_tag)
         result_dir = "graphs/{}/{}/".format(algo,machine_tag)
-        for path in [re_dir,result_dir]:
-            Path(path).mkdir(parents=True, exist_ok=True)
         suffix = "pdf"
+        if not Path(mem_dir).is_file() or not Path(ips_dir).is_file():
+            print("Error: No experiment data found. Pease run expriment from scratch with --run-new for {}@{}".format(algo,machine_tag))
+            return
+        Path(result_dir).mkdir(parents=True, exist_ok=True)
 
-        
         #print("------------------Org---------------")
         is_org = lambda obj : obj['algorithm'] == None and obj['fp16'] == "O1" and obj['ckpt'] == False 
         org_mem, org_btime, org_mem_model, org_btime_model, org_ips_model,\
