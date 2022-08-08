@@ -33,7 +33,7 @@ sizes = {
    "org" : 15,
     "ckpt" : 15,
     "swap" : 15,
-    "quantize" : 15 
+    "quantize" : 15
 }
 
 colors = {

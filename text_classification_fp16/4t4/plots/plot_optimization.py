@@ -35,8 +35,8 @@ for alg in results:
     ax.plot(results[alg].keys(), results[alg].values(), label=alg_map[alg], marker='o')
     ax.legend(loc="lower right", prop={'size': 16})
     # ax.set_yscale("log")
-plt.xticks(fontsize=16)
-plt.yticks(fontsize=16)
+plt.xticks(fontsize=15)
+plt.yticks(fontsize=15)
 
 ax.set_title("Bert 36 with FP16 on V100", size=18)
 ax.set_xlabel("batch size", size=18)

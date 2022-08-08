@@ -4,10 +4,12 @@ from pathlib import Path
 from cost_model import Model
 from fitter import FitterPool, ModelFnPool
 from util import Viewer, Util
-import matplotlib.pyplot as plt
 
 import random
 random.seed(0)
+
+suffix = "png"
+
 class Experiment:
     def sample_dict(dic, percentenge):
         sample_data = {}
@@ -34,12 +36,11 @@ class Experiment:
         # print("[predict mem] ", mem_model(np.array(list(mem.keys()))))
         return mem, btime, mem_model, btime_model, ips_model, alpha, beta, gamma, delta, mem_score, btime_score
 
-    def do_plot(machine_tag):
+    def do_plot(machine_tag,to_plot):
         algo = "Swin-Transformer"
         mem_dir = "{}/{}/results/mem_results.json".format(algo,machine_tag)
         ips_dir = "{}/{}/results/speed_results.json".format(algo,machine_tag)
         result_dir = "graphs/{}/{}/".format(algo,machine_tag)
-        suffix = "pdf"
         if not Path(mem_dir).is_file() or not Path(ips_dir).is_file():
             print("Error: No experiment data found. Pease run expriment from scratch with --run-new for {}@{}".format(algo,machine_tag))
             return
@@ -72,64 +73,67 @@ class Experiment:
         alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_quantize, mem_dir, ips_dir) 
         print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Quantize',alpha,beta,gamma,delta,mem_score,btime_score))
 
-        fig, axes = plt.subplots(4, 1, sharex=True)
-        fig.set_size_inches(4, 6)
-        # plot batch time
-        Viewer.plot_fit(axes[0], "org", org_btime_model, np.array(list(org_btime.keys())), np.array(
-            list(org_btime.values())), None, False)
-        Viewer.plot_fit(axes[1],"swap", swap_btime_model, np.array(list(swap_btime.keys())), np.array(
-            list(swap_btime.values())), None, False)
-        Viewer.plot_fit(axes[2],"ckpt", ckpt_btime_model, np.array(list(ckpt_btime.keys())), np.array(
-            list(ckpt_btime.values())), None, False) 
-        Viewer.plot_fit(axes[3],"quantize", quantize_btime_model, np.array(list(quantize_btime.keys())), np.array(
-            list(quantize_btime.values())), None, False) 
-        
-        plt.xlabel("Batch size", size=16)  
-        for ax in axes: 
-            # ax.legend(loc="lower right")
-            ax.tick_params(axis='x', labelsize=14)
-            ax.tick_params(axis='y', labelsize=14)
+        if to_plot:
+            import matplotlib
+            matplotlib.rc('axes',edgecolor='silver')
+            matplotlib.pyplot.style.use(['science','ieee'])
+            fig, axes = matplotlib.pyplot.subplots(4, 1, sharex=True)
+            fig.set_size_inches(4, 6)
+            # plot batch time
+            Viewer.plot_fit(axes[0], "org", org_btime_model, np.array(list(org_btime.keys())), np.array(
+                list(org_btime.values())), None, False)
+            Viewer.plot_fit(axes[1],"swap", swap_btime_model, np.array(list(swap_btime.keys())), np.array(
+                list(swap_btime.values())), None, False)
+            Viewer.plot_fit(axes[2],"ckpt", ckpt_btime_model, np.array(list(ckpt_btime.keys())), np.array(
+                list(ckpt_btime.values())), None, False) 
+            Viewer.plot_fit(axes[3],"quantize", quantize_btime_model, np.array(list(quantize_btime.keys())), np.array(
+                list(quantize_btime.values())), None, False) 
             
-        # fig.text(-0.02, 0.5, 'Time (s)', va='center', rotation='vertical', size=16)
-        plt.savefig(result_dir + "swin_batch_time.%s" % suffix, bbox_inches="tight")
-        plt.close()
+            matplotlib.pyplot.xlabel("Batch Size", size=18)  
+            for ax in axes: 
+                # ax.legend(loc="lower right")
+                ax.tick_params(axis='x', labelsize=14)
+                ax.tick_params(axis='y', labelsize=14)
+                
+            # fig.text(-0.02, 0.5, 'Time (s)', va='center', rotation='vertical', size=18)
+            matplotlib.pyplot.savefig(result_dir + "swin_batch_time.%s" % suffix, bbox_inches="tight")
+            matplotlib.pyplot.close()
 
-        # plot memory
-        fig, ax = plt.subplots(1, 1)
-        fig.set_size_inches(4, 4)
-        Viewer.plot_fit(ax, "org", org_mem_model, np.array(list(org_mem.keys())), np.array(
-            list(org_mem.values())), None, False)
-        Viewer.plot_fit(ax, "swap", swap_mem_model, np.array(list(swap_mem.keys())), np.array(
-            list(swap_mem.values())), None, False)
-        Viewer.plot_fit(ax, "ckpt", ckpt_mem_model, np.array(list(ckpt_mem.keys())), np.array(
-            list(ckpt_mem.values())), None, False) 
-        Viewer.plot_fit(ax, "quantize", quantize_mem_model, np.array(list(quantize_mem.keys())), np.array(
-            list(quantize_mem.values())), None, False) 
-        plt.ylabel("Memory (GB)", size=16)
-        plt.xlabel("Batch size", size=16)
-        # plt.legend(prop={'size': 14})    
-        plt.yticks(fontsize=14)
-        plt.xticks(fontsize=14)
-        plt.savefig(result_dir + "swin_mem.%s" % suffix, bbox_inches="tight")
-        plt.close()
+            # plot memory
+            fig, ax = matplotlib.pyplot.subplots(1, 1)
+            fig.set_size_inches(4, 4)
+            Viewer.plot_fit(ax, "org", org_mem_model, np.array(list(org_mem.keys())), np.array(
+                list(org_mem.values())), None, False)
+            Viewer.plot_fit(ax, "swap", swap_mem_model, np.array(list(swap_mem.keys())), np.array(
+                list(swap_mem.values())), None, False)
+            Viewer.plot_fit(ax, "ckpt", ckpt_mem_model, np.array(list(ckpt_mem.keys())), np.array(
+                list(ckpt_mem.values())), None, False) 
+            Viewer.plot_fit(ax, "quantize", quantize_mem_model, np.array(list(quantize_mem.keys())), np.array(
+                list(quantize_mem.values())), None, False) 
+            matplotlib.pyplot.ylabel("Memory (GB)", size=18)
+            matplotlib.pyplot.xlabel("Batch Size", size=18)
+            # matplotlib.pyplot.legend(prop={'size': 14})    
+            matplotlib.pyplot.yticks(fontsize=15)
+            matplotlib.pyplot.xticks(fontsize=15)
+            matplotlib.pyplot.savefig(result_dir + "swin_mem.%s" % suffix, bbox_inches="tight")
+            matplotlib.pyplot.close()
 
-        fig, ax = plt.subplots(1, 1)
-        fig.set_size_inches(4, 4)
-        Viewer.plot_fit(ax, "org", org_ips_model, np.array(list(org_btime.keys())), np.array(
-            [bsize / org_btime[bsize] for bsize in org_btime]), None, False)
-        Viewer.plot_fit(ax, "swap", swap_ips_model, np.array(list(swap_btime.keys())), np.array(
-            [bsize / swap_btime[bsize] for bsize in swap_btime]), None, False)
-        Viewer.plot_fit(ax, "ckpt", ckpt_ips_model, np.array(list(ckpt_btime.keys())), np.array(
-            [bsize / ckpt_btime[bsize] for bsize in ckpt_btime]), None, False) 
-        Viewer.plot_fit(ax, "quantize", quantize_ips_model, np.array(list(quantize_btime.keys())), np.array(
-            [bsize / quantize_btime[bsize] for bsize in quantize_btime]), None, False) 
-        plt.ylabel("Throughput (image/s)", size=16)
-        plt.xlabel("Batch size", size=16)
-        # plt.legend(prop={'size': 14})    
-        plt.yticks(fontsize=14)
-        plt.xticks(fontsize=14)
-        plt.savefig(result_dir + "swin_ips.%s" % suffix, bbox_inches="tight")
-        plt.close()
-    
+            fig, ax = matplotlib.pyplot.subplots(1, 1)
+            fig.set_size_inches(4, 4)
+            Viewer.plot_fit(ax, "org", org_ips_model, np.array(list(org_btime.keys())), np.array(
+                [bsize / org_btime[bsize] for bsize in org_btime]), None, False)
+            Viewer.plot_fit(ax, "swap", swap_ips_model, np.array(list(swap_btime.keys())), np.array(
+                [bsize / swap_btime[bsize] for bsize in swap_btime]), None, False)
+            Viewer.plot_fit(ax, "ckpt", ckpt_ips_model, np.array(list(ckpt_btime.keys())), np.array(
+                [bsize / ckpt_btime[bsize] for bsize in ckpt_btime]), None, False) 
+            Viewer.plot_fit(ax, "quantize", quantize_ips_model, np.array(list(quantize_btime.keys())), np.array(
+                [bsize / quantize_btime[bsize] for bsize in quantize_btime]), None, False) 
+            matplotlib.pyplot.ylabel("Throughput (image/s)", size=18)
+            matplotlib.pyplot.xlabel("Batch Size", size=18)
+            # matplotlib.pyplot.legend(prop={'size': 14})    
+            matplotlib.pyplot.yticks(fontsize=15)
+            matplotlib.pyplot.xticks(fontsize=15)
+            matplotlib.pyplot.savefig(result_dir + "swin_ips.%s" % suffix, bbox_inches="tight")
+            matplotlib.pyplot.close()
 
-if __name__ == "__main__": Experiment.do_plot("v100")
+if __name__ == "__main__": Experiment.do_plot("v100",True)
