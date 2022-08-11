@@ -1,12 +1,10 @@
-from typing import Callable
 import numpy as np
 from pathlib import Path
-from cost_model import Model
 from fitter import FitterPool, ModelFnPool
 from util import Viewer, Util
 import random
 
-suffix = "png"
+suffix = "pdf"
 
 class Experiment:
     def sample_dict(dic, percentenge):
@@ -69,9 +67,9 @@ class Experiment:
 
         if to_plot:
             import matplotlib
-            matplotlib.rc('axes',edgecolor='silver')
+            # matplotlib.rc('axes',edgecolor='silver')
             import matplotlib.pyplot as plt
-            plt.style.use(['science','ieee'])
+            plt.style.use(['grid'])
             fig, axes = plt.subplots(4, 1, sharex=True)
             fig.set_size_inches(4, 6)
             # plot batch time
@@ -124,9 +122,9 @@ class Experiment:
                 [bsize / quantize_btime[bsize] for bsize in quantize_btime]), None, False) 
             # plt.savefig(result_dir + "bert_ips.%s" % suffix)
             # plt.close()
-            
-            plt.ylabel("Throughput (record/s)", size=22)
-            plt.xlabel("Batch Size", size=22)
+            ax.set_yticks([40, 80, 120, 160])
+            plt.ylabel("Throughput (record/s)", size=18)
+            plt.xlabel("Batch Size", size=18)
             # plt.legend(prop={'size': 14})    
             plt.yticks(fontsize=15)
             plt.xticks(fontsize=15)

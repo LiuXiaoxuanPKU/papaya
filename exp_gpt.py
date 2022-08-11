@@ -5,7 +5,7 @@ from cost_model import Model
 from fitter import FitterPool, ModelFnPool
 from util import Viewer, Util
 
-suffix = "png"
+suffix = "pdf"
 
 class Experiment:
     def plot_helper(cond, mem_dir, ips_dir):
@@ -59,9 +59,9 @@ class Experiment:
 
         if to_plot:
             import matplotlib
-            matplotlib.rc('axes',edgecolor='silver')
+            # matplotlib.rc('axes',edgecolor='silver')
             import matplotlib.pyplot as plt
-            plt.style.use(['science','ieee'])
+            plt.style.use(['grid'])
             fig, axes = plt.subplots(4, 1, sharex=True)
             fig.set_size_inches(4, 6)
             # plot batch time
@@ -111,8 +111,10 @@ class Experiment:
                 [bsize / ckpt_btime[bsize] for bsize in ckpt_btime]), None, False) 
             Viewer.plot_fit(ax, "quantize", quantize_ips_model, np.array(list(quantize_btime.keys())), np.array(
                 [bsize / quantize_btime[bsize] for bsize in quantize_btime]), None, False) 
-            plt.ylabel("Throughput (record/s)", size=22)
-            plt.xlabel("Batch Size", size=22)
+            
+            ax.set_yticks([20, 40, 60, 80])
+            plt.ylabel("Throughput (record/s)", size=18)
+            plt.xlabel("Batch Size", size=18)
             # plt.legend(prop={'size': 14})    
             plt.yticks(fontsize=15)
             plt.xticks(fontsize=15)

@@ -1,5 +1,5 @@
 import json
-from typing import Callable, Dict, Optional
+from typing import Callable, Dict, Optional, List
 from matplotlib import pyplot as plt
 import numpy as np
 
@@ -24,33 +24,49 @@ class Util:
         return data
 
 markers = {
-    "org" : "o",
-    "ckpt" : "o",
-    "swap" : "o",
+    "org" : "^",
+    "ckpt" : "*",
+    "swap" : "x",
     "quantize" : "o"
 }
+
+lines = {
+    "org" : "-",
+    "ckpt" : "-",
+    "swap" : "-",
+    "quantize" : "-"
+}
+
 sizes = {
-   "org" : 18,
-    "ckpt" : 18,
-    "swap" : 18,
-    "quantize" : 18
+   "org" : 100,
+    "ckpt" : 100,
+    "swap" : 100,
+    "quantize" : 60
 }
 
 colors = {
-   "org" : 'seagreen',
-    "ckpt" : 'green',
-    "swap" : 'red',
-    "quantize" : 'orange'  
+   "org" : '#4d72b0',
+    "ckpt" : '#c44e52',
+    "swap" : '#55a868',
+    "quantize" : '#e28743'  
 }
 
 class Viewer:
     def plot_fit(ax, label: str, model: Callable[[np.array], float], x: np.array, y: np.array, output_name: str, save_fig: bool = True) -> None:
         # if label == "swap":
         #     return
+
+        if label == "swap":
+            x = x[::4]
+            y = y[::4]
+        else:
+            x = x[::2]
+            y = y[::2]
+        
         ax.scatter(x, y, label=label, 
                     marker=markers[label], s=sizes[label],
                     c=colors[label])
-        ax.plot(x, model(x), c=colors[label])
+        ax.plot(x, model(x), c=colors[label], linewidth=2.4)
         if save_fig:
             plt.savefig(output_name)
             plt.close()
