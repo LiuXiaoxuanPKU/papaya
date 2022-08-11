@@ -30,14 +30,14 @@ markers = {
     "quantize" : "o"
 }
 sizes = {
-   "org" : 15,
-    "ckpt" : 15,
-    "swap" : 15,
-    "quantize" : 15
+   "org" : 18,
+    "ckpt" : 18,
+    "swap" : 18,
+    "quantize" : 18
 }
 
 colors = {
-   "org" : 'black',
+   "org" : 'seagreen',
     "ckpt" : 'green',
     "swap" : 'red',
     "quantize" : 'orange'  

@@ -38,7 +38,7 @@ for alg in results:
 plt.xticks(fontsize=15)
 plt.yticks(fontsize=15)
 
-ax.set_title("Bert 36 with FP16 on V100", size=18)
-ax.set_xlabel("batch size", size=18)
-ax.set_ylabel("throughput (record/s)", size=18)
+ax.set_title("Bert 36 with FP16 on V100", size=22)
+ax.set_xlabel("batch size", size=22)
+ax.set_ylabel("throughput (record/s)", size=22)
 fig.savefig('../graphs/mem_optimization_36.pdf', bbox_inches='tight')
