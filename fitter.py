@@ -32,3 +32,16 @@ class FitterPool:
         ret = lambda x: fn(x, *popt)
         r2 = r2_score(ys, ret(xs))
         return ret,r2,popt[0],popt[1]
+
+    def fit_leastsq_verbose_offset(data: Data, fn: ModelFn, offset: int) -> (Prediction, int, int, int):
+        xs, ys = np.array(list(data.keys())), np.array(list(data.values()))
+        # print("[xs]", xs)
+        # print("[ys]", ys)
+        pys = [y-offset for y in ys]
+        guess_k = (pys[-1]-pys[-2])/(xs[-1]-xs[-2])
+        popt, _ = optimization.curve_fit(lambda x,k: k*x, xs, pys, \
+            [guess_k])
+        # print(popt)
+        ret = lambda x: fn(x, popt[0],offset)
+        r2 = r2_score(ys, ret(xs))
+        return ret,r2,popt[0],offset
