@@ -47,7 +47,7 @@ sizes = {
 colors = {
    "org" : '#4d72b0',
     "ckpt" : '#c44e52',
-    "swap" : '#55a868',
+    "swap" : '#025839',
     "quantize" : '#e28743'  
 }
 

@@ -130,8 +130,8 @@ class Experiment:
             Viewer.plot_fit(ax, "quantize", quantize_ips_model, np.array(list(quantize_btime.keys())), np.array(
                 [bsize / quantize_btime[bsize] for bsize in quantize_btime]), None, False) 
             ax.set_yticks([20, 40, 60, 80])
-            plt.ylabel("Throughput (image/s)", size=18)
-            plt.xlabel("Batch Size", size=18)
+            plt.ylabel("Throughput (image/s)", size=22)
+            plt.xlabel("Batch Size", size=22)
             # plt.legend(prop={'size': 14})    
             plt.yticks(fontsize=15)
             plt.xticks(fontsize=15)
