@@ -4,13 +4,31 @@ from pathlib import Path
 from cost_model import Model
 from fitter import FitterPool, ModelFnPool
 from util import Viewer, Util
+import random,os
 
-import random
 random.seed(0)
 
 suffix = "pdf"
+algo = "Swin-Transformer"
 
 class Experiment:
+    def run_experiment(machine_tag):
+        mem_dir = "{}/{}/results/mem_results.json".format(algo,machine_tag)
+        ips_dir = "{}/{}/results/speed_results.json".format(algo,machine_tag)
+        cnt = 1
+        while True:
+            mem_dir_arc = "{}/{}/results/mem_archive_%d.json".format(algo,machine_tag)
+            ips_dir_arc = "{}/{}/results/speed_archive_%d.json".format(algo,machine_tag)
+            if (not os.path.exists(mem_dir_arc)) and (not os.path.exists(ips_dir_arc)):
+                break
+            cnt += 1
+        if Path(mem_dir).is_file() or Path(ips_dir).is_file():
+            os.rename(mem_dir, mem_dir_arc)
+            os.rename(ips_dir, ips_dir_arc)
+        cmd = '''cd ./text_classification_fp16/{}/ && python exp_mem_speed_swin.py &&
+        python exp_mem_speed_swin.py --get_mem'''.format(machine_tag)
+        return os.system(cmd)
+
     def sample_dict(dic, percentenge):
         sample_data = {}
         sample_num = max(2, int(len(dic) * percentenge))
@@ -22,16 +40,22 @@ class Experiment:
             sample_data[k] = dic[k]
         return sample_data
 
-    def plot_helper(cond, mem_dir, ips_dir):
+    def plot_helper(cond, mem_dir, ips_dir, offset = None):
         mem = Util.load_data(mem_dir, "batch_size", "peak", cond)
         for k in mem:
             mem[k] /= 1000000000
         btime = Util.load_data(ips_dir, "batch_size", "batch_time", cond)
         # use only 20% data to fit the model
-        mem_sample= Experiment.sample_dict(mem, 0.2)
-        btime_sample= Experiment.sample_dict(btime, 0.2)
+        mem_sample= Experiment.sample_dict(mem, 0.4)
+        btime_sample= Experiment.sample_dict(btime, 0.4)
         mem_model,mem_score,alpha,beta = FitterPool.fit_leastsq_verbose(mem_sample, ModelFnPool.linear)
         btime_model,btime_score,gamma,delta = FitterPool.fit_leastsq_verbose(btime_sample, ModelFnPool.linear)
+        while offset is None and delta<0:
+            retry += 1
+            btime_sample= Experiment.sample_dict(btime, 0.4)
+            btime_model,btime_score,gamma,delta = FitterPool.fit_leastsq_verbose(btime_sample, ModelFnPool.linear)
+            if retry>3: break
+        if delta<0 and offset: btime_model,btime_score,gamma,delta = FitterPool.fit_leastsq_verbose_offset(btime_sample, ModelFnPool.linear,offset)
         ips_model = lambda bsize: bsize / btime_model(bsize)
         # print("[predict mem] ", mem_model(np.array(list(mem.keys()))))
         return mem, btime, mem_model, btime_model, ips_model, alpha, beta, gamma, delta, mem_score, btime_score
@@ -50,6 +74,7 @@ class Experiment:
         is_org = lambda obj : obj['algorithm'] == None and obj['fp16'] == "O1" and obj['ckpt'] == False 
         org_mem, org_btime, org_mem_model, org_btime_model, org_ips_model,\
         alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_org, mem_dir, ips_dir)
+        offset = delta
         print("-----------------{}@{} Params-----------------".format(algo,machine_tag))
         print ("{:<8} {:<10} {:<10} {:<10} {:<10} {:<12} {:<12}".\
         format('Method','Alpha','Beta','Gamma','Delta','Mem R','Latency R'))
@@ -58,19 +83,19 @@ class Experiment:
         #print("------------------Swap---------------")
         is_swap = lambda obj : obj['algorithm'] == "swap" and obj['fp16'] == "O1"
         swap_mem, swap_btime, swap_mem_model, swap_btime_model, swap_ips_model,\
-        alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_swap, mem_dir, ips_dir)
+        alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_swap, mem_dir, ips_dir, offset)
         print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Swap',alpha,beta,gamma,delta,mem_score,btime_score))
 
         #print("------------------Ckpt---------------")
         is_ckpt = lambda obj : obj['ckpt'] == True and obj['fp16'] == "O1"
         ckpt_mem, ckpt_btime, ckpt_mem_model, ckpt_btime_model, ckpt_ips_model,\
-        alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_ckpt, mem_dir, ips_dir) 
+        alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_ckpt, mem_dir, ips_dir, offset) 
         print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Ckpt',alpha,beta,gamma,delta,mem_score,btime_score))
 
         #print("------------------Quantize---------------")
         is_quantize = lambda obj : obj['algorithm'] == "L1" and obj['fp16'] == "O1"
         quantize_mem, quantize_btime, quantize_mem_model, quantize_btime_model, quantize_ips_model,\
-        alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_quantize, mem_dir, ips_dir) 
+        alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_quantize, mem_dir, ips_dir, offset) 
         print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Quantize',alpha,beta,gamma,delta,mem_score,btime_score))
 
         if to_plot:
