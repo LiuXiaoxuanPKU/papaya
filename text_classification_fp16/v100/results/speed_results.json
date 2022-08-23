@@ -152,5 +152,6 @@
 {"network": "bert-large-cased", "algorithm": "ckpt", "batch_size": 360, "layer_num": 24, "ips": -1}
 {"network": "bert-large-cased", "algorithm": "swap", "batch_size": 4, "layer_num": 24, "ips": -1}
 {"network": "bert-large-cased", "algorithm": "swap", "batch_size": 288, "layer_num": 24, "ips": -1}
-{"network": "bert-large-cased", "algorithm": "swap", "batch_size": 296, "layer_num": 24, "ips": -1}{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 4, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "swap", "batch_size": 296, "layer_num": 24, "ips": -1}
+{"network": "bert-large-cased", "algorithm": "L1", "batch_size": 4, "layer_num": 24, "ips": -1}
 {"network": "bert-large-cased", "algorithm": "L1", "batch_size": 8, "layer_num": 24, "ips": -1}

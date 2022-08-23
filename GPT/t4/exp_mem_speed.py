@@ -24,7 +24,7 @@ def network_to_command(network, bz, max_exp = 50):
     --fp16 \
     --max-update 50000 \
     --required-batch-size-multiple 1 --exp %d""" % (network, token_per_sample,
-                                                    bz * token_per_sample,max_exp)#,network+"_"+str(bz)+"_util.log")
+                                                    bz * token_per_sample,max_exp)
     return cmd
 
 

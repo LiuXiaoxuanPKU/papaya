@@ -13,18 +13,33 @@ class Experiment:
         mem_dir = "{}/{}/results/mem_results.json".format(algo,machine_tag)
         ips_dir = "{}/{}/results/speed_results.json".format(algo,machine_tag)
         cnt = 1
+        ips_archived, mem_archived = False, False
         while True:
-            mem_dir_arc = "{}/{}/results/mem_archive_%d.json".format(algo,machine_tag)
-            ips_dir_arc = "{}/{}/results/speed_archive_%d.json".format(algo,machine_tag)
+            mem_dir_arc = "{}/{}/results/mem_archive_{}.json".format(algo,machine_tag,cnt)
+            ips_dir_arc = "{}/{}/results/speed_archive_{}.json".format(algo,machine_tag,cnt)
             if (not os.path.exists(mem_dir_arc)) and (not os.path.exists(ips_dir_arc)):
                 break
             cnt += 1
-        if Path(mem_dir).is_file() or Path(ips_dir).is_file():
+        if Path(mem_dir).is_file():
             os.rename(mem_dir, mem_dir_arc)
+            mem_archived = True
+        if Path(ips_dir).is_file():
             os.rename(ips_dir, ips_dir_arc)
+            ips_archived = True
         cmd = '''cd ./GPT/{}/ && 
         python exp_mem_speed.py'''.format(machine_tag)
-        return os.system(cmd)
+        ret = os.system(cmd)
+        if ret!=0:
+            print("[Error] Failed to run new experiments, restoring experiment data")
+        if ret!=0 and mem_archived:
+            if Path(mem_dir).is_file():
+                os.remove(mem_dir)
+            os.rename(mem_dir_arc, mem_dir)
+        if ret!=0 and ips_archived:
+            if Path(ips_dir).is_file():
+                os.remove(ips_dir)
+            os.rename(ips_dir_arc, ips_dir)
+        return ret
 
     def plot_helper(cond, mem_dir, ips_dir, offset = None):
         mem = Util.load_data(mem_dir, "batch_size", "peak_mem", cond)
