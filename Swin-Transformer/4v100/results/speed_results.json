@@ -1,0 +1,100 @@
+{"network": "swin_large", "batch_size": 4, "ips": 56.27, "batch_time": 0.071084, "algorithm": null, "fp16": "O1", "ckpt": false, "tstamp": 1664525462.46}
+{"network": "swin_large", "batch_size": 8, "ips": 90.17, "batch_time": 0.088717, "algorithm": null, "fp16": "O1", "ckpt": false, "tstamp": 1664525493.65}
+{"network": "swin_large", "batch_size": 12, "ips": 120.05, "batch_time": 0.099961, "algorithm": null, "fp16": "O1", "ckpt": false, "tstamp": 1664525524.62}
+{"network": "swin_large", "batch_size": 16, "ips": 141.77, "batch_time": 0.112861, "algorithm": null, "fp16": "O1", "ckpt": false, "tstamp": 1664525555.35}
+{"network": "swin_large", "batch_size": 20, "ips": 167.43, "batch_time": 0.119454, "algorithm": null, "fp16": "O1", "ckpt": false, "tstamp": 1664525586.42}
+{"network": "swin_large", "batch_size": 24, "ips": 180.13, "batch_time": 0.133236, "algorithm": null, "fp16": "O1", "ckpt": false, "tstamp": 1664525621.94}
+{"network": "swin_large", "batch_size": 28, "ips": 197.66, "batch_time": 0.141655, "algorithm": null, "fp16": "O1", "ckpt": false, "tstamp": 1664525657.55}
+{"network": "swin_large", "batch_size": 32, "ips": 172.68, "batch_time": 0.185309, "algorithm": null, "fp16": "O1", "ckpt": false, "tstamp": 1664525693.83}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 36, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 40, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 44, "ips": -1}
+{"network": "swin_large", "batch_size": 4, "ips": 47.92, "batch_time": 0.08348, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664525816.5}
+{"network": "swin_large", "batch_size": 8, "ips": 87.3, "batch_time": 0.091641, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664525846.82}
+{"network": "swin_large", "batch_size": 12, "ips": 137.33, "batch_time": 0.087379, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664525877.39}
+{"network": "swin_large", "batch_size": 16, "ips": 161.63, "batch_time": 0.098994, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664525907.92}
+{"network": "swin_large", "batch_size": 20, "ips": 200.37, "batch_time": 0.099814, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664525938.37}
+{"network": "swin_large", "batch_size": 24, "ips": 216.73, "batch_time": 0.110739, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664525969.26}
+{"network": "swin_large", "batch_size": 28, "ips": 234.29, "batch_time": 0.11951, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664525999.76}
+{"network": "swin_large", "batch_size": 32, "ips": 248.47, "batch_time": 0.12879, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526030.79}
+{"network": "swin_large", "batch_size": 36, "ips": 256.38, "batch_time": 0.140416, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526066.42}
+{"network": "swin_large", "batch_size": 40, "ips": 260.04, "batch_time": 0.153824, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526102.15}
+{"network": "swin_large", "batch_size": 44, "ips": 266.76, "batch_time": 0.164943, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526138.29}
+{"network": "swin_large", "batch_size": 48, "ips": 274.11, "batch_time": 0.175109, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526173.98}
+{"network": "swin_large", "batch_size": 52, "ips": 277.44, "batch_time": 0.187427, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526209.57}
+{"network": "swin_large", "batch_size": 56, "ips": 281.85, "batch_time": 0.198689, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526245.56}
+{"network": "swin_large", "batch_size": 60, "ips": 283.27, "batch_time": 0.211815, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526281.37}
+{"network": "swin_large", "batch_size": 64, "ips": 283.86, "batch_time": 0.225464, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526317.17}
+{"network": "swin_large", "batch_size": 68, "ips": 290.38, "batch_time": 0.234176, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526352.76}
+{"network": "swin_large", "batch_size": 72, "ips": 288.43, "batch_time": 0.249623, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526388.73}
+{"network": "swin_large", "batch_size": 76, "ips": 297.21, "batch_time": 0.255708, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526429.04}
+{"network": "swin_large", "batch_size": 80, "ips": 292.2, "batch_time": 0.273784, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526469.98}
+{"network": "swin_large", "batch_size": 84, "ips": 291.0, "batch_time": 0.288656, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526511.08}
+{"network": "swin_large", "batch_size": 88, "ips": 296.81, "batch_time": 0.29649, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526551.77}
+{"network": "swin_large", "batch_size": 92, "ips": 296.01, "batch_time": 0.310804, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526592.79}
+{"network": "swin_large", "batch_size": 96, "ips": 295.12, "batch_time": 0.325291, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526633.19}
+{"network": "swin_large", "batch_size": 100, "ips": 296.74, "batch_time": 0.336993, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526674.14}
+{"network": "swin_large", "batch_size": 104, "ips": 293.26, "batch_time": 0.354639, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1664526714.82}
+{"network": "swin_large", "algorithm": "fp16O1-ckpt", "batch_size": 108, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-ckpt", "batch_size": 112, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-ckpt", "batch_size": 116, "ips": -1}
+{"network": "swin_large", "batch_size": 4, "ips": 34.56, "batch_time": 0.115746, "algorithm": "L1", "fp16": "O1", "ckpt": false, "tstamp": 1664527602.0}
+{"network": "swin_large", "batch_size": 8, "ips": 66.76, "batch_time": 0.119828, "algorithm": "L1", "fp16": "O1", "ckpt": false, "tstamp": 1664527632.62}
+{"network": "swin_large", "batch_size": 12, "ips": 104.13, "batch_time": 0.115238, "algorithm": "L1", "fp16": "O1", "ckpt": false, "tstamp": 1664527662.8}
+{"network": "swin_large", "batch_size": 16, "ips": 143.62, "batch_time": 0.111407, "algorithm": "L1", "fp16": "O1", "ckpt": false, "tstamp": 1664527693.25}
+{"network": "swin_large", "batch_size": 20, "ips": 173.78, "batch_time": 0.11509, "algorithm": "L1", "fp16": "O1", "ckpt": false, "tstamp": 1664527723.76}
+{"network": "swin_large", "algorithm": "fp16O1-L1", "batch_size": 20, "ips": -1}
+{"network": "swin_large", "batch_size": 24, "ips": 206.45, "batch_time": 0.11625, "algorithm": "L1", "fp16": "O1", "ckpt": false, "tstamp": 1664527754.18}
+{"network": "swin_large", "algorithm": "fp16O1-L1", "batch_size": 24, "ips": -1}
+{"network": "swin_large", "batch_size": 28, "ips": 224.58, "batch_time": 0.124678, "algorithm": "L1", "fp16": "O1", "ckpt": false, "tstamp": 1664527785.07}
+{"network": "swin_large", "batch_size": 32, "ips": 242.06, "batch_time": 0.132201, "algorithm": "L1", "fp16": "O1", "ckpt": false, "tstamp": 1664527820.75}
+{"network": "swin_large", "algorithm": "fp16O1-L1", "batch_size": 32, "ips": -1}
+{"network": "swin_large", "batch_size": 4, "ips": 22.81, "batch_time": 0.175329, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664527856.99}
+{"network": "swin_large", "batch_size": 8, "ips": 29.93, "batch_time": 0.267299, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664527895.45}
+{"network": "swin_large", "batch_size": 12, "ips": 32.56, "batch_time": 0.368594, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664527939.15}
+{"network": "swin_large", "batch_size": 16, "ips": 34.37, "batch_time": 0.465586, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664527982.75}
+{"network": "swin_large", "batch_size": 20, "ips": 35.57, "batch_time": 0.562206, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664528031.34}
+{"network": "swin_large", "batch_size": 24, "ips": 35.93, "batch_time": 0.668046, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664528085.18}
+{"network": "swin_large", "batch_size": 28, "ips": 36.72, "batch_time": 0.762509, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664528144.06}
+{"network": "swin_large", "batch_size": 32, "ips": 37.11, "batch_time": 0.862262, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664528202.38}
+{"network": "swin_large", "batch_size": 36, "ips": 36.97, "batch_time": 0.973744, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664528266.37}
+{"network": "swin_large", "batch_size": 40, "ips": 37.37, "batch_time": 1.07046, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664528334.79}
+{"network": "swin_large", "batch_size": 44, "ips": 37.56, "batch_time": 1.171532, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664528408.87}
+{"network": "swin_large", "batch_size": 48, "ips": 37.55, "batch_time": 1.278129, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664528482.54}
+{"network": "swin_large", "batch_size": 52, "ips": 37.88, "batch_time": 1.372849, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664528561.32}
+{"network": "swin_large", "batch_size": 56, "ips": 37.98, "batch_time": 1.474314, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664528644.8}
+{"network": "swin_large", "batch_size": 60, "ips": 38.09, "batch_time": 1.575177, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664528733.75}
+{"network": "swin_large", "batch_size": 64, "ips": 38.27, "batch_time": 1.672322, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664528822.1}
+{"network": "swin_large", "batch_size": 68, "ips": 38.14, "batch_time": 1.782756, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664528916.57}
+{"network": "swin_large", "batch_size": 72, "ips": 38.39, "batch_time": 1.875731, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664529015.02}
+{"network": "swin_large", "batch_size": 76, "ips": 38.33, "batch_time": 1.982858, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664529118.81}
+{"network": "swin_large", "batch_size": 80, "ips": 38.16, "batch_time": 2.096267, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664529223.02}
+{"network": "swin_large", "batch_size": 84, "ips": 38.49, "batch_time": 2.182573, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664529331.45}
+{"network": "swin_large", "batch_size": 88, "ips": 38.42, "batch_time": 2.290572, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664529445.55}
+{"network": "swin_large", "batch_size": 92, "ips": 38.4, "batch_time": 2.395709, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664529564.45}
+{"network": "swin_large", "batch_size": 96, "ips": 38.42, "batch_time": 2.498774, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664529688.33}
+{"network": "swin_large", "batch_size": 100, "ips": 38.65, "batch_time": 2.587216, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664529811.19}
+{"network": "swin_large", "batch_size": 104, "ips": 38.62, "batch_time": 2.692908, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664529940.16}
+{"network": "swin_large", "batch_size": 108, "ips": 38.68, "batch_time": 2.79228, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664530074.33}
+{"network": "swin_large", "batch_size": 112, "ips": 38.85, "batch_time": 2.882915, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664530213.02}
+{"network": "swin_large", "batch_size": 116, "ips": 38.62, "batch_time": 3.003646, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664530352.67}
+{"network": "swin_large", "batch_size": 120, "ips": 38.58, "batch_time": 3.110468, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664530495.34}
+{"network": "swin_large", "batch_size": 124, "ips": 38.91, "batch_time": 3.1867, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664530645.5}
+{"network": "swin_large", "batch_size": 128, "ips": 38.92, "batch_time": 3.288844, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664530799.57}
+{"network": "swin_large", "batch_size": 132, "ips": 38.88, "batch_time": 3.39518, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664530953.32}
+{"network": "swin_large", "batch_size": 136, "ips": 38.7, "batch_time": 3.513878, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664531112.92}
+{"network": "swin_large", "batch_size": 140, "ips": 38.75, "batch_time": 3.612904, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664531275.48}
+{"network": "swin_large", "batch_size": 144, "ips": 38.75, "batch_time": 3.716327, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664531444.38}
+{"network": "swin_large", "batch_size": 148, "ips": 38.89, "batch_time": 3.8059, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664531613.04}
+{"network": "swin_large", "batch_size": 152, "ips": 38.77, "batch_time": 3.920748, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664531786.01}
+{"network": "swin_large", "batch_size": 156, "ips": 38.99, "batch_time": 4.000906, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664531965.86}
+{"network": "swin_large", "batch_size": 160, "ips": 38.92, "batch_time": 4.110534, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664532149.58}
+{"network": "swin_large", "batch_size": 164, "ips": 38.86, "batch_time": 4.219827, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664532332.75}
+{"network": "swin_large", "batch_size": 168, "ips": 38.91, "batch_time": 4.317151, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664532522.71}
+{"network": "swin_large", "batch_size": 172, "ips": 38.78, "batch_time": 4.43569, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664532718.24}
+{"network": "swin_large", "batch_size": 176, "ips": 38.43, "batch_time": 4.579662, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664532916.36}
+{"network": "swin_large", "batch_size": 180, "ips": 38.56, "batch_time": 4.667515, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664533120.73}
+{"network": "swin_large", "batch_size": 184, "ips": 38.35, "batch_time": 4.798139, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1664533324.07}
+{"network": "swin_large", "algorithm": "fp16O1-swap", "batch_size": 188, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-swap", "batch_size": 192, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-swap", "batch_size": 196, "ips": -1}

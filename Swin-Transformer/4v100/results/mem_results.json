@@ -1,0 +1,1 @@
+{"network": "swin_large", "algorithm": "fp32", "batch_size": 4, "ips": -1}

@@ -1,0 +1,4 @@
+(base) bz = 4, granularity = 0.1 second
+avg =  91.37559724802097
+(base) bz = 64, granularity = 0.1 second
+avg =  89.50496799611575

@@ -1,103 +1,165 @@
 from typing import Callable
 import numpy as np
-
+from pathlib import Path
 from cost_model import Model
 from fitter import FitterPool, ModelFnPool
 from util import Viewer, Util
-import matplotlib.pyplot as plt
+import os
 
-def plot_helper(cond, mem_dir, ips_dir):
-    mem = Util.load_data(mem_dir, "batch_size", "peak_mem", cond)
-    for k in mem:
-        mem[k] /= 1000000000
-    mem_model = FitterPool.fit_leastsq(mem, ModelFnPool.linear)
-    btime = Util.load_data(ips_dir, "batch_size", "batch_time", cond)
-    btime_model = FitterPool.fit_leastsq(btime, ModelFnPool.linear)
-    ips_model = lambda bsize: bsize / btime_model(bsize)
-    # print("[predict mem] ", mem_model(np.array(list(mem.keys()))))
-    return mem, btime, mem_model, btime_model, ips_model
+suffix = "pdf"
+algo = "GPT"
+class Experiment:
+    def run_experiment(machine_tag):
+        mem_dir = "{}/{}/results/mem_results.json".format(algo,machine_tag)
+        ips_dir = "{}/{}/results/speed_results.json".format(algo,machine_tag)
+        cnt = 1
+        ips_archived, mem_archived = False, False
+        while True:
+            mem_dir_arc = "{}/{}/results/mem_archive_{}.json".format(algo,machine_tag,cnt)
+            ips_dir_arc = "{}/{}/results/speed_archive_{}.json".format(algo,machine_tag,cnt)
+            if (not os.path.exists(mem_dir_arc)) and (not os.path.exists(ips_dir_arc)):
+                break
+            cnt += 1
+        if Path(mem_dir).is_file():
+            os.rename(mem_dir, mem_dir_arc)
+            mem_archived = True
+        if Path(ips_dir).is_file():
+            os.rename(ips_dir, ips_dir_arc)
+            ips_archived = True
+        cmd = '''cd ./GPT/{}/ && 
+        python exp_mem_speed.py'''.format(machine_tag)
+        ret = os.system(cmd)
+        if ret!=0:
+            print("[Error] Failed to run new experiments, restoring experiment data")
+        if ret!=0 and mem_archived:
+            if Path(mem_dir).is_file():
+                os.remove(mem_dir)
+            os.rename(mem_dir_arc, mem_dir)
+        if ret!=0 and ips_archived:
+            if Path(ips_dir).is_file():
+                os.remove(ips_dir)
+            os.rename(ips_dir_arc, ips_dir)
+        return ret
 
-if __name__ == "__main__":
-    mem_dir = "GPT/results/mem_results.json"
-    ips_dir = "GPT/results/speed_results.json"
-    result_dir = "graphs/GPT/"
-    suffix = "pdf"
+    def plot_helper(cond, mem_dir, ips_dir, offset = None):
+        mem = Util.load_data(mem_dir, "batch_size", "peak_mem", cond)
+        for k in mem:
+            mem[k] /= 1000000000
+        mem_model,mem_score,alpha,beta = FitterPool.fit_leastsq_verbose(mem, ModelFnPool.linear)
+        btime = Util.load_data(ips_dir, "batch_size", "batch_time", cond)
+        btime_model,btime_score,gamma,delta = FitterPool.fit_leastsq_verbose(btime, ModelFnPool.linear)
+        if delta<0 and offset: btime_model,btime_score,gamma,delta = FitterPool.fit_leastsq_verbose_offset(btime, ModelFnPool.linear,offset)
+        ips_model = lambda bsize: bsize / btime_model(bsize)
+        # print("[predict mem] ", mem_model(np.array(list(mem.keys()))))
+        return mem, btime, mem_model, btime_model, ips_model, alpha, beta, gamma, delta, mem_score, btime_score
 
-    print("-----------------Org-----------------")
-    is_org = lambda obj : obj['alg'] == None and obj["network"] == "transformer_lm_gpt3_small"
-    org_mem, org_btime, org_mem_model, org_btime_model, org_ips_model = \
-        plot_helper(is_org, mem_dir, ips_dir)
+    def do_plot(machine_tag, to_plot):
+        algo = "GPT"
+        mem_dir = "{}/{}/results/mem_results.json".format(algo,machine_tag)
+        ips_dir = "{}/{}/results/speed_results.json".format(algo,machine_tag)
+        result_dir = "graphs/{}/{}/".format(algo,machine_tag)
+        if not Path(mem_dir).is_file() or not Path(ips_dir).is_file():
+            print("Error: No experiment data found. Pease run expriment from scratch with --run-new for {}@{}".format(algo,machine_tag))
+            return
+        Path(result_dir).mkdir(parents=True, exist_ok=True)
 
-    print("-----------------Swap-----------------")
-    is_swap = lambda obj : obj['alg'] == "swap" and obj['network'] == "transformer_lm_gpt3_small"
-    swap_mem, swap_btime, swap_mem_model, swap_btime_model, swap_ips_model = \
-        plot_helper(is_swap, mem_dir, ips_dir)
+        try:
+            #print("-----------------Org-----------------")
+            is_org = lambda obj : obj['alg'] == None and obj["network"] == "transformer_lm_gpt3_small"
+            org_mem, org_btime, org_mem_model, org_btime_model, org_ips_model,\
+            alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_org, mem_dir, ips_dir)
+            offset = delta
+            print("-----------------{}@{} Params-----------------".format(algo,machine_tag))
+            print ("{:<8} {:<10} {:<10} {:<10} {:<10} {:<12} {:<12}".format('Method','Alpha','Beta','Gamma','Delta','Mem R','Latency R'))
+            print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Org',\
+            alpha,beta,gamma,delta,mem_score,btime_score))
 
-    print("-----------------Ckpt-----------------")
-    is_ckpt = lambda obj : obj['alg'] == "ckpt" and  obj['network'] == "transformer_lm_gpt3_small"
-    ckpt_mem, ckpt_btime, ckpt_mem_model, ckpt_btime_model, ckpt_ips_model = \
-         plot_helper(is_ckpt, mem_dir, ips_dir) 
-    
-    print("-----------------Quantize-----------------")
-    is_quantize = lambda obj : obj['alg'] == "L1" and obj['network'] == "transformer_lm_gpt3_small"
-    quantize_mem, quantize_btime, quantize_mem_model, quantize_btime_model, quantize_ips_model = \
-         plot_helper(is_quantize, mem_dir, ips_dir) 
+            #print("-----------------Swap-----------------")
+            is_swap = lambda obj : obj['alg'] == "swap" and obj['network'] == "transformer_lm_gpt3_small"
+            swap_mem, swap_btime, swap_mem_model, swap_btime_model, swap_ips_model,\
+            alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_swap, mem_dir, ips_dir, offset)
 
 
-    fig, axes = plt.subplots(4, 1, sharex=True)
-    fig.set_size_inches(4, 6)
-    # plot batch time
-    Viewer.plot_fit(axes[0], "org", org_btime_model, np.array(list(org_btime.keys())), np.array(
-        list(org_btime.values())), None, False)
-    Viewer.plot_fit(axes[1], "swap", swap_btime_model, np.array(list(swap_btime.keys())), np.array(
-        list(swap_btime.values())), None, False)
-    Viewer.plot_fit(axes[2], "ckpt", ckpt_btime_model, np.array(list(ckpt_btime.keys())), np.array(
-        list(ckpt_btime.values())), None, False) 
-    Viewer.plot_fit(axes[3], "quantize", quantize_btime_model, np.array(list(quantize_btime.keys())), np.array(
-        list(quantize_btime.values())), None, False) 
-    plt.xlabel("Batch size", size=16)  
-    for ax in axes: 
-        # ax.legend(loc="lower right")
-        ax.tick_params(axis='x', labelsize=14)
-        ax.tick_params(axis='y', labelsize=14)  
-    # fig.text(-0.05, 0.5, 'Time (s)', va='center', rotation='vertical', size=16)
-    plt.savefig(result_dir + "gpt3_batch_time.%s" % suffix, bbox_inches="tight")
-    plt.close()
+            print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Swap',alpha,beta,gamma,delta,mem_score,btime_score))
 
-    # plot memory
-    fig, ax = plt.subplots(1, 1)
-    fig.set_size_inches(4, 4)
-    Viewer.plot_fit(ax, "org", org_mem_model, np.array(list(org_mem.keys())), np.array(
-        list(org_mem.values())), None, False)
-    Viewer.plot_fit(ax, "swap", swap_mem_model, np.array(list(swap_mem.keys())), np.array(
-        list(swap_mem.values())), None, False)
-    Viewer.plot_fit(ax, "ckpt", ckpt_mem_model, np.array(list(ckpt_mem.keys())), np.array(
-        list(ckpt_mem.values())), None, False) 
-    Viewer.plot_fit(ax, "quantize", quantize_mem_model, np.array(list(quantize_mem.keys())), np.array(
-        list(quantize_mem.values())), None, False)
-    #plt.ylabel("Memory (GB)", size=16)
-    plt.xlabel("Batch size", size=16)
-    # plt.legend(prop={'size': 14})    
-    plt.yticks(fontsize=14)
-    plt.xticks(fontsize=14) 
-    plt.savefig(result_dir + "gpt3_mem.%s" % suffix, bbox_inches="tight")
-    plt.close()
+            #print("-----------------Ckpt-----------------")
+            is_ckpt = lambda obj : obj['alg'] == "ckpt" and  obj['network'] == "transformer_lm_gpt3_small"
+            ckpt_mem, ckpt_btime, ckpt_mem_model, ckpt_btime_model, ckpt_ips_model,\
+            alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_ckpt, mem_dir, ips_dir, offset) 
+            print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Ckpt',alpha,beta,gamma,delta,mem_score,btime_score))
+            
+            #print("-----------------Quantize-----------------")
+            is_quantize = lambda obj : obj['alg'] == "L1" and obj['network'] == "transformer_lm_gpt3_small"
+            quantize_mem, quantize_btime, quantize_mem_model, quantize_btime_model, quantize_ips_model,\
+            alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_quantize, mem_dir, ips_dir, offset) 
+            print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Quantize',alpha,beta,gamma,delta,mem_score,btime_score))
+        except IndexError:
+            print("[Error] Data missing for {}@{}.".format(algo,machine_tag))
+            return
 
-    fig, ax = plt.subplots(1, 1)
-    fig.set_size_inches(4, 4)
-    Viewer.plot_fit(ax, "org", org_ips_model, np.array(list(org_btime.keys())), np.array(
-        [bsize / org_btime[bsize] for bsize in org_btime]), None, False)
-    Viewer.plot_fit(ax, "swap", swap_ips_model, np.array(list(swap_btime.keys())), np.array(
-        [bsize / swap_btime[bsize] for bsize in swap_btime]), None, False)
-    Viewer.plot_fit(ax, "ckpt", ckpt_ips_model, np.array(list(ckpt_btime.keys())), np.array(
-        [bsize / ckpt_btime[bsize] for bsize in ckpt_btime]), None, False) 
-    Viewer.plot_fit(ax, "quantize", quantize_ips_model, np.array(list(quantize_btime.keys())), np.array(
-        [bsize / quantize_btime[bsize] for bsize in quantize_btime]), None, False) 
-    plt.ylabel("Throughput (record/s)", size=16)
-    plt.xlabel("Batch size", size=16)
-    # plt.legend(prop={'size': 14})    
-    plt.yticks(fontsize=14)
-    plt.xticks(fontsize=14)
-    plt.savefig(result_dir + "gpt3_ips.%s" % suffix, bbox_inches="tight")
-    plt.close()
-    
+        if to_plot:
+            import matplotlib
+            # matplotlib.rc('axes',edgecolor='silver')
+            import matplotlib.pyplot as plt
+            plt.style.use(['grid'])
+            fig, axes = plt.subplots(4, 1, sharex=True)
+            fig.set_size_inches(4, 6)
+            # plot batch time
+            Viewer.plot_fit(axes[0], "org", org_btime_model, np.array(list(org_btime.keys())), np.array(
+                list(org_btime.values())), None, False)
+            Viewer.plot_fit(axes[1], "swap", swap_btime_model, np.array(list(swap_btime.keys())), np.array(
+                list(swap_btime.values())), None, False)
+            Viewer.plot_fit(axes[2], "ckpt", ckpt_btime_model, np.array(list(ckpt_btime.keys())), np.array(
+                list(ckpt_btime.values())), None, False) 
+            Viewer.plot_fit(axes[3], "quantize", quantize_btime_model, np.array(list(quantize_btime.keys())), np.array(
+                list(quantize_btime.values())), None, False) 
+            plt.xlabel("Batch Size", size=22)  
+            for ax in axes: 
+                # ax.legend(loc="lower right")
+                ax.tick_params(axis='x', labelsize=18)
+                ax.tick_params(axis='y', labelsize=18)  
+            # fig.text(-0.05, 0.5, 'Time (s)', va='center', rotation='vertical', size=22)
+            plt.savefig(result_dir + "gpt3_batch_time.%s" % suffix, bbox_inches="tight")
+            plt.close()
+
+            # plot memory
+            fig, ax = plt.subplots(1, 1)
+            fig.set_size_inches(4, 4)
+            Viewer.plot_fit(ax, "org", org_mem_model, np.array(list(org_mem.keys())), np.array(
+                list(org_mem.values())), None, False)
+            Viewer.plot_fit(ax, "swap", swap_mem_model, np.array(list(swap_mem.keys())), np.array(
+                list(swap_mem.values())), None, False)
+            Viewer.plot_fit(ax, "ckpt", ckpt_mem_model, np.array(list(ckpt_mem.keys())), np.array(
+                list(ckpt_mem.values())), None, False) 
+            Viewer.plot_fit(ax, "quantize", quantize_mem_model, np.array(list(quantize_mem.keys())), np.array(
+                list(quantize_mem.values())), None, False)
+            plt.ylabel("Memory (GB)", size=22)
+            plt.xlabel("Batch Size", size=22)
+            # plt.legend(prop={'size': 14})    
+            plt.yticks(fontsize=15)
+            plt.xticks(fontsize=15) 
+            plt.savefig(result_dir + "gpt3_mem.%s" % suffix, bbox_inches="tight")
+            plt.close()
+
+            fig, ax = plt.subplots(1, 1)
+            fig.set_size_inches(4, 4)
+            Viewer.plot_fit(ax, "org", org_ips_model, np.array(list(org_btime.keys())), np.array(
+                [bsize / org_btime[bsize] for bsize in org_btime]), None, False)
+            Viewer.plot_fit(ax, "swap", swap_ips_model, np.array(list(swap_btime.keys())), np.array(
+                [bsize / swap_btime[bsize] for bsize in swap_btime]), None, False)
+            Viewer.plot_fit(ax, "ckpt", ckpt_ips_model, np.array(list(ckpt_btime.keys())), np.array(
+                [bsize / ckpt_btime[bsize] for bsize in ckpt_btime]), None, False) 
+            Viewer.plot_fit(ax, "quantize", quantize_ips_model, np.array(list(quantize_btime.keys())), np.array(
+                [bsize / quantize_btime[bsize] for bsize in quantize_btime]), None, False) 
+            
+            ax.set_yticks([20, 40, 60, 80])
+            plt.ylabel("Throughput (record/s)", size=22)
+            plt.xlabel("Batch Size", size=22)
+            # plt.legend(prop={'size': 14})    
+            plt.yticks(fontsize=15)
+            plt.xticks(fontsize=15)
+            plt.savefig(result_dir + "gpt3_ips.%s" % suffix, bbox_inches="tight")
+            plt.close()
+
+if __name__=="__main__":
+    Experiment.do_plot("v100",True)
