@@ -183,4 +183,3 @@ class Experiment:
             plt.close()
 
 if __name__ == "__main__": Experiment.do_plot("v100",True)
->>>>>>> c97440203357eaea7fc18f089de407b0643c9946
