@@ -9,7 +9,7 @@ def run_cmd(cmd):
 
 # bert-large-cased
 def network_to_command(network):
-    cmd = "python run_glue.py --model_name_or_path ARCH --task_name sst2 --max_length 128 " + \
+    cmd = "accelerate launch run_glue.py --model_name_or_path ARCH --task_name sst2 --max_length 128 " + \
         "--per_device_train_batch_size BS --per_device_eval_batch_size 128 --learning_rate 1e-5 " + \
         "--num_train_epochs 1 --seed 42 --pad_to_max_length "
     cmd = cmd.replace("ARCH", network)
@@ -184,16 +184,16 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", type=str, default='linear_scan')
     parser.add_argument("--retry", type=int, default=1)
-    parser.add_argument("--layer_num", type=int, default=48)
+    parser.add_argument("--layer_num", type=int, default=24)
     parser.add_argument("--hidden_size", type=int, default=1024)
-    parser.add_argument("--get_mem", action='store_true')
+    parser.add_argument("--get_mem", action='store_true', default=False)
     args = parser.parse_args()
 
 
     if args.mode == 'linear_scan':
         networks = ['bert-large-cased']
         batch_sizes = list(range(4, 64, 4)) + list(range(64, 600, 8)) 
-        # batch_sizes = [24, 32, 40, 48]
+        batch_sizes = list(range(144, 600, 8)) 
         algs = ['L1']
     else:
         networks = ['bert-large-cased']

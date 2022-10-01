@@ -10,7 +10,7 @@ def run_cmd(cmd):
 
 
 def network_to_command(network):
-    cmd = "python -m torch.distributed.launch --nproc_per_node 1 --master_port 12345  main.py \
+    cmd = "python -m torch.distributed.launch --nproc_per_node 4 --master_port 12345  main.py \
         --cfg configs/NET_patch4_window7_224.yaml --data-path ~/dataset/imagenet --batch-size BS "
     return cmd
 
@@ -61,17 +61,17 @@ if __name__ == "__main__":
     networks = ["swin_large"]
     # algs = ["fp32", "fp32-ckpt", "fp16O1", "fp16O1-ckpt", "fp16O2", "fp16O2-ckpt"]
     algs = ["fp16O1-L1", "fp16O1-swap"]
-    actnn_level = None
     
     for net in networks:
         for alg in algs:
             try_cnt = 0
             for batch_size in range(4, 800, 4):
+                actnn_level = None
                 if "ckpt" in alg:
                     ckpt = True
                 else:
                     ckpt = False
-                if "L1" or "swap" in algs:
+                if "L1" in alg or "swap" in alg:
                     actnn_level = alg.split("-")[-1]
                 if "fp16" in alg:
                     fp16 = alg.split("-")[0][-2:]

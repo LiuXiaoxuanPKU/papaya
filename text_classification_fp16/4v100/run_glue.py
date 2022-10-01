@@ -207,7 +207,8 @@ def main():
     args = parse_args()
 
     # Initialize the accelerator. We will let the accelerator handle device placement for us in this example.
-    accelerator = Accelerator(fp16=True, device_placement=False)
+    accelerator = Accelerator(fp16=True)
+    
     # Make one log on every process with the configuration for debugging.
     logging.basicConfig(
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
@@ -229,7 +230,7 @@ def main():
     # If passed along, set the training seed now.
     if args.seed is not None:
         set_seed(args.seed)
-    args.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    args.device = accelerator.device
     # Handle the repository creation
     if accelerator.is_main_process:
         if args.push_to_hub:
@@ -312,7 +313,7 @@ def main():
     if args.ckpt:
         model.gradient_checkpointing_enable()
         
-    model.to(args.device)
+    # model.to(args.device)
     if args.actnn:
         gact.set_optimization_level(args.opt_level)
         print("Set optimization level ", args.opt_level)
@@ -512,8 +513,8 @@ def main():
                 torch.cuda.synchronize()
                 start.record()
                 
-            for k, v in batch.items():
-                batch[k] = v.to(args.device)
+            # for k, v in batch.items():
+            #     batch[k] = v.to(args.device)
                 
             if args.get_macs:
                 from thop import profile
@@ -544,6 +545,12 @@ def main():
                 before_backward = get_memory_usage(True)
             optimizer.zero_grad()
             accelerator.backward(loss)
+            
+            # if step % args.gradient_accumulation_steps == 0 or step == len(train_dataloader) - 1:
+            torch.nn.utils.clip_grad.clip_grad_norm_(model.parameters(), args.max_gradient_norm)
+            optimizer.step()
+            lr_scheduler.step()
+            
             # loss.backward()
             torch.utils.checkpoint.first_iter = False
             if args.get_mem and iter > 1:
@@ -585,9 +592,10 @@ def main():
                 cur_batch_time = start.elapsed_time(end) / 1000.0 # event in ms
                 batch_total_time += cur_batch_time
                     
-                if iter == 6:
+                if iter == 6 and accelerator.is_main_process:
                     bs = args.per_device_train_batch_size
                     train_ips = 5 * bs / batch_total_time
+                    train_ips = train_ips * 4 # multiply device number
                     res = "BatchSize: %d\tIPS: %.2f\t,Cost: %.2f ms" % (
                         bs, train_ips, 1000.0 / train_ips)
                     print(res, flush=True)
@@ -600,12 +608,9 @@ def main():
                     exp_recorder.record("hidden_size", config.hidden_size)
                     exp_recorder.record("tstamp", time.time(), 2)
                     exp_recorder.dump('results/speed_results.json')
+                if iter == 6:
                     exit(0)
 
-            # if step % args.gradient_accumulation_steps == 0 or step == len(train_dataloader) - 1:
-            torch.nn.utils.clip_grad.clip_grad_norm_(model.parameters(), args.max_gradient_norm)
-            optimizer.step()
-            lr_scheduler.step()
             # optimizer.zero_grad()
             progress_bar.update(1)
             completed_steps += 1
@@ -622,8 +627,8 @@ def main():
                     loss = outputs.loss
                     # loss = loss / args.gradient_accumulation_steps
                     optimizer.zero_grad()
-                    # accelerator.backward(loss)
-                    loss.backward()
+                    accelerator.backward(loss)
+                    # loss.backward()
                     del loss
                     del outputs
                     del small_batch
@@ -632,8 +637,8 @@ def main():
         with torch.no_grad():
             model.eval()
             for step, batch in enumerate(eval_dataloader):
-                for k, v in batch.items():
-                    batch[k] = v.to(args.device)
+                # for k, v in batch.items():
+                #     batch[k] = v.to(args.device)
                 outputs = model(**batch)
                 predictions = outputs.logits.argmax(dim=-1) if not is_regression else outputs.logits.squeeze()
                 metric.add_batch(

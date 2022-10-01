@@ -345,7 +345,7 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
             global train_step_ct, train_ips_list
             train_ips_list.append(bs / cur_batch_time)
             if train_step_ct >= 6:
-                train_ips = np.median(train_ips_list)
+                train_ips = np.median(train_ips_list) * 4 # multiply device number
                 res = "BatchSize: %d\tIPS: %.2f\t,Cost: %.2f ms" % (
                     bs, train_ips, cur_batch_time)
                 print(res, flush=True)
@@ -358,15 +358,16 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
                 else:
                     print("[Error] unknown network type", args.cfg)
                     exit(0)
-                exp_recorder.record("network", network)
-                exp_recorder.record("batch_size", bs)
-                exp_recorder.record("ips", train_ips, 2)
-                exp_recorder.record("batch_time", bs / train_ips)
-                exp_recorder.record("algorithm", args.level)
-                exp_recorder.record("fp16", args.amp_opt_level)
-                exp_recorder.record("ckpt", args.use_checkpoint)
-                exp_recorder.record("tstamp", time.time(), 2)
-                exp_recorder.dump('results/speed_results.json')
+                if dist.get_rank() == 0:
+                    exp_recorder.record("network", network)
+                    exp_recorder.record("batch_size", bs)
+                    exp_recorder.record("ips", train_ips, 2)
+                    exp_recorder.record("batch_time", bs / train_ips)
+                    exp_recorder.record("algorithm", args.level)
+                    exp_recorder.record("fp16", args.amp_opt_level)
+                    exp_recorder.record("ckpt", args.use_checkpoint)
+                    exp_recorder.record("tstamp", time.time(), 2)
+                    exp_recorder.dump('results/speed_results.json')
                 exit(0)
             train_step_ct += 1
         

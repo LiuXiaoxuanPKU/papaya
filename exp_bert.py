@@ -57,6 +57,8 @@ class Experiment:
         mem_sample= Experiment.sample_dict(mem, 0.4)
         btime_sample= Experiment.sample_dict(btime, 0.4)
         mem_model,mem_score,alpha,beta = FitterPool.fit_leastsq_verbose(mem_sample, ModelFnPool.linear)
+        # mem_model, mem_score, alpha, beta = None, 0, 0, 0
+        
         btime_model,btime_score,gamma,delta = FitterPool.fit_leastsq_verbose(btime_sample, ModelFnPool.linear)
         retry = 0
         while offset is None and delta<0:
@@ -90,11 +92,11 @@ class Experiment:
         print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Org',alpha,beta,gamma,delta,mem_score,btime_score))
 
 
-        #print("----------------Swap-------------------")
-        is_swap = lambda obj : obj['algorithm'] == "swap"
-        swap_mem, swap_btime, swap_mem_model, swap_btime_model, swap_ips_model,\
-        alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_swap, mem_dir, ips_dir, offset)
-        print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Swap',alpha,beta,gamma,delta,mem_score,btime_score))
+        # #print("----------------Swap-------------------")
+        # is_swap = lambda obj : obj['algorithm'] == "swap"
+        # swap_mem, swap_btime, swap_mem_model, swap_btime_model, swap_ips_model,\
+        # alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_swap, mem_dir, ips_dir, offset)
+        # print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Swap',alpha,beta,gamma,delta,mem_score,btime_score))
 
         #print("----------------Ckpt-------------------")
         is_ckpt = lambda obj : obj['algorithm'] == "ckpt"
@@ -112,14 +114,14 @@ class Experiment:
             import matplotlib
             # matplotlib.rc('axes',edgecolor='silver')
             import matplotlib.pyplot as plt
-            plt.style.use(['grid'])
+            # plt.style.use(['grid'])
             fig, axes = plt.subplots(4, 1, sharex=True)
             fig.set_size_inches(4, 6)
             # plot batch time
             Viewer.plot_fit(axes[0],"org", org_btime_model, np.array(list(org_btime.keys())), np.array(
                 list(org_btime.values())), None, False)
-            Viewer.plot_fit(axes[1], "swap", swap_btime_model, np.array(list(swap_btime.keys())), np.array(
-                list(swap_btime.values())), None, False)
+            # Viewer.plot_fit(axes[1], "swap", swap_btime_model, np.array(list(swap_btime.keys())), np.array(
+            #     list(swap_btime.values())), None, False)
             Viewer.plot_fit(axes[2],"ckpt", ckpt_btime_model, np.array(list(ckpt_btime.keys())), np.array(
                 list(ckpt_btime.values())), None, False) 
             Viewer.plot_fit(axes[3],"quantize", quantize_btime_model, np.array(list(quantize_btime.keys())), np.array(
@@ -139,8 +141,8 @@ class Experiment:
             # plot memory
             Viewer.plot_fit(ax, "org", org_mem_model, np.array(list(org_mem.keys())), np.array(
                 list(org_mem.values())), None, False)
-            Viewer.plot_fit(ax, "swap", swap_mem_model, np.array(list(swap_mem.keys())), np.array(
-                list(swap_mem.values())), None, False)
+            # Viewer.plot_fit(ax, "swap", swap_mem_model, np.array(list(swap_mem.keys())), np.array(
+            #     list(swap_mem.values())), None, False)
             Viewer.plot_fit(ax, "ckpt", ckpt_mem_model, np.array(list(ckpt_mem.keys())), np.array(
                 list(ckpt_mem.values())), None, False) 
             Viewer.plot_fit(ax, "quantize", quantize_mem_model, np.array(list(quantize_mem.keys())), np.array(
@@ -157,21 +159,22 @@ class Experiment:
             fig.set_size_inches(4, 4)
             Viewer.plot_fit(ax, "org", org_ips_model, np.array(list(org_btime.keys())), np.array(
                 [bsize / org_btime[bsize] for bsize in org_btime]), None, False)
-            Viewer.plot_fit(ax, "swap", swap_ips_model, np.array(list(swap_btime.keys())), np.array(
-                [bsize / swap_btime[bsize] for bsize in swap_btime]), None, False)
+            # Viewer.plot_fit(ax, "swap", swap_ips_model, np.array(list(swap_btime.keys())), np.array(
+            #     [bsize / swap_btime[bsize] for bsize in swap_btime]), None, False)
             Viewer.plot_fit(ax, "ckpt", ckpt_ips_model, np.array(list(ckpt_btime.keys())), np.array(
                 [bsize / ckpt_btime[bsize] for bsize in ckpt_btime]), None, False) 
             Viewer.plot_fit(ax, "quantize", quantize_ips_model, np.array(list(quantize_btime.keys())), np.array(
                 [bsize / quantize_btime[bsize] for bsize in quantize_btime]), None, False) 
             # plt.savefig(result_dir + "bert_ips.%s" % suffix)
             # plt.close()
-            ax.set_yticks([40, 80, 120, 160])
+            # ax.set_yticks([40, 80, 120, 160])
             plt.ylabel("Throughput (record/s)", size=22)
             plt.xlabel("Batch Size", size=22)
-            # plt.legend(prop={'size': 14})    
+            plt.legend(prop={'size': 14})    
             plt.yticks(fontsize=15)
             plt.xticks(fontsize=15)
+            print(result_dir)
             plt.savefig(result_dir + "bert_ips.%s" % suffix,  bbox_inches="tight")
             plt.close()
 
-if __name__ == "__main__": Experiment.do_plot("v100",True)
+if __name__ == "__main__": Experiment.do_plot("4v100",True)

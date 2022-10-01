@@ -43,6 +43,10 @@ from fairseq.model_parallel.megatron_trainer import MegatronTrainer
 from fairseq.trainer import Trainer
 
 
+def record(k,*v) -> None:
+    print("Recording {} = ".format(k)+" ".join(("{}".format(sv) for sv in v)))
+    exp_recorder.record(k,*v)
+
 def main(cfg: FairseqConfig) -> None:
     if isinstance(cfg, argparse.Namespace):
         cfg = convert_namespace_to_omegaconf(cfg)
@@ -215,7 +219,7 @@ def main(cfg: FairseqConfig) -> None:
 
     logger.info("done training in {:.1f} seconds".format(train_meter.sum))
     if cfg.distributed_training.distributed_world_size==1 or cfg.distributed_training.distributed_rank==0:
-        exp_recorder.dump('results/new_results.json')
+        exp_recorder.dump('results/speed_results.json')
 
     # ioPath implementation to wait for all asynchronous file writes to complete.
     if cfg.checkpoint.write_checkpoints_asynchronously:
@@ -379,13 +383,13 @@ def train(
     # bz = metrics.get_smoothed_value("train","bsz")
     pm = metrics.get_smoothed_value("train","peak_mem")*cfg.distributed_training.distributed_world_size
     ips = wps/cfg.model.tokens_per_sample
-    exp_recorder.record("network", cfg.actnn.arch)
-    exp_recorder.record("alg", cfg.actnn.alg)
-    exp_recorder.record("batch_size", bz_exp)
-    exp_recorder.record("batch_time", bz_exp/ips)
-    exp_recorder.record("ips", ips)
-    exp_recorder.record("peak_mem",pm)
-    exp_recorder.record("tstamp", time.time(), 2)
+    record("network", cfg.actnn.arch)
+    record("alg", cfg.actnn.alg)
+    record("batch_size", bz_exp)
+    record("batch_time", float(bz_exp/ips))
+    record("ips", float(ips))
+    record("peak_mem",pm)
+    record("tstamp", time.time(),2)
     # reset epoch-level meters
     metrics.reset_meters("train")
     return valid_losses, should_stop
