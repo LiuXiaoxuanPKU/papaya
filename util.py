@@ -24,16 +24,16 @@ class Util:
         return data
 
 markers = {
-    "org" : "o",
-    "ckpt" : "o",
+    "org" : "s",
+    "ckpt" : "v",
     "swap" : "o",
-    "quantize" : "o"
+    "quantize" : "X"
 }
 sizes = {
-   "org" : 15,
-    "ckpt" : 15,
-    "swap" : 15,
-    "quantize" : 15 
+   "org" : 20,
+    "ckpt" : 20,
+    "swap" : 20,
+    "quantize" : 20 
 }
 
 colors = {

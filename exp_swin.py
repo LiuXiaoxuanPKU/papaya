@@ -94,7 +94,7 @@ if __name__ == "__main__":
         list(ckpt_mem.values())), None, False) 
     Viewer.plot_fit(ax, "quantize", quantize_mem_model, np.array(list(quantize_mem.keys())), np.array(
         list(quantize_mem.values())), None, False) 
-    plt.ylabel("Memory (GB)", size=16)
+    plt.ylabel("Peak memory (GB)", size=16)
     plt.xlabel("Batch size", size=16)
     # plt.legend(prop={'size': 14})    
     plt.yticks(fontsize=14)
