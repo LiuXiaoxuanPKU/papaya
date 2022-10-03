@@ -55,8 +55,8 @@ class Experiment:
 
     def do_plot(machine_tag, to_plot):
         algo = "GPT"
-        mem_dir = "{}/{}/results/mem_results.json".format(algo,machine_tag)
         ips_dir = "{}/{}/results/speed_results.json".format(algo,machine_tag)
+        mem_dir = ips_dir
         result_dir = "graphs/{}/{}/".format(algo,machine_tag)
         if not Path(mem_dir).is_file() or not Path(ips_dir).is_file():
             print("Error: No experiment data found. Pease run expriment from scratch with --run-new for {}@{}".format(algo,machine_tag))
