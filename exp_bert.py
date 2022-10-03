@@ -155,6 +155,7 @@ class Experiment:
             plt.savefig(result_dir + "bert_mem.%s" % suffix,  bbox_inches="tight")
             plt.close()
 
+
             fig, ax = plt.subplots(1, 1)
             fig.set_size_inches(4, 4)
             Viewer.plot_fit(ax, "org", org_ips_model, np.array(list(org_btime.keys())), np.array(
@@ -176,5 +177,6 @@ class Experiment:
             print(result_dir)
             plt.savefig(result_dir + "bert_ips.%s" % suffix,  bbox_inches="tight")
             plt.close()
+
 
 if __name__ == "__main__": Experiment.do_plot("4v100",True)
