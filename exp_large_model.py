@@ -6,9 +6,10 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import Pipeline
 
-with open('/home/ubuntu/papaya/text_classification_fp16/results/speed_results.json', 'r') as f:
+with open('text_classification_fp16/results/speed_results.json', 'r') as f:
     lines = f.readlines()
-   
+
+suffix = "pdf"
 results = {} 
 for l in lines:
     if len(l) == 0:
@@ -33,6 +34,7 @@ for l in lines:
         results[alg][hz] = ips
 
 fig, ax = plt.subplots(1, 1)
+fig.set_size_inches(4, 4)
 xs = list(results[None].keys())
 ys = list(results[None].values())
 polynomial_features = PolynomialFeatures(degree=5, include_bias=False)
@@ -68,12 +70,12 @@ pipeline.fit(np.array(xs).reshape(-1, 1), ys)
 # ax.plot(xs, pipeline.predict(np.array(xs).reshape(-1, 1)), label="ckpt_predict")
 ax.plot(xs, ys, label='checkpoint', marker='o', color='green')
 
-plt.xlabel('model width (hidden size)', size=16)
-plt.ylabel('max throughput (records/s)', size=16)
+plt.xlabel('model width (hidden size)', size=18)
+plt.ylabel('max throughput (records/s)', size=18)
 plt.legend(fontsize='large')
-ax.tick_params(axis='both', which='major', labelsize=14)
+ax.tick_params(axis='both', which='major', labelsize=22)
 plt.tight_layout()
-plt.savefig('model.pdf')
+plt.savefig(f'graphs/implications/large_model.{suffix}')
     
     
 
