@@ -1,36 +1,49 @@
-import numpy as np
+import exp_bert, exp_gpt, exp_swin, argparse, utilizations
+algo_dict = {
+    "swin": exp_swin.Experiment,
+    "bert": exp_bert.Experiment,
+    "gpt": exp_gpt.Experiment
+}
 
-from cost_model import Model
-from fitter import FitterPool, ModelFnPool
-from util import Viewer, Util
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--machine-tag",
+        nargs='*',
+        type=str,
+        default=["v100"],
+        help="tag for machine configuration, e.g. v100/t4/4v100",
+    )
+    parser.add_argument(
+        "--run-new", help="run experiment from scratch,\
+            otherwise using existing data", action='store_true'
+    )
+    parser.add_argument(
+        "--plot-graph", help="plot graph for experiment data", action='store_true'
+    )
+    parser.add_argument('--algos', nargs='*', type=str)
+    args = parser.parse_args()
 
-if __name__ == "__main__":
-    mem_dir = "text_classification/results/mem_results.json"
-    ips_dir = "text_classification/results/speed_results_quantize_all.json"
+    if args.algos and len(args.algos): algos = [a.lower() for a in args.algos]
+    else: algos = list(algo_dict.keys())
+    if not all(m in algo_dict for m in algos):
+        print("Framework not covered in experiments.")
+        return
+    if args.run_new:
+        # run experiment code to be filled
+        if len(args.machine_tag)!=1:
+            print("[ERROR] Please specify a single tag for current machine configurations.")
+            return
+        else:
+            for m in algos: 
+                print("================={}=================".format(m))
+                algo_dict[m].run_experiment(*args.machine_tag)
+            
+    if "all" in args.machine_tag: args.machine_tag = ["t4","v100","4v100"]
+    for tag in args.machine_tag:
+        for m in algos: algo_dict[m].do_plot(tag,args.plot_graph)
 
-    
-    org_mem = Util.load_data(mem_dir, "batch_size", "peak", lambda obj : obj['algorithm'] == None)
-    org_btime = Util.load_data(ips_dir, "batch_size", "bacth_time", lambda obj : obj['algorithm'] == None and obj["layer_num"] == 24)
-    org_mem_model = FitterPool.fit_leastsq(org_mem, ModelFnPool.linear)
-    org_btime_model = FitterPool.fit_leastsq(org_btime, ModelFnPool.linear)
-    org_ips_model = lambda bsize: bsize / org_btime_model(bsize)
-    # plot ips fit
-    Viewer.plot_fit(org_ips_model, np.array(list(org_btime.keys())), np.array(
-        [bsize / org_btime[bsize] for bsize in org_btime]), "org_ips.pdf")
-    # plot memory fit
-    Viewer.plot_fit(org_mem_model, np.array(list(org_mem.keys())), np.array(
-        list(org_mem.values())), "org_mem.pdf") 
 
-    # ckpt_mem = Util.load_data(mem_dir, "batch_size", "peak", lambda obj : obj['algorithm'] == 'ckpt')
-    # ckpt_btime = Util.load_data(ips_dir, "batch_size", "bacth_time", lambda obj : obj['algorithm'] == 'ckpt')
-    ckpt_mem = Util.load_data(mem_dir, "batch_size", "peak", lambda obj : obj['algorithm'] == 'L1')
-    ckpt_btime = Util.load_data(ips_dir, "batch_size", "bacth_time", lambda obj : obj['algorithm'] == 'L1' and obj["layer_num"] == 24)
-    ckpt_mem_model = FitterPool.fit_leastsq(ckpt_mem, ModelFnPool.linear)
-    ckpt_btime_model = FitterPool.fit_leastsq(ckpt_btime, ModelFnPool.linear)
-    ckpt_ips_model = lambda bsize: bsize / ckpt_btime_model(bsize)
-    # plot ips fit
-    Viewer.plot_fit(ckpt_ips_model, np.array(list(ckpt_btime.keys())), np.array(
-        [bsize / ckpt_btime[bsize] for bsize in ckpt_btime]), "quantize_ips.pdf")
-    # plot memory fit
-    Viewer.plot_fit(ckpt_mem_model, np.array(list(ckpt_mem.keys())), np.array(
-        list(ckpt_mem.values())), "quantize_mem.pdf")
+
+if __name__=="__main__":
+    main()

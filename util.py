@@ -1,4 +1,6 @@
 import json
+
+from collections import OrderedDict
 from typing import Callable, Dict, Optional, List
 from matplotlib import pyplot as plt
 import numpy as np
@@ -70,3 +72,26 @@ class Viewer:
         if save_fig:
             plt.savefig(output_name)
             plt.close()
+
+class GlobalExpRecorder:
+    def __init__(self):
+        self.val_dict = OrderedDict()
+
+    def record(self, key, value, float_round=6):
+        if isinstance(value, (np.int32, np.int64)):
+            value = int(value)
+        if isinstance(value, (float, np.float32, np.float64)):
+            value = round(value, float_round)
+
+        self.val_dict[key] = value
+
+    def dump(self, filename):
+        with open(filename, "a") as fout:
+            fout.write(json.dumps(self.val_dict) + '\n')
+        print("Save exp results to %s" % filename)
+
+    def clear(self):
+        pass
+
+
+exp_recorder = GlobalExpRecorder()
