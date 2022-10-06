@@ -45,6 +45,7 @@ tmp_suite = {
         BenchmarkCase(16, gpt_specs["350M"], 1, "uniform",
                       UniformParallelArgs(True, True, 1, 1, 1, True))
     ],
+    4: [],
     8: [
         BenchmarkCase(128, GPTModelConfig(1024, 4096, 4, 32, 51200),
                       4, "uniform",
