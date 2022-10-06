@@ -347,6 +347,7 @@ def train(
     num_updates = trainer.get_num_updates()
     logger.info("Start iterating over samples")
     total_iter_num = len(progress)
+    # sync_watch = meters.StopwatchMeter()
     for i, samples in enumerate(progress):
         with metrics.aggregate("train_inner"), torch.autograd.profiler.record_function(
             "train_step-%d" % i
@@ -375,6 +376,8 @@ def train(
     
 
     # log end-of-epoch stats
+    # print("total sync time:",sync_watch.sum)
+    print("total time:",metrics.get_meter("train","wps").elapsed_time)
     wps = metrics.get_meter("train","wps").avg
     logger.info("end of epoch {} (average epoch stats below)".format(epoch_itr.epoch))
     stats = get_training_stats(metrics.get_smoothed_values("train"))

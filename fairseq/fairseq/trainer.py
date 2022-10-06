@@ -784,8 +784,9 @@ class Trainer(object):
     
 
     @metrics.aggregate("train")
-    def train_step(self, samples, raise_oom=False):
+    def train_step(self, samples, sync_watch = None, raise_oom=False):
         """Do forward, backward and parameter update."""
+
         self._set_seed()
         self.model.train()
         self.criterion.train()
@@ -920,15 +921,16 @@ class Trainer(object):
             self._cumulative_training_time = (
                 total_train_time / self.data_parallel_world_size
             )
-
+        
         overflow = False
         try:
+            if sync_watch: sync_watch.start()
             with torch.autograd.profiler.record_function("reduce-grads"):
                 # reduce gradients across workers
                 self.optimizer.all_reduce_grads(self.model)
                 if utils.has_parameters(self.criterion):
                     self.optimizer.all_reduce_grads(self.criterion)
-
+            if sync_watch: sync_watch.stop()
             with torch.autograd.profiler.record_function("multiply-grads"):
                 # multiply gradients by (data_parallel_size / sample_size) since
                 # DDP normalizes by the number of data parallel workers for
@@ -947,11 +949,11 @@ class Trainer(object):
                 # Note: (sample_size or 1.0) handles the case of a zero gradient, in a
                 # way that avoids CPU/device transfers in case sample_size is a GPU or
                 # TPU object. The assumption is that the gradient itself is also 0.
-
+            if sync_watch: sync_watch.start()
             with torch.autograd.profiler.record_function("clip-grads"):
                 # clip grads
-                grad_norm = self.clip_grad_norm(self.cfg.optimization.clip_norm)
-
+                grad_norm = self.clip_grad_norm(self.cfg.optimization.clip_norm, sync_watch)
+            if sync_watch: sync_watch.stop()
             # check that grad norms are consistent across workers
             # on tpu check tensor is slow
             if not self.tpu:
@@ -959,7 +961,10 @@ class Trainer(object):
                     not self.cfg.optimization.use_bmuf
                     and self.cfg.distributed_training.ddp_backend != "slowmo"
                 ):
+                    if sync_watch: sync_watch.start()
                     self._check_grad_norms(grad_norm)
+                    if sync_watch: sync_watch.stop()
+                    
                 if not torch.isfinite(grad_norm).all():
                     # in case of AMP, if gradients are Nan/Inf then
                     # optimizer step is still required
@@ -1091,10 +1096,11 @@ class Trainer(object):
                     )
 
                 # log stats
+                
                 logging_output = self._reduce_and_log_stats(
                     logging_outputs, sample_size, grad_norm
                 )
-
+                # print("logging output after delete: {}".format(logging_output))
                 # clear CUDA cache to reduce memory fragmentation
                 if (
                     self.cuda
@@ -1275,8 +1281,9 @@ class Trainer(object):
             self.quantizer.step_update(self._num_updates)
         metrics.log_scalar("num_updates", self._num_updates, weight=0, priority=200)
 
-    def clip_grad_norm(self, clip_norm):
+    def clip_grad_norm(self, clip_norm, sync_watch = None):
         def agg_norm_fn(total_norm):
+    
             total_norm = total_norm.cuda().float() ** 2
             total_norm = distributed_utils.all_reduce(
                 total_norm, group=self.data_parallel_process_group
