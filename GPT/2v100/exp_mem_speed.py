@@ -77,7 +77,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     max_exp_init,max_exp = 80,80
     networks = ["transformer_lm_gpt3_small"]
-    algs = [None, "ckpt", "L1","swap"]
+    # algs = [None, "ckpt", "L1","swap"]
+    algs = [None, "ckpt", "L1"]
     actnn_level = None
     
     for net in networks:

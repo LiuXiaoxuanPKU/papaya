@@ -24,12 +24,12 @@ def benchmark_all(args):
     output_name = args.exp_name + "-" + datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     model = args.suite.split(".")[0]
 
-    for remat in [False, True]:
-        for depth in range(24, 80):
+    for remat in [True]:
+        for depth in range(200, 400, 16):
             fail = 0
             for bsz in list(range(1, 4)) + list(range(4, 40, 4)):
                 case = suite_gpt.BenchmarkCase(bsz, suite_gpt.GPTModelConfig(1024, 1024, depth, 16, 51200), 1, "uniform",
-                            suite_gpt.UniformParallelArgs(True, remat, 1, 1, 1, True))
+                            suite_gpt.UniformParallelArgs(True, remat, 1, 2, 2, True))
     # for case in benchmark_suites[args.suite][num_gpus]:
                 case = tuple(tuple(x) if isinstance(x, tuple) else x for x in case)
                 case_str = str((model,) + case)

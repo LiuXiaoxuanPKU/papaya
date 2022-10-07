@@ -172,8 +172,8 @@ def parse_args():
     parser.add_argument("--hub_token", type=str, help="The token to use to push to the Model Hub.")
     parser.add_argument("--get_mem", action="store_true", help="Whether or not to check the usage of memory")
     parser.add_argument("--get_speed", action="store_true", help="Whether or not to get ips")
-    parser.add_argument("--actnn", action="store_true", help="Whether or not to use actnn")
-    parser.add_argument("--opt_level", type=str, help="Optimization level of actnn")
+    parser.add_argument("--gact", action="store_true", help="Whether or not to use gact")
+    parser.add_argument("--opt_level", type=str, help="Optimization level of gact")
     parser.add_argument("--get_macs", action="store_true", help="Get Number of Macs")
     parser.add_argument('--customize', action='store_true')
     parser.add_argument("--layer_num", type=int, default=24, help="Number of Bert layers")
@@ -197,8 +197,8 @@ def parse_args():
     if args.push_to_hub:
         assert args.output_dir is not None, "Need an `output_dir` to create a repo when `--push_to_hub` is passed."
 
-    if args.actnn:
-        assert args.gradient_accumulation_steps == 1, "ACTNN works with accumulation step = 1"
+    if args.gact:
+        assert args.gradient_accumulation_steps == 1, "gact works with accumulation step = 1"
 
     return args
 
@@ -313,13 +313,13 @@ def main():
         model.gradient_checkpointing_enable()
         
     model.to(args.device)
-    if args.actnn:
+    if args.gact:
         gact.set_optimization_level(args.opt_level)
         print("Set optimization level ", args.opt_level)
         controller = Controller(model)
         controller.install_hook()
 
-    if args.ckpt and args.actnn:
+    if args.ckpt and args.gact:
         args.opt_level += '_ckpt'
     elif args.ckpt:
         args.opt_level = 'ckpt'
@@ -613,7 +613,7 @@ def main():
             if completed_steps >= args.max_train_steps:
                 break
 
-            if args.actnn:
+            if args.gact:
                 def backprop():
                     small_batch = {}
                     for k, v in batch.items():

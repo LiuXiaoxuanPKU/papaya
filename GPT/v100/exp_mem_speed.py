@@ -19,7 +19,7 @@ def network_to_command(network, bz, max_exp = 50):
     --dropout 0.1 \
     --optimizer adam --adam-betas '(0.9, 0.98)' --weight-decay 0.01 --clip-norm 0.0 \
     --lr 0.0005 --lr-scheduler inverse_sqrt --warmup-updates 4000 --warmup-init-lr 1e-07 \
-    --tokens-per-sample %d --sample-break-mode none \
+    --tokens-per-sample %d --sample-break-mode none  --distributed-world-size 1\
     --max-tokens %d --update-freq 1 \
     --fp16 \
     --max-update 50000 \
@@ -77,7 +77,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     max_exp_init,max_exp = 80,80
     networks = ["transformer_lm_gpt3_small"]
-    algs = [None, "ckpt", "L1","swap"]
+    # algs = [None, "ckpt", "L1","swap"]
+    algs = [None, "ckpt", "L1"]
     actnn_level = None
     
     for net in networks:
