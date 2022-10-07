@@ -43,6 +43,9 @@ def run_benchmark(network, batch_size, max_exp, alg, get_mem = False):
     if alg == "ckpt-cpu-off":
         cmd += " --checkpoint-activations --offload-activations"
         cmd += " --alg ckpt-cpu-off"
+    if alg == "swap":
+        cmt += " ----ddp-backend fully_sharded --cpu-offload "
+        cmt.replace("--optimizer adam","--optimizer cpu_adam")
     if alg in ["L1", "swap"]:
        cmd += " --alg %s"% alg 
        

@@ -791,7 +791,8 @@ class Trainer(object):
         self.model.train()
         self.criterion.train()
         self.zero_grad()
-        if self.cfg.actnn.alg in ["L1", "swap"]:
+        if self.cfg.actnn.alg == "L1":
+        # if self.cfg.actnn.alg in ["L1", "swap"]:
             # print("===========Register ActNN===========")
             gact.set_optimization_level(self.cfg.actnn.alg)
             controller = gact.controller.Controller(self.model)
