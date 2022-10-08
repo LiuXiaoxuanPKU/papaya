@@ -97,13 +97,13 @@ def round_down(x):
 def round_down_16(x):
     return int(x // 16 * 16)
 
-def binary_search_max_batch(network, alg, low, high):
+def binary_search_max_batch(network, alg, low, high, layer_num):
     ret = 0
     low, high = round_up(low), round_down(high)
 
-    while low <= high:
+    while low <= high - 8:
         mid = round_down(low + (high - low) // 2)
-        success = run_benchmark(network, alg, mid, debug_speed=True) == 0
+        success = run_benchmark(network, alg, mid, debug_speed=True, layer_num=layer_num) == 0
         if success:
             ret = mid
             low = round_up(mid + 1)
@@ -169,7 +169,7 @@ def binary_search_max_intermediate_size(alg, low, high, batch_size):
 def get_ips(network, alg, batch_size, hidden_size=None, layer_num=None, intermediate_size=None):
     run_benchmark(network, alg, batch_size, layer_num=layer_num,
                   hidden_size=hidden_size, debug_speed=True, intermediate_size=intermediate_size)
-    line = list(open("speed_results.json").readlines())[-1]
+    line = list(open("results/speed_results.json").readlines())[-2]
     return json.loads(line)['ips']
 
 
@@ -195,10 +195,10 @@ if __name__ == "__main__":
         # batch_sizes = list(range(4, 64, 4)) + list(range(64, 600, 8))
         batch_sizes = list(range(8, 1000, 8))
         # batch_sizes = [24, 32, 40, 48]
-        algs = [None, 'ckpt', 'L1']
+        algs = ['L1']
     else:
         networks = ['bert-large-cased']
-        algs = [None, 'L1', 'L1.2']
+        algs = [None, 'ckpt', 'L1']
 
     if args.mode == 'linear_scan':
         for network in networks:
@@ -213,15 +213,16 @@ if __name__ == "__main__":
     elif args.mode == 'binary_search_max_batch':
         for network in networks:
             for alg in algs:
-                low, high = 16, 1024
+                low, high = 8, 1024
                 max_batch_size = binary_search_max_batch(
-                    network, alg, low, high)
+                    network, alg, low, high, layer_num=args.layer_num)
                 ips = get_ips(network, alg, max_batch_size)
 
                 out_file = "max_batch_results.json"
                 with open(out_file, "a") as fout:
                     val_dict = {
                         "network": network,
+                        "layer_num": args.layer_num,
                         "algorithm": alg,
                         "max_batch_size": max_batch_size,
                         "ips": ips,

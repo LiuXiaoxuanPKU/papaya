@@ -31,7 +31,7 @@ from gact.utils import get_memory_usage, compute_tensor_bytes, exp_recorder
 from utils import AverageMeter
 
 import transformers
-from accelerate import Accelerator, DeepSpeedPlugin
+from accelerate import Accelerator
 from huggingface_hub import Repository
 from transformers import (
     AdamW,
@@ -172,8 +172,8 @@ def parse_args():
     parser.add_argument("--hub_token", type=str, help="The token to use to push to the Model Hub.")
     parser.add_argument("--get_mem", action="store_true", help="Whether or not to check the usage of memory")
     parser.add_argument("--get_speed", action="store_true", help="Whether or not to get ips")
-    parser.add_argument("--gact", action="store_true", help="Whether or not to use gact")
-    parser.add_argument("--opt_level", type=str, help="Optimization level of gact")
+    parser.add_argument("--actnn", action="store_true", help="Whether or not to use actnn")
+    parser.add_argument("--opt_level", type=str, help="Optimization level of actnn")
     parser.add_argument("--get_macs", action="store_true", help="Get Number of Macs")
     parser.add_argument('--customize', action='store_true')
     parser.add_argument("--layer_num", type=int, default=24, help="Number of Bert layers")
@@ -181,7 +181,6 @@ def parse_args():
     parser.add_argument("--intermediate_size", type=int, default=4096, help='customize intermediate size')
     parser.add_argument("--ckpt", action='store_true', help='enable gradient checkpoint')
     parser.add_argument("--eff", action='store_true', help='efficient softmax')
-    parser.add_argument("--swap", action='store_true', help='use deepspeed cpu offload')
     args = parser.parse_args()
 
     # Sanity checks
@@ -198,16 +197,15 @@ def parse_args():
     if args.push_to_hub:
         assert args.output_dir is not None, "Need an `output_dir` to create a repo when `--push_to_hub` is passed."
 
-    if args.gact:
-        assert args.gradient_accumulation_steps == 1, "gact works with accumulation step = 1"
+    if args.actnn:
+        assert args.gradient_accumulation_steps == 1, "ACTNN works with accumulation step = 1"
 
     return args
 
 
 def main():
     args = parse_args()
-    if args.swap:
-        deepspeed_plugin = DeepSpeedPlugin(zero_stage=2, gradient_accumulation_steps=2, offload_optimizer_device=cpu)
+
     # Initialize the accelerator. We will let the accelerator handle device placement for us in this example.
     accelerator = Accelerator(fp16=True, device_placement=False)
     # Make one log on every process with the configuration for debugging.
@@ -315,13 +313,13 @@ def main():
         model.gradient_checkpointing_enable()
         
     model.to(args.device)
-    if args.gact:
+    if args.actnn:
         gact.set_optimization_level(args.opt_level)
         print("Set optimization level ", args.opt_level)
         controller = Controller(model)
         controller.install_hook()
 
-    if args.ckpt and args.gact:
+    if args.ckpt and args.actnn:
         args.opt_level += '_ckpt'
     elif args.ckpt:
         args.opt_level = 'ckpt'
@@ -496,9 +494,13 @@ def main():
     iter = 0
     best_metric = 0
     batch_total_time = 0
-    for epoch in range(args.num_train_epochs):
+    papaya = Papaya()
+
+    for optimization in [None, "ckpt", "L1"]:
+        papaya.set_optimization(optimization)
         model.train()
         for step, batch in enumerate(train_dataloader):
+            papaya.start_iter()
             iter += 1
         
             if args.get_mem and iter > 1:
@@ -615,7 +617,7 @@ def main():
             if completed_steps >= args.max_train_steps:
                 break
 
-            if args.gact:
+            if args.actnn:
                 def backprop():
                     small_batch = {}
                     for k, v in batch.items():
@@ -630,63 +632,8 @@ def main():
                     del outputs
                     del small_batch
                 controller.iterate(backprop)
-
-        with torch.no_grad():
-            model.eval()
-            for step, batch in enumerate(eval_dataloader):
-                for k, v in batch.items():
-                    batch[k] = v.to(args.device)
-                outputs = model(**batch)
-                predictions = outputs.logits.argmax(dim=-1) if not is_regression else outputs.logits.squeeze()
-                metric.add_batch(
-                    predictions=accelerator.gather(predictions),
-                    references=accelerator.gather(batch["labels"]),
-                )
-
-        eval_metric = metric.compute()
-        logger.info(f"epoch {epoch}: {eval_metric}")
-            
-        if eval_metric[metric_key[args.task_name]] > best_metric:
-            best_metric = eval_metric[metric_key[args.task_name]]
-
-        if args.push_to_hub and epoch < args.num_train_epochs - 1:
-            accelerator.wait_for_everyone()
-            unwrapped_model = accelerator.unwrap_model(model)
-            unwrapped_model.save_pretrained(args.output_dir, save_function=accelerator.save)
-            if accelerator.is_main_process:
-                tokenizer.save_pretrained(args.output_dir)
-                repo.push_to_hub(
-                    commit_message=f"Training in progress epoch {epoch}", blocking=False, auto_lfs_prune=True
-                )
-
-    if args.output_dir is not None:
-        accelerator.wait_for_everyone()
-        with open(os.path.join(args.output_dir, 'result.txt'), 'a') as f:
-            f.write('lr:%f, bsz:%d, result:%f\n' % (args.learning_rate, args.per_device_train_batch_size, best_metric))
-
-        # if args.task_name == "mnli":
-        #     # Final evaluation on mismatched validation set
-        #     eval_dataset = processed_datasets["validation_mismatched"]
-        #     eval_dataloader = DataLoader(
-        #         eval_dataset, collate_fn=data_collator, batch_size=args.per_device_eval_batch_size
-        #     )
-        #     eval_dataloader = accelerator.prepare(eval_dataloader)
-
-        #     model.eval()
-        #     for step, batch in enumerate(eval_dataloader):
-        #         outputs = model(**batch)
-        #         predictions = outputs.logits.argmax(dim=-1)
-        #         metric.add_batch(
-        #             predictions=accelerator.gather(predictions),
-        #             references=accelerator.gather(batch["labels"]),
-        #         )
-
-        #     eval_metric = metric.compute()
-        #     logger.info(f"mnli-mm: {eval_metric}")
-
-    # eval_metric = metric.compute()
-    # logger.info(f"epoch {epoch}: {eval_metric}")
-
+        
+            papaya.finish_iter()
 
 if __name__ == "__main__":
     main()

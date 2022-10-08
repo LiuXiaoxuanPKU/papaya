@@ -123,4 +123,15 @@
 {"network": "transformer_lm_gpt3_small", "alg": "swap", "batch_size": 38, "batch_time": 5.006337, "ips": 7.59038, "peak_mem": 13981555712, "tstamp": 1659498720.57}
 {"network": "transformer_lm_gpt3_small", "alg": "swap", "batch_size": 39, "batch_time": 5.135548, "ips": 7.594126, "peak_mem": 14288845824, "tstamp": 1659498959.42}
 {"network": "transformer_lm_gpt3_small", "alg": "swap", "batch_size": 40, "batch_time": 5.262619, "ips": 7.600778, "peak_mem": 14598855680, "tstamp": 1659499203.74}
-{"network": "transformer_lm_gpt3_small", "alg": "swap", "batch_size": 41, "batch_time": 5.395866, "ips": 7.59841, "peak_mem": 14908505088, "tstamp": 1659499454.13}
+{"network": "transformer_lm_gpt3_small", "alg": "swap", "batch_size": 41, "batch_time": 5.395866, "ips": 7.59841, "peak_mem": 14908505088, "tstamp": 1659499454.13}{"network": "transformer_lm_gpt3_small", "algorithm": "try-swap", "batch_size": 1, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "try-swap", "batch_size": 2, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "try-swap", "batch_size": 1, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "try-swap", "batch_size": 2, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "try-swap", "batch_size": 1, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "try-swap", "batch_size": 2, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "try-swap", "batch_size": 1, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "try-swap", "batch_size": 2, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "try-swap", "batch_size": 3, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "try-swap", "batch_size": 1, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "try-swap", "batch_size": 2, "ips": -1}
+{"network": "transformer_lm_gpt3_small", "algorithm": "try-swap", "batch_size": 3, "ips": -1}
