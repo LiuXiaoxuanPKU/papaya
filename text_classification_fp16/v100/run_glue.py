@@ -31,7 +31,7 @@ from gact.utils import get_memory_usage, compute_tensor_bytes, exp_recorder
 from utils import AverageMeter
 
 import transformers
-from accelerate import Accelerator
+from accelerate import Accelerator, DeepSpeedPlugin
 from huggingface_hub import Repository
 from transformers import (
     AdamW,
@@ -181,6 +181,7 @@ def parse_args():
     parser.add_argument("--intermediate_size", type=int, default=4096, help='customize intermediate size')
     parser.add_argument("--ckpt", action='store_true', help='enable gradient checkpoint')
     parser.add_argument("--eff", action='store_true', help='efficient softmax')
+    parser.add_argument("--swap", action='store_true', help='use deepspeed cpu offload')
     args = parser.parse_args()
 
     # Sanity checks
@@ -205,7 +206,8 @@ def parse_args():
 
 def main():
     args = parse_args()
-
+    if args.swap:
+        deepspeed_plugin = DeepSpeedPlugin(zero_stage=2, gradient_accumulation_steps=2, offload_optimizer_device=cpu)
     # Initialize the accelerator. We will let the accelerator handle device placement for us in this example.
     accelerator = Accelerator(fp16=True, device_placement=False)
     # Make one log on every process with the configuration for debugging.
