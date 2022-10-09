@@ -207,7 +207,8 @@ def parse_args():
 def main():
     args = parse_args()
     if args.swap:
-        deepspeed_plugin = DeepSpeedPlugin(zero_stage=2, gradient_accumulation_steps=2, offload_optimizer_device=cpu)
+        print("using deepspeed swapping")
+        deepspeed_plugin = DeepSpeedPlugin(zero_stage=2, gradient_accumulation_steps=2, offload_optimizer_device="cpu")
     # Initialize the accelerator. We will let the accelerator handle device placement for us in this example.
     accelerator = Accelerator(fp16=True, device_placement=False)
     # Make one log on every process with the configuration for debugging.
@@ -496,6 +497,9 @@ def main():
     iter = 0
     best_metric = 0
     batch_total_time = 0
+
+
+
     for epoch in range(args.num_train_epochs):
         model.train()
         for step, batch in enumerate(train_dataloader):
@@ -505,6 +509,8 @@ def main():
                 torch.cuda.synchronize()
                 # accelerator.print("===============After Data Loading=======================")
                 init_mem = get_memory_usage(False)  # model size + data size
+                data_size = gact.utils.compute_tensor_bytes(list(batch.values()))
+                model_size = init_mem - data_size
                 torch.cuda.reset_peak_memory_stats()
                 
             if args.get_speed and iter > 1:
@@ -566,6 +572,8 @@ def main():
                 del loss
                 del outputs
                     
+                workspace_mem = peak_mem.get_value() - total_mem.get_value()
+
                 accelerator.print("peak %d MB" % (peak_mem.get_value() / 1024 / 1024))
                 accelerator.print("total %d MB" % (total_mem.get_value() / 1024 / 1024))
                 accelerator.print("activation %d MB" % (activation_mem.get_value() / 1024 / 1024))
@@ -574,10 +582,12 @@ def main():
                 exp_recorder.record("batch_size", args.per_device_train_batch_size)
                 exp_recorder.record("layer_num", config.num_hidden_layers)
                 exp_recorder.record("hidden_size", config.hidden_size)
-                exp_recorder.record("tstamp", time.time(), 2)
                 exp_recorder.record("peak", peak_mem.get_value() / 1024 / 1024)
                 exp_recorder.record("total", total_mem.get_value() / 1024 / 1024)
                 exp_recorder.record("activation", activation_mem.get_value() / 1024 / 1024)
+                exp_recorder.record("model_size", model_size / 1024 / 1024)
+                exp_recorder.record("workspace_size", workspace_mem / 1024 / 1024)
+                exp_recorder.record("tstamp", time.time(), 2)
                 exp_recorder.dump('results/mem_results.json') 
                 exit(0)
                     
