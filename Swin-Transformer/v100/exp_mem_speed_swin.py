@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
     networks = ["swin_large"]
     # algs = ["fp32", "fp32-ckpt", "fp16O1", "fp16O1-ckpt", "fp16O2", "fp16O2-ckpt"]
-    algs = ["fp16O1-L1", "fp16O1-swap"]
+    algs = ["fp16O1"]
     actnn_level = None
     
     for net in networks:
@@ -71,7 +71,7 @@ if __name__ == "__main__":
                     ckpt = True
                 else:
                     ckpt = False
-                if "L1" or "swap" in algs:
+                if "L1" in algs or "swap" in algs:
                     actnn_level = alg.split("-")[-1]
                 if "fp16" in alg:
                     fp16 = alg.split("-")[0][-2:]

@@ -190,7 +190,11 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
     start = time.time()
     end = time.time()
     
-        
+
+    pure_model_size = 0   
+    pure_model_size += gact.utils.compute_tensor_bytes(list(model.parameters()))
+    exp_recorder.record("pure_model_size", pure_model_size / MB)
+
     for idx, (samples, targets) in enumerate(data_loader):
         samples = samples.cuda(non_blocking=True)
         targets = targets.cuda(non_blocking=True)
@@ -198,11 +202,13 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
         if mixup_fn is not None:
             samples, targets = mixup_fn(samples, targets)
 
-        if args.get_mem and idx > 0:
+        if args.get_mem and idx > 1:
             print("========== Init Data Loader ===========")
-            print(samples.shape)
             init_mem = get_memory_usage(True)
-        
+            data_size = gact.utils.compute_tensor_bytes([samples, targets])
+            model_size = init_mem - data_size
+            exp_recorder.record("model_size", model_size / MB)
+
         if args.get_speed:
             torch.cuda.synchronize()
             start_event = time.time()
@@ -231,13 +237,9 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
                 lr_scheduler.step_update(epoch * num_steps + idx)
         else:
             loss = criterion(outputs, targets)
-            if args.get_mem and idx > 0:
+            if args.get_mem and idx > 1:
                 print("========== Before Backward ===========")
                 before_backward = get_memory_usage(True)
-                act_mem = before_backward - init_mem - \
-                    compute_tensor_bytes([loss, outputs])
-                res = "Batch size: %d\tTotal Mem: %.2f MB\tAct Mem: %.2f MB" % (
-                    samples.shape[0], before_backward / MB, act_mem / MB)
             
             optimizer.zero_grad()
             if config.AMP_OPT_LEVEL != "O0":
@@ -254,13 +256,14 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
                 else:
                     grad_norm = get_grad_norm(model.parameters())
             
-            if args.get_mem and idx > 0:
+            if args.get_mem and idx > 1:
                 if args.level is not None:     
                     controller.iterate(None)
                 del loss
                 print("========== After Backward ===========")
                 after_backward = get_memory_usage(True)
-                total_mem = before_backward
+                total_mem = before_backward - data_size
+                act_mem = before_backward - after_backward
                 ref_act = before_backward - after_backward
                 peak_mem = torch.cuda.max_memory_allocated()
                 res = "Sample shape: %s\tTotal Mem: %.2f MB\tAct Mem: %.2f MB\tRef Mem: %.2f\tPeak Mem: %.2f" % (
@@ -277,9 +280,12 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
                     exit(0)
                 exp_recorder.record("network", network)
                 exp_recorder.record("batch_size", samples.shape[0])
-                exp_recorder.record("peak", peak_mem)
-                exp_recorder.record("total", total_mem)
-                exp_recorder.record("activation", act_mem)
+                exp_recorder.record("peak", peak_mem / MB)
+                exp_recorder.record("total", total_mem / MB)
+                exp_recorder.record("activation", act_mem / MB)
+                exp_recorder.record("peak", peak_mem / MB)
+                exp_recorder.record("workspace", (peak_mem - total_mem - data_size) / MB)
+
                 exp_recorder.record("algorithm", args.level)
                 exp_recorder.record("fp16", args.amp_opt_level)
                 exp_recorder.record("ckpt", args.use_checkpoint)

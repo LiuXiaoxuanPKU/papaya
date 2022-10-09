@@ -40,6 +40,8 @@ def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False,
     elif alg == "ckpt_swap":
         cmd += " --ckpt"
         cmd += " --gact --opt_level swap"
+    elif alg == "swap":
+        cmd += " --swap"
     elif alg != None:
         cmd += " --output_dir log/sst2/LEVEL/ --gact --opt_level LEVEL ".replace("LEVEL", alg)
         
@@ -184,21 +186,20 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", type=str, default='linear_scan')
     parser.add_argument("--retry", type=int, default=1)
-    parser.add_argument("--layer_num", type=int, default=48)
-    parser.add_argument("--hidden_size", type=int, default=1024)
-    parser.add_argument("--get_mem", action='store_true')
+    parser.add_argument("--layer_num", type=int, default=None)
+    parser.add_argument("--hidden_size", type=int, default=None)
+    parser.add_argument("--get_mem", action='store_true', default=False)
     args = parser.parse_args()
 
 
     if args.mode == 'linear_scan':
-        networks = ['bert-large-cased']
-        # batch_sizes = list(range(4, 64, 4)) + list(range(64, 600, 8))
-        batch_sizes = list(range(8, 1000, 8))
+        networks = ['bert-base-cased', 'roberta-base', 'roberta-large']
+        batch_sizes = list(range(4, 64, 8)) + list(range(64, 600, 8))
         # batch_sizes = [24, 32, 40, 48]
-        algs = ['L1']
+        algs = [None]
     else:
         networks = ['bert-large-cased']
-        algs = [None, 'ckpt', 'L1']
+        algs = ['swap', None, 'ckpt', 'L1']
 
     if args.mode == 'linear_scan':
         for network in networks:
