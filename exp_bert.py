@@ -8,7 +8,7 @@ suffix = "png"
 algo = "text_classification_fp16"
 
 class Experiment:
-    def run_experiment(machine_tag):
+    def run_experiment(machine_tag, network = None):
         mem_dir = "{}/{}/results/mem_results.json".format(algo,machine_tag)
         ips_dir = "{}/{}/results/speed_results.json".format(algo,machine_tag)
         cnt = 1
@@ -43,7 +43,7 @@ class Experiment:
 
     def sample_dict(dic, percentenge):
         sample_data = {}
-        sample_keys = random.sample(list(dic.keys())[5:], int(len(dic) * percentenge))
+        sample_keys = random.sample(list(dic.keys()), int(len(dic) * percentenge))
         for k in sample_keys:
             sample_data[k] = dic[k]
         return sample_data
@@ -54,8 +54,8 @@ class Experiment:
             mem[k] /= 1000
         btime = Util.load_data(ips_dir, "batch_size", "batch_time", cond)
         # use only 20% data to fit the model
-        mem_sample= Experiment.sample_dict(mem, 0.4)
-        btime_sample= Experiment.sample_dict(btime, 0.4)
+        mem_sample= Experiment.sample_dict(mem, 0.5)
+        btime_sample= Experiment.sample_dict(btime, 0.5)
         mem_model,mem_score,alpha,beta = FitterPool.fit_leastsq_verbose(mem_sample, ModelFnPool.linear)
         # mem_model, mem_score, alpha, beta = None, 0, 0, 0
         
@@ -92,11 +92,11 @@ class Experiment:
         print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Org',alpha,beta,gamma,delta,mem_score,btime_score))
 
 
-        # #print("----------------Swap-------------------")
-        # is_swap = lambda obj : obj['algorithm'] == "swap"
-        # swap_mem, swap_btime, swap_mem_model, swap_btime_model, swap_ips_model,\
-        # alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_swap, mem_dir, ips_dir, offset)
-        # print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Swap',alpha,beta,gamma,delta,mem_score,btime_score))
+        #print("----------------Swap-------------------")
+        is_swap = lambda obj : obj['algorithm'] == "swap"
+        swap_mem, swap_btime, swap_mem_model, swap_btime_model, swap_ips_model,\
+        alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_swap, mem_dir, ips_dir, offset)
+        print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Swap',alpha,beta,gamma,delta,mem_score,btime_score))
 
         #print("----------------Ckpt-------------------")
         is_ckpt = lambda obj : obj['algorithm'] == "ckpt"
@@ -120,8 +120,8 @@ class Experiment:
             # plot batch time
             Viewer.plot_fit(axes[0],"org", org_btime_model, np.array(list(org_btime.keys())), np.array(
                 list(org_btime.values())), None, False)
-            # Viewer.plot_fit(axes[1], "swap", swap_btime_model, np.array(list(swap_btime.keys())), np.array(
-            #     list(swap_btime.values())), None, False)
+            Viewer.plot_fit(axes[1], "swap", swap_btime_model, np.array(list(swap_btime.keys())), np.array(
+                list(swap_btime.values())), None, False)
             Viewer.plot_fit(axes[2],"ckpt", ckpt_btime_model, np.array(list(ckpt_btime.keys())), np.array(
                 list(ckpt_btime.values())), None, False) 
             Viewer.plot_fit(axes[3],"quantize", quantize_btime_model, np.array(list(quantize_btime.keys())), np.array(
@@ -160,8 +160,8 @@ class Experiment:
             fig.set_size_inches(4, 4)
             Viewer.plot_fit(ax, "org", org_ips_model, np.array(list(org_btime.keys())), np.array(
                 [bsize / org_btime[bsize] for bsize in org_btime]), None, False)
-            # Viewer.plot_fit(ax, "swap", swap_ips_model, np.array(list(swap_btime.keys())), np.array(
-            #     [bsize / swap_btime[bsize] for bsize in swap_btime]), None, False)
+            Viewer.plot_fit(ax, "swap", swap_ips_model, np.array(list(swap_btime.keys())), np.array(
+                [bsize / swap_btime[bsize] for bsize in swap_btime]), None, False)
             Viewer.plot_fit(ax, "ckpt", ckpt_ips_model, np.array(list(ckpt_btime.keys())), np.array(
                 [bsize / ckpt_btime[bsize] for bsize in ckpt_btime]), None, False) 
             Viewer.plot_fit(ax, "quantize", quantize_ips_model, np.array(list(quantize_btime.keys())), np.array(

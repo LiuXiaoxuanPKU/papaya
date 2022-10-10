@@ -139,6 +139,7 @@ def main():
         "--plot-graph", help="plot graph for experiment data", action='store_true'
     )
     parser.add_argument('--algos', nargs='*', type=str)
+    parser.add_argument('--network', nargs='*', type=str)
     args = parser.parse_args()
 
     if args.algos and len(args.algos): algos = [a.lower() for a in args.algos]
@@ -156,7 +157,7 @@ def main():
             for mt in args.machine_tag:
                 for m in algos: 
                     print("================={}@{}=================".format(m,mt))
-                    algo_dict[m].run_experiment(mt) 
+                    algo_dict[m].run_experiment(mt,args.network) 
     
     for tag in args.machine_tag:
         for m in algos: algo_dict[m].do_plot(tag,args.plot_graph)

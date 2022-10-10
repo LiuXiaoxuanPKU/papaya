@@ -12,7 +12,7 @@ suffix = "pdf"
 algo = "Swin-Transformer"
 
 class Experiment:
-    def run_experiment(machine_tag):
+    def run_experiment(machine_tag, network = None):
         mem_dir = "{}/{}/results/mem_results.json".format(algo,machine_tag)
         ips_dir = "{}/{}/results/speed_results.json".format(algo,machine_tag)
         cnt = 1

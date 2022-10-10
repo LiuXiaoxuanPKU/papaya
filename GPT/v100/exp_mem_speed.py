@@ -80,10 +80,10 @@ if __name__ == "__main__":
     parser.add_argument("--retry", type=int, default=1)
     parser.add_argument("--get_mem", action='store_true')
     parser.add_argument("--large_bucket", action='store_true')
+    parser.add_argument('--network', nargs='*', type=str)
     args = parser.parse_args()
     max_exp_init,max_exp = 80,80
-    networks = ["transformer_lm_gpt3_small"]
-    # algs = [None, "ckpt", "L1","swap"]
+    networks = args.network if args.network else ["transformer_lm_gpt3_medium","transformer_lm_gpt3_large"]#["transformer_lm_gpt3_small"]
     algs = [None, "ckpt", "L1"]
     actnn_level = None
     

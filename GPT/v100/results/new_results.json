@@ -1,88 +1,3 @@
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 1, "batch_time": 0.064848, "ips": 15.420684, "peak_mem": 3006777856, "tstamp": 1659480218.37}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 2, "batch_time": 0.06555, "ips": 30.510868, "peak_mem": 3570813952, "tstamp": 1659480239.28}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 3, "batch_time": 0.068592, "ips": 43.736638, "peak_mem": 4241196032, "tstamp": 1659480260.17}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 4, "batch_time": 0.077347, "ips": 51.715191, "peak_mem": 4890868736, "tstamp": 1659480281.92}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 5, "batch_time": 0.084298, "ips": 59.313111, "peak_mem": 5557523456, "tstamp": 1659480303.96}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 6, "batch_time": 0.094592, "ips": 63.429976, "peak_mem": 6206663680, "tstamp": 1659480326.84}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 7, "batch_time": 0.111195, "ips": 62.952286, "peak_mem": 6877889536, "tstamp": 1659480351.12}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 8, "batch_time": 0.119727, "ips": 66.818559, "peak_mem": 7529143296, "tstamp": 1659480376.15}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 9, "batch_time": 0.128152, "ips": 70.229237, "peak_mem": 8198353920, "tstamp": 1659480402.25}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 10, "batch_time": 0.136892, "ips": 73.050105, "peak_mem": 8845331456, "tstamp": 1659480428.66}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 11, "batch_time": 0.15046, "ips": 73.109006, "peak_mem": 9521890304, "tstamp": 1659480456.11}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 12, "batch_time": 0.159834, "ips": 75.078045, "peak_mem": 10166017024, "tstamp": 1659480484.24}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 13, "batch_time": 0.165074, "ips": 78.752732, "peak_mem": 10846843904, "tstamp": 1659480513.23}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 14, "batch_time": 0.179872, "ips": 77.833265, "peak_mem": 11486522368, "tstamp": 1659480543.34}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 15, "batch_time": 0.188688, "ips": 79.496255, "peak_mem": 12180268032, "tstamp": 1659480574.14}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 16, "batch_time": 0.199016, "ips": 80.395627, "peak_mem": 12806216704, "tstamp": 1659480605.84}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 17, "batch_time": 0.210084, "ips": 80.920199, "peak_mem": 13484725248, "tstamp": 1659480638.96}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 18, "batch_time": 0.21913, "ips": 82.143085, "peak_mem": 14129908736, "tstamp": 1659480672.6}
-{"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 19, "batch_time": 0.228865, "ips": 83.018528, "peak_mem": 14806451200, "tstamp": 1659480707.0}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 1, "batch_time": 0.082989, "ips": 12.049736, "peak_mem": 2993408512, "tstamp": 1659480781.12}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 2, "batch_time": 0.082539, "ips": 24.231102, "peak_mem": 3005864448, "tstamp": 1659480803.17}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 3, "batch_time": 0.08716, "ips": 34.419297, "peak_mem": 3207660544, "tstamp": 1659480825.3}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 4, "batch_time": 0.091446, "ips": 43.741663, "peak_mem": 3525950464, "tstamp": 1659480847.75}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 5, "batch_time": 0.103283, "ips": 48.410851, "peak_mem": 3846861824, "tstamp": 1659480871.2}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 6, "batch_time": 0.115258, "ips": 52.056982, "peak_mem": 4167937024, "tstamp": 1659480895.42}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 7, "batch_time": 0.133798, "ips": 52.317675, "peak_mem": 4488758272, "tstamp": 1659480921.49}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 8, "batch_time": 0.143502, "ips": 55.748497, "peak_mem": 4807695360, "tstamp": 1659480948.1}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 9, "batch_time": 0.1578, "ips": 57.034312, "peak_mem": 5128729600, "tstamp": 1659480976.01}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 10, "batch_time": 0.170367, "ips": 58.696941, "peak_mem": 5447453696, "tstamp": 1659481004.63}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 11, "batch_time": 0.185649, "ips": 59.251733, "peak_mem": 5767447552, "tstamp": 1659481034.91}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 12, "batch_time": 0.210611, "ips": 56.977124, "peak_mem": 6089374720, "tstamp": 1659481066.69}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 13, "batch_time": 0.205598, "ips": 63.230337, "peak_mem": 6407582720, "tstamp": 1659481098.76}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 14, "batch_time": 0.223054, "ips": 62.765035, "peak_mem": 6728682496, "tstamp": 1659481131.86}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 15, "batch_time": 0.234258, "ips": 64.032068, "peak_mem": 7047668736, "tstamp": 1659481165.94}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 16, "batch_time": 0.247386, "ips": 64.676173, "peak_mem": 7368801280, "tstamp": 1659481201.04}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 17, "batch_time": 0.261697, "ips": 64.960516, "peak_mem": 7687730176, "tstamp": 1659481237.14}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 18, "batch_time": 0.272992, "ips": 65.935887, "peak_mem": 8010820608, "tstamp": 1659481274.15}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 19, "batch_time": 0.283139, "ips": 67.104956, "peak_mem": 8329749504, "tstamp": 1659481312.02}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 20, "batch_time": 0.299431, "ips": 66.793409, "peak_mem": 8650218496, "tstamp": 1659481350.96}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 21, "batch_time": 0.319421, "ips": 65.743954, "peak_mem": 8969507840, "tstamp": 1659481391.47}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 22, "batch_time": 0.328373, "ips": 66.996945, "peak_mem": 9289616384, "tstamp": 1659481433.27}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 23, "batch_time": 0.346304, "ips": 66.415707, "peak_mem": 9609266176, "tstamp": 1659481475.96}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 24, "batch_time": 0.35879, "ips": 66.891536, "peak_mem": 9929407488, "tstamp": 1659481519.57}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 25, "batch_time": 0.36445, "ips": 68.596479, "peak_mem": 10250621952, "tstamp": 1659481563.92}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 26, "batch_time": 0.382823, "ips": 67.916525, "peak_mem": 10569886720, "tstamp": 1659481609.41}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 27, "batch_time": 0.40226, "ips": 67.120765, "peak_mem": 10892469248, "tstamp": 1659481656.54}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 28, "batch_time": 0.41482, "ips": 67.499226, "peak_mem": 11210079232, "tstamp": 1659481705.91}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 29, "batch_time": 0.421442, "ips": 68.811369, "peak_mem": 11530990592, "tstamp": 1659481755.2}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 30, "batch_time": 0.433256, "ips": 69.243154, "peak_mem": 11851803648, "tstamp": 1659481805.61}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 31, "batch_time": 0.446657, "ips": 69.404412, "peak_mem": 12172387328, "tstamp": 1659481856.74}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 32, "batch_time": 0.460695, "ips": 69.460245, "peak_mem": 12491561984, "tstamp": 1659481909.21}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 33, "batch_time": 0.469856, "ips": 70.234321, "peak_mem": 12811785216, "tstamp": 1659481962.55}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 34, "batch_time": 0.486817, "ips": 69.841413, "peak_mem": 13131320320, "tstamp": 1659482017.27}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 35, "batch_time": 0.501284, "ips": 69.820648, "peak_mem": 13451232256, "tstamp": 1659482073.21}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 36, "batch_time": 0.515429, "ips": 69.844774, "peak_mem": 13773372416, "tstamp": 1659482130.28}
-{"network": "transformer_lm_gpt3_small", "alg": "ckpt", "batch_size": 37, "batch_time": 0.52692, "ips": 70.219351, "peak_mem": 14091711488, "tstamp": 1659482188.13}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 1, "batch_time": 0.126258, "ips": 7.920301, "peak_mem": 3005463040, "tstamp": 1659482270.6}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 2, "batch_time": 0.126869, "ips": 15.764258, "peak_mem": 3071610368, "tstamp": 1659482296.39}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 3, "batch_time": 0.138321, "ips": 21.688719, "peak_mem": 3484344320, "tstamp": 1659482322.93}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 4, "batch_time": 0.134902, "ips": 29.651165, "peak_mem": 3896567808, "tstamp": 1659482349.24}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 5, "batch_time": 0.150719, "ips": 33.174261, "peak_mem": 4310167552, "tstamp": 1659482376.62}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 6, "batch_time": 0.166342, "ips": 36.070224, "peak_mem": 4729184768, "tstamp": 1659482405.31}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 7, "batch_time": 0.187729, "ips": 37.287744, "peak_mem": 5139946496, "tstamp": 1659482436.17}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 8, "batch_time": 0.201833, "ips": 39.636764, "peak_mem": 5553546240, "tstamp": 1659482467.86}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 9, "batch_time": 0.217667, "ips": 41.347525, "peak_mem": 5964986880, "tstamp": 1659482500.84}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 10, "batch_time": 0.237766, "ips": 42.058162, "peak_mem": 6375689216, "tstamp": 1659482535.14}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 11, "batch_time": 0.25556, "ips": 43.042712, "peak_mem": 6788644352, "tstamp": 1659482570.78}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 12, "batch_time": 0.271986, "ips": 44.11986, "peak_mem": 7202613248, "tstamp": 1659482607.69}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 13, "batch_time": 0.282892, "ips": 45.953989, "peak_mem": 7614105600, "tstamp": 1659482645.61}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 14, "batch_time": 0.305198, "ips": 45.871926, "peak_mem": 8028256256, "tstamp": 1659482685.38}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 15, "batch_time": 0.322352, "ips": 46.533003, "peak_mem": 8440369152, "tstamp": 1659482726.65}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 16, "batch_time": 0.340243, "ips": 47.025176, "peak_mem": 8853899264, "tstamp": 1659482769.56}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 17, "batch_time": 0.359663, "ips": 47.266446, "peak_mem": 9267030528, "tstamp": 1659482813.99}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 18, "batch_time": 0.375444, "ips": 47.943234, "peak_mem": 9682358784, "tstamp": 1659482859.72}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 19, "batch_time": 0.392198, "ips": 48.444905, "peak_mem": 10093459968, "tstamp": 1659482906.76}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 20, "batch_time": 0.412746, "ips": 48.455923, "peak_mem": 10506364928, "tstamp": 1659482954.87}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 21, "batch_time": 0.442592, "ips": 47.447778, "peak_mem": 10918938624, "tstamp": 1659483005.24}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 22, "batch_time": 0.456917, "ips": 48.148778, "peak_mem": 11333315072, "tstamp": 1659483057.29}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 23, "batch_time": 0.471991, "ips": 48.729761, "peak_mem": 11747198464, "tstamp": 1659483110.05}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 24, "batch_time": 0.49055, "ips": 48.924649, "peak_mem": 12163019776, "tstamp": 1659483164.13}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 25, "batch_time": 0.500927, "ips": 49.907507, "peak_mem": 12572878336, "tstamp": 1659483219.72}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 26, "batch_time": 0.525804, "ips": 49.448108, "peak_mem": 12983356928, "tstamp": 1659483276.73}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 28, "batch_time": 0.566614, "ips": 49.416344, "peak_mem": 13812141568, "tstamp": 1659483355.46}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 29, "batch_time": 0.579956, "ips": 50.003763, "peak_mem": 14225815552, "tstamp": 1659483417.73}
-{"network": "transformer_lm_gpt3_small", "alg": "L1", "batch_size": 30, "batch_time": 0.598525, "ips": 50.123238, "peak_mem": 14636478976, "tstamp": 1659483481.72}
 {"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 1, "batch_time": 0.064518, "ips": 15.499652, "peak_mem": 3006777856, "tstamp": 1665402117.12}
 {"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 2, "batch_time": 0.065055, "ips": 30.743228, "peak_mem": 3570813952, "tstamp": 1665402142.3}
 {"network": "transformer_lm_gpt3_small", "alg": null, "batch_size": 3, "batch_time": 0.070543, "ips": 42.527182, "peak_mem": 4241196032, "tstamp": 1665402162.84}
@@ -212,21 +127,47 @@
 {"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 10, "batch_time": 0.530128, "ips": 18.863363, "peak_mem": 12240908288, "tstamp": 1665409105.04}
 {"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 11, "batch_time": 0.572768, "ips": 19.204981, "peak_mem": 12829577728, "tstamp": 1665409169.26}
 {"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 12, "batch_time": 0.620018, "ips": 19.354278, "peak_mem": 13416745984, "tstamp": 1665409236.74}
-{"network": "transformer_lm_gpt3_medium", "algorithm": null, "batch_size": 7, "ips": -1}
-{"network": "transformer_lm_gpt3_medium", "algorithm": null, "batch_size": 8, "ips": -1}
-{"network": "transformer_lm_gpt3_medium", "algorithm": null, "batch_size": 9, "ips": -1}
-{"network": "transformer_lm_gpt3_medium", "algorithm": "ckpt", "batch_size": 27, "ips": -1}
-{"network": "transformer_lm_gpt3_medium", "algorithm": "ckpt", "batch_size": 28, "ips": -1}
-{"network": "transformer_lm_gpt3_medium", "algorithm": "ckpt", "batch_size": 29, "ips": -1}
-{"network": "transformer_lm_gpt3_medium", "algorithm": "L1", "batch_size": 13, "ips": -1}
-{"network": "transformer_lm_gpt3_medium", "algorithm": "L1", "batch_size": 14, "ips": -1}
-{"network": "transformer_lm_gpt3_medium", "algorithm": "L1", "batch_size": 15, "ips": -1}
-{"network": "transformer_lm_gpt3_large", "algorithm": null, "batch_size": 1, "ips": -1}
-{"network": "transformer_lm_gpt3_large", "algorithm": null, "batch_size": 2, "ips": -1}
-{"network": "transformer_lm_gpt3_large", "algorithm": null, "batch_size": 3, "ips": -1}
-{"network": "transformer_lm_gpt3_large", "algorithm": "ckpt", "batch_size": 1, "ips": -1}
-{"network": "transformer_lm_gpt3_large", "algorithm": "ckpt", "batch_size": 2, "ips": -1}
-{"network": "transformer_lm_gpt3_large", "algorithm": "ckpt", "batch_size": 3, "ips": -1}
-{"network": "transformer_lm_gpt3_large", "algorithm": "L1", "batch_size": 1, "ips": -1}
-{"network": "transformer_lm_gpt3_large", "algorithm": "L1", "batch_size": 2, "ips": -1}
-{"network": "transformer_lm_gpt3_large", "algorithm": "L1", "batch_size": 3, "ips": -1}
+{"network": "transformer_lm_gpt3_medium", "alg": null, "batch_size": 1, "batch_time": 0.130293, "ips": 7.675002, "peak_mem": 8507009536, "tstamp": 1665410546.78}
+{"network": "transformer_lm_gpt3_medium", "alg": null, "batch_size": 2, "batch_time": 0.131524, "ips": 15.206404, "peak_mem": 8866094080, "tstamp": 1665410575.98}
+{"network": "transformer_lm_gpt3_medium", "alg": null, "batch_size": 3, "batch_time": 0.149863, "ips": 20.018279, "peak_mem": 10119271424, "tstamp": 1665410606.34}
+{"network": "transformer_lm_gpt3_medium", "alg": null, "batch_size": 4, "batch_time": 0.17534, "ips": 22.812836, "peak_mem": 11351477248, "tstamp": 1665410638.61}
+{"network": "transformer_lm_gpt3_medium", "alg": null, "batch_size": 5, "batch_time": 0.193472, "ips": 25.843562, "peak_mem": 12597314560, "tstamp": 1665410672.6}
+{"network": "transformer_lm_gpt3_medium", "alg": null, "batch_size": 6, "batch_time": 0.238708, "ips": 25.135299, "peak_mem": 13837908992, "tstamp": 1665410709.96}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 1, "batch_time": 0.177027, "ips": 5.648852, "peak_mem": 8507009536, "tstamp": 1665410800.13}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 2, "batch_time": 0.170188, "ips": 11.751716, "peak_mem": 8508062208, "tstamp": 1665410832.53}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 3, "batch_time": 0.181569, "ips": 16.522674, "peak_mem": 8587581952, "tstamp": 1665410865.46}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 4, "batch_time": 0.21652, "ips": 18.474078, "peak_mem": 8507898368, "tstamp": 1665410901.04}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 5, "batch_time": 0.240882, "ips": 20.75708, "peak_mem": 8541465088, "tstamp": 1665410938.58}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 6, "batch_time": 0.284349, "ips": 21.100808, "peak_mem": 8515254784, "tstamp": 1665410979.4}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 7, "batch_time": 0.32236, "ips": 21.714886, "peak_mem": 8739271680, "tstamp": 1665411023.16}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 8, "batch_time": 0.356876, "ips": 22.416777, "peak_mem": 9074355200, "tstamp": 1665411070.06}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 9, "batch_time": 0.385609, "ips": 23.339683, "peak_mem": 9411273728, "tstamp": 1665411119.27}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 10, "batch_time": 0.418568, "ips": 23.89098, "peak_mem": 9747241984, "tstamp": 1665411170.69}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 11, "batch_time": 0.457135, "ips": 24.062923, "peak_mem": 10083800064, "tstamp": 1665411226.56}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 12, "batch_time": 0.491597, "ips": 24.410248, "peak_mem": 10422225920, "tstamp": 1665411284.85}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 13, "batch_time": 0.530956, "ips": 24.484127, "peak_mem": 10756817920, "tstamp": 1665411346.34}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 14, "batch_time": 0.560988, "ips": 24.955971, "peak_mem": 11094277120, "tstamp": 1665411410.5}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 15, "batch_time": 0.575662, "ips": 26.056965, "peak_mem": 11430065152, "tstamp": 1665411476.09}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 16, "batch_time": 0.618614, "ips": 25.864262, "peak_mem": 11767344128, "tstamp": 1665411543.75}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 17, "batch_time": 0.648217, "ips": 26.2258, "peak_mem": 12103312384, "tstamp": 1665411613.84}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 18, "batch_time": 0.683797, "ips": 26.323616, "peak_mem": 12442311680, "tstamp": 1665411686.77}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 19, "batch_time": 0.715574, "ips": 26.552114, "peak_mem": 12778099712, "tstamp": 1665411762.27}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 20, "batch_time": 0.739589, "ips": 27.042061, "peak_mem": 13114657792, "tstamp": 1665411839.64}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 21, "batch_time": 0.781995, "ips": 26.8544, "peak_mem": 13450626048, "tstamp": 1665411920.43}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 22, "batch_time": 0.816278, "ips": 26.951613, "peak_mem": 13787003904, "tstamp": 1665412003.99}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 23, "batch_time": 0.851602, "ips": 27.007907, "peak_mem": 14123152384, "tstamp": 1665412090.36}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 24, "batch_time": 0.879685, "ips": 27.282481, "peak_mem": 14459677696, "tstamp": 1665412179.05}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 25, "batch_time": 0.920369, "ips": 27.163009, "peak_mem": 14797194240, "tstamp": 1665412270.1}
+{"network": "transformer_lm_gpt3_medium", "alg": "ckpt", "batch_size": 26, "batch_time": 0.955441, "ips": 27.21255, "peak_mem": 15132924928, "tstamp": 1665412365.02}
+{"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 1, "batch_time": 0.251119, "ips": 3.98217, "peak_mem": 8518538752, "tstamp": 1665412472.21}
+{"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 2, "batch_time": 0.256766, "ips": 7.789205, "peak_mem": 8508078080, "tstamp": 1665412511.28}
+{"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 3, "batch_time": 0.266007, "ips": 11.277902, "peak_mem": 8555229696, "tstamp": 1665412550.99}
+{"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 4, "batch_time": 0.291454, "ips": 13.724315, "peak_mem": 8807438848, "tstamp": 1665412592.62}
+{"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 5, "batch_time": 0.32214, "ips": 15.521191, "peak_mem": 9319128576, "tstamp": 1665412636.8}
+{"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 6, "batch_time": 0.370784, "ips": 16.181912, "peak_mem": 9903498240, "tstamp": 1665412684.33}
+{"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 7, "batch_time": 0.415427, "ips": 16.850147, "peak_mem": 10490748416, "tstamp": 1665412735.74}
+{"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 8, "batch_time": 0.452682, "ips": 17.672444, "peak_mem": 11068669952, "tstamp": 1665412790.56}
+{"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 9, "batch_time": 0.487908, "ips": 18.446084, "peak_mem": 11655116800, "tstamp": 1665412848.0}
+{"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 10, "batch_time": 0.530549, "ips": 18.848407, "peak_mem": 12240908288, "tstamp": 1665412908.22}
+{"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 11, "batch_time": 0.572671, "ips": 19.208223, "peak_mem": 12829577728, "tstamp": 1665412972.71}
+{"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 12, "batch_time": 0.621596, "ips": 19.305128, "peak_mem": 13416745984, "tstamp": 1665413040.14}
