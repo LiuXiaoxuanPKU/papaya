@@ -207,6 +207,13 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
             init_mem = get_memory_usage(True)
             data_size = gact.utils.compute_tensor_bytes([samples, targets])
             model_size = init_mem - data_size
+
+            states = optimizer.state_dict()['state']
+            for k in states:
+                print(k, type(states[k]))
+            exit(0)
+            state_size = gact.utils.compute_tensor_bytes(list(states.values()))
+            exp_recorder.record("state_size", state_size / MB)
             exp_recorder.record("model_size", model_size / MB)
 
         if args.get_speed:

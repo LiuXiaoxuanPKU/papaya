@@ -68,7 +68,7 @@ ax.set_ylabel('Memory (GB)')
 for tick in ax.get_xticklabels():
     tick.set_rotation(90)
 # ax.set_title('Scores by group and gender')
-ax.legend()
+ax.legend(ncol=3, loc='upper left')
 plt.tight_layout()
 fig.savefig("graphs/background/memory.pdf")
 

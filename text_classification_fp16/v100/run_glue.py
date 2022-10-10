@@ -208,9 +208,11 @@ def main():
     args = parse_args()
     if args.swap:
         print("using deepspeed swapping")
-        deepspeed_plugin = DeepSpeedPlugin(zero_stage=2, gradient_accumulation_steps=2, offload_optimizer_device="cpu")
+        # deepspeed_plugin = DeepSpeedPlugin(zero_stage=2, gradient_accumulation_steps=2, offload_optimizer_device="cpu")
+        os.environ["DEEPSPEED_CONFIG_FILE"] = os.environ.get("DEEPSPEED_CONFIG_FILE", "ds_config.json")
+        accelerator = Accelerator(fp16=True, device_placement=False, deepspeed_plugin = DeepSpeedPlugin())
     # Initialize the accelerator. We will let the accelerator handle device placement for us in this example.
-    accelerator = Accelerator(fp16=True, device_placement=False)
+    else: accelerator = Accelerator(fp16=True, device_placement=False)
     # Make one log on every process with the configuration for debugging.
     logging.basicConfig(
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
@@ -565,7 +567,7 @@ def main():
                 # after backward : init
                 # grad = weight
                 # total - act = weight + optimizer state + data size + loss + output + grad
-                total_mem.update(before_backward)
+                total_mem.update(before_backward - data_size)
                 activation_mem.update(before_backward - after_backward)
                 peak_mem.update(
                     torch.cuda.max_memory_allocated())
@@ -578,7 +580,8 @@ def main():
                 accelerator.print("total %d MB" % (total_mem.get_value() / 1024 / 1024))
                 accelerator.print("activation %d MB" % (activation_mem.get_value() / 1024 / 1024))
                 exp_recorder.record("network", args.model_name_or_path)
-                exp_recorder.record("algorithm", args.opt_level)
+                if args.swap: exp_recorder.record("algorithm", "swap")
+                else: exp_recorder.record("algorithm", args.opt_level)
                 exp_recorder.record("batch_size", args.per_device_train_batch_size)
                 exp_recorder.record("layer_num", config.num_hidden_layers)
                 exp_recorder.record("hidden_size", config.hidden_size)
@@ -604,7 +607,8 @@ def main():
                         bs, train_ips, 1000.0 / train_ips)
                     print(res, flush=True)
                     exp_recorder.record("network", args.model_name_or_path)
-                    exp_recorder.record("algorithm", args.opt_level)
+                    if args.swap: exp_recorder.record("algorithm", "swap")
+                    else: exp_recorder.record("algorithm", args.opt_level)
                     exp_recorder.record("batch_size", bs)
                     exp_recorder.record("ips", train_ips, 2)
                     exp_recorder.record("bacth_time", cur_batch_time)

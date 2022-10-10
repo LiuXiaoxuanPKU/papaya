@@ -160,3 +160,4 @@ def main():
     
     for tag in args.machine_tag:
         for m in algos: algo_dict[m].do_plot(tag,args.plot_graph)
+if __name__== "__main__": main()

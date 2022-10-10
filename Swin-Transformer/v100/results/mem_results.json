@@ -10,3 +10,5 @@
 {"network": "swin_large", "algorithm": "fp16O1", "batch_size": 40, "ips": -1}
 {"network": "swin_large", "algorithm": "fp16O1", "batch_size": 44, "ips": -1}
 {"network": "swin_large", "algorithm": "fp16O1", "batch_size": 48, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 4, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 12, "ips": -1}

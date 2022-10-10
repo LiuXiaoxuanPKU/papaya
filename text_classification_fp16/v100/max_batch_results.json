@@ -47,3 +47,17 @@
 {"network": "bert-large-cased", "layer_num": 58, "algorithm": "ckpt", "max_batch_size": 36, "ips": -1, "tstamp": 1665142084.3687432}
 {"network": "bert-large-cased", "layer_num": 58, "algorithm": "L1", "max_batch_size": 0, "ips": -1, "tstamp": 1665142496.1171062}
 {"network": "bert-large-cased", "layer_num": 62, "algorithm": null, "max_batch_size": 0, "ips": -1, "tstamp": 1665142906.9953227}
+{"network": "bert-large-cased", "layer_num": 62, "algorithm": "ckpt", "max_batch_size": 12, "ips": 31.92, "tstamp": 1665143333.4708424}
+{"network": "bert-large-cased", "layer_num": 62, "algorithm": "L1", "max_batch_size": 0, "ips": -1, "tstamp": 1665143746.2537534}
+{"network": "bert-large-cased", "layer_num": 66, "algorithm": null, "max_batch_size": 0, "ips": -1, "tstamp": 1665144159.8318334}
+{"network": "bert-large-cased", "layer_num": 66, "algorithm": "ckpt", "max_batch_size": 0, "ips": -1, "tstamp": 1665144585.5624409}
+{"network": "bert-large-cased", "layer_num": 66, "algorithm": "L1", "max_batch_size": 0, "ips": -1, "tstamp": 1665145004.1191487}
+{"network": "bert-large-cased", "layer_num": 70, "algorithm": null, "max_batch_size": 0, "ips": -1, "tstamp": 1665145427.1123257}
+{"network": "bert-large-cased", "layer_num": 70, "algorithm": "ckpt", "max_batch_size": 0, "ips": -1, "tstamp": 1665145857.9491158}
+{"network": "bert-large-cased", "layer_num": 70, "algorithm": "L1", "max_batch_size": 0, "ips": -1, "tstamp": 1665146286.7112753}
+{"network": "bert-large-cased", "layer_num": 74, "algorithm": null, "max_batch_size": 0, "ips": -1, "tstamp": 1665146715.8355296}
+{"network": "bert-large-cased", "layer_num": 74, "algorithm": "ckpt", "max_batch_size": 0, "ips": -1, "tstamp": 1665147152.0514224}
+{"network": "bert-large-cased", "layer_num": 74, "algorithm": "L1", "max_batch_size": 0, "ips": -1, "tstamp": 1665147669.2288265}
+{"network": "bert-large-cased", "layer_num": 78, "algorithm": null, "max_batch_size": 0, "ips": -1, "tstamp": 1665148108.713716}
+{"network": "bert-large-cased", "layer_num": 78, "algorithm": "ckpt", "max_batch_size": 0, "ips": -1, "tstamp": 1665148555.8502638}
+{"network": "bert-large-cased", "layer_num": 78, "algorithm": "L1", "max_batch_size": 0, "ips": -1, "tstamp": 1665149002.7645311}
