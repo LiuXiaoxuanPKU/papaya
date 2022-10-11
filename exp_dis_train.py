@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 
 MODEL_TO_DIR = {
     "bert" : "text_classification_fp16",
-    "swin" : "Swin-Transformer"
+    "swin" : "Swin-Transformer",
+    "GPT" : "GPT"
 }
 
 GPU_CNT_TO_NUM = {
@@ -34,7 +35,18 @@ def collect_max_tpt(hardware, model):
         for alg in ALGOS:
             if ALG_TO_NAME[alg] not in data:
                 data[ALG_TO_NAME[alg]] = {}
-            btimes = Util.load_data(ips_dir, "batch_size", "ips", lambda obj : obj['algorithm'] == alg)
+            
+            if model == "swin":
+                if alg == "ckpt":
+                    cond = lambda obj: obj["ckpt"] == True
+                else:
+                    cond = lambda obj: obj['algorithm'] == alg and obj["ckpt"] == False
+            elif model == "GPT":
+                cond = lambda obj : (obj["alg"] == alg)
+            else:
+                cond = lambda obj : (obj['algorithm'] == alg)
+            btimes = Util.load_data(ips_dir, "batch_size", "ips", cond)
+            print(alg, btimes)
             max_tpt = max(btimes.values())
             data[ALG_TO_NAME[alg]][gpu_cnt] = max_tpt
     return data
@@ -57,7 +69,7 @@ def plot_gpu_tpt(model, hardware, data):
 
 if __name__ == "__main__":
     hardware = "v100"
-    model = "bert"
+    model = "GPT"
     data = collect_max_tpt(hardware, model)
     print(data)
     plot_gpu_tpt(model, hardware, data)

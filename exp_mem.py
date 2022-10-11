@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 vision_data = {}
-vision_bz = 64
+vision_bz = 32
 model_names = {
     'resnet50' : 'ResNet-50, 2015',
     'resnet152' : 'ResNet-152, 2015',
@@ -14,7 +14,10 @@ model_names = {
     'bert-base-cased' : 'Bert-Base, 2017',
     'roberta-base' : 'RoBERTa-Base, 2018',
     'roberta-large' : 'RoBERTa-Large, 2018',
+    'swin-large' : 'Swin-Large, 2021'
 }
+
+
 
 vision_mem_dir = "resnet/v100/results/mem_results.json"
 with open(vision_mem_dir, 'r') as f:
@@ -31,7 +34,7 @@ for line in lines:
 
 language_data = {}
 language_bz = 36
-language_mem_dir = "text_classification_fp16/v100/results/mem_results.json"
+language_mem_dir = "text_classification_fp16/v100/results/mem_results_category.json"
 with open(language_mem_dir, 'r') as f:
     lines = f.readlines()
 
@@ -44,13 +47,29 @@ for line in lines:
     language_data[network] = [activation / 1000, model / 1000, workspace / 1000]
 
 
-print(language_data)
+swin_data = {}
 
-labels = list(vision_data.keys()) + list(language_data.keys())
+swin_mem_dir = "Swin-Transformer/v100/results/mem_results.json"
+with open(swin_mem_dir, 'r') as f:
+    lines = f.readlines()
+
+for line in lines:
+    obj = json.loads(line)
+    network = "swin-large"
+    if 'activation' not in obj:
+        continue
+    bz, activation, model, workspace = \
+         obj['batch_size'], obj['activation'], obj['model_size'], obj['workspace']
+    if bz != vision_bz:
+        continue
+    swin_data[network] = [activation / 1000, model / 1000, workspace / 1000]
+
+
+labels = list(vision_data.keys()) + list(language_data.keys()) + list(swin_data.keys())
 labels = [model_names[l] for l in labels]
-activations = [x[0] for x in vision_data.values()] + [x[0] for x in language_data.values()]
-model = [x[1] for x in vision_data.values()] + [x[1] for x in language_data.values()]
-workspace = [x[2] for x in vision_data.values()] + [x[2] for x in language_data.values()]
+activations = [x[0] for x in vision_data.values()] + [x[0] for x in language_data.values()] + [x[0] for x in swin_data.values()]
+model = [x[1] for x in vision_data.values()] + [x[1] for x in language_data.values()]  + [x[1] for x in swin_data.values()]
+workspace = [x[2] for x in vision_data.values()] + [x[2] for x in language_data.values()]  + [x[2] for x in swin_data.values()]
 
 print(activations)
 print(model)

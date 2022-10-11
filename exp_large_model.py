@@ -6,7 +6,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import Pipeline
 
-with open('text_classification_fp16/results/speed_results.json', 'r') as f:
+with open('text_classification_fp16/v100/results/speed_results_hidden_size.json', 'r') as f:
     lines = f.readlines()
 
 suffix = "pdf"
@@ -70,10 +70,10 @@ pipeline.fit(np.array(xs).reshape(-1, 1), ys)
 # ax.plot(xs, pipeline.predict(np.array(xs).reshape(-1, 1)), label="ckpt_predict")
 ax.plot(xs, ys, label='checkpoint', marker='o', color='green')
 
-plt.xlabel('model width (hidden size)', size=18)
-plt.ylabel('max throughput (records/s)', size=18)
+plt.xlabel('model width (hidden size)', size=15)
+plt.ylabel('max throughput (records/s)', size=15)
 plt.legend(fontsize='large')
-ax.tick_params(axis='both', which='major', labelsize=22)
+ax.tick_params(axis='both', which='major', labelsize=15)
 plt.tight_layout()
 plt.savefig(f'graphs/implications/large_model.{suffix}')
     

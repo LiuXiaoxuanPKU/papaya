@@ -1,5 +1,5 @@
 import numpy as np
-from sortedcontainers import SortedKeyList
+# from sortedcontainers import SortedKeyList
 
 from fitter import Fitter, FitterPool, ModelFnPool
 from util import Util, Viewer
