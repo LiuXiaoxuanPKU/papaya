@@ -4,7 +4,7 @@ echo "======================Bert FP16====================="
 # python exp_mem_speed.py --mode linear_scan --layer_num 24
 
 
-python exp_mem_speed.py --mode linear_scan --layer_num 24 --get_mem
+python exp_mem_speed.py --mode grad_acc --layer_num 48 
 
 # for i in {18..80..4}
 # do
