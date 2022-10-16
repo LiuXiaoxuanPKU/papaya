@@ -9,7 +9,7 @@ import warnings
 from argparse import Namespace
 from typing import Any, Callable, Dict, List
 from fairseq.logging import meters, metrics
-import torch
+import torch, gact
 from fairseq import metrics, search, tokenizer, utils
 from fairseq.data import Dictionary, FairseqDataset, data_utils, encoders, iterators
 from fairseq.dataclass import FairseqDataclass
@@ -83,6 +83,10 @@ class FairseqTask(object):
         self.datasets = dict()
         self.dataset_to_epoch_iter = dict()
         self.state = StatefulContainer()
+        self.iter = 0
+        self.total_mem = meters.AverageMeter()
+        self.activation_mem = meters.AverageMeter()
+        self.model_size = meters.AverageMeter()
 
     @classmethod
     def load_dictionary(cls, filename):
@@ -507,13 +511,31 @@ class FairseqTask(object):
         """
         model.train()
         model.set_num_updates(update_num)
+        if self.iter: 
+            torch.cuda.synchronize()
+            init_size = torch.cuda.memory_allocated()
+            data_size = gact.utils.compute_tensor_bytes(list(sample["net_input"].values()))
+            model_size = init_size-data_size
         with torch.autograd.profiler.record_function("forward"):
             with torch.cuda.amp.autocast(enabled=(isinstance(optimizer, AMPOptimizer))):
                 loss, sample_size, logging_output = criterion(model, sample)
         if ignore_grad:
             loss *= 0
+            self.iter = 0
+        if self.iter: 
+            torch.cuda.synchronize()
+            before_backward = torch.cuda.memory_allocated()
         with torch.autograd.profiler.record_function("backward"):
             optimizer.backward(loss)
+        if self.iter: 
+            torch.cuda.synchronize()
+            after_backward = torch.cuda.memory_allocated()
+            self.total_mem.update(before_backward - data_size)
+            self.activation_mem.update(before_backward - after_backward)
+            self.model_size.update(model_size)
+        if not ignore_grad: self.iter+=1
+            
+            
         return loss, sample_size, logging_output
 
     def valid_step(self, sample, model, criterion):

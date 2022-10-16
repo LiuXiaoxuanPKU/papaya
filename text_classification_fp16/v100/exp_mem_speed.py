@@ -16,7 +16,7 @@ def network_to_command(network):
     return cmd
 
 def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False,
-                hidden_size=None, layer_num=None, intermediate_size=None, get_macs=False):
+                hidden_size=None, layer_num=None, intermediate_size=None, get_macs=False, grad_acc=1):
     os.environ['DEBUG_SPEED'] = str(debug_speed)
     cmd = network_to_command(network)
     cmd = cmd.replace("BS", f"{batch_size}")
@@ -65,6 +65,9 @@ def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False,
 
     if get_macs:
         cmd += " --get_macs "
+    
+    if grad_acc:
+        cmd += f" --gradient_accumulation_steps {grad_acc}"
 
     ret_code = run_cmd(cmd)
 
@@ -194,10 +197,15 @@ if __name__ == "__main__":
 
     if args.mode == 'linear_scan':
         # networks = ['bert-base-cased', 'roberta-base', 'roberta-large']
-        networks = ['bert-large-cased']
+        networks = ['roberta-large']
         batch_sizes = list(range(4, 64, 8)) + list(range(64, 600, 8))
         # batch_sizes = [24, 32, 40, 48]
-        algs = ['swap']#, None, 'ckpt', 'L1']
+        algs = [None, 'ckpt', 'L1']
+    elif args.mode == "grad_acc":
+        networks = ['bert-large-cased']
+        batch_sizes = [8]
+        algs = [None]
+        grad_accs = range(1, 20, 1)
     else:
         networks = ['bert-large-cased']
         algs = ['swap', None, 'ckpt', 'L1']
@@ -211,7 +219,18 @@ if __name__ == "__main__":
                         layer_num=args.layer_num, hidden_size=args.hidden_size) != 0:
                         if failed >= args.retry:
                             break
-                        failed += 1                                            
+                        failed += 1   
+    elif args.mode == 'grad_acc':
+        for network in networks:
+            for alg in algs:
+                failed = 0
+                batch_size = 8
+                for acc in grad_accs:
+                    if run_benchmark(network, alg, batch_size, debug_mem=args.get_mem, debug_speed=True, \
+                        layer_num=args.layer_num, hidden_size=args.hidden_size, grad_acc=acc) != 0:
+                        if failed >= args.retry:
+                            break
+                        failed += 1  
     elif args.mode == 'binary_search_max_batch':
         for network in networks:
             for alg in algs:

@@ -223,7 +223,7 @@ def main():
 
     # Setup logging, we only want one process per machine to log things on the screen.
     # accelerator.is_local_main_process is only True for one process per machine.
-    logger.setLevel(logging.INFO if accelerator.is_local_main_process else logging.ERROR)
+    logger.setLevel(logging.WARNING if accelerator.is_local_main_process else logging.ERROR)
     if accelerator.is_local_main_process:
         datasets.utils.logging.set_verbosity_warning()
         transformers.utils.logging.set_verbosity_info()
@@ -416,9 +416,9 @@ def main():
     logger.info('Train max length: %d' % train_max_length)
     logger.info('Dev max length: %d' % dev_max_length)
 
-    # Log a few random samples from the training set:
-    for index in random.sample(range(len(train_dataset)), 3):
-        logger.info(f"Sample {index} of the training set: {train_dataset[index]}.")
+    # # Log a few random samples from the training set:
+    # for index in random.sample(range(len(train_dataset)), 3):
+    #     logger.info(f"Sample {index} of the training set: {train_dataset[index]}.")
 
     # DataLoaders creation:
     if args.pad_to_max_length:
@@ -496,18 +496,17 @@ def main():
     peak_mem = AverageMeter('Peak Memory', ':.4e')
     activation_mem = AverageMeter('Activation Memory', ':.4e')
 
-    iter = 0
     best_metric = 0
     batch_total_time = 0
 
 
+    start_record_time = True
 
     for epoch in range(args.num_train_epochs):
         model.train()
         for step, batch in enumerate(train_dataloader):
-            iter += 1
-        
-            if args.get_mem and iter > 1:
+            print(step, completed_steps)
+            if args.get_mem and step > 0:
                 torch.cuda.synchronize()
                 # accelerator.print("===============After Data Loading=======================")
                 init_mem = get_memory_usage(False)  # model size + data size
@@ -515,9 +514,10 @@ def main():
                 model_size = init_mem - data_size
                 torch.cuda.reset_peak_memory_stats()
                 
-            if args.get_speed and iter > 1:
+            if args.get_speed and step > 0 and start_record_time:
                 start = torch.cuda.Event(enable_timing=True)
                 end = torch.cuda.Event(enable_timing=True)
+                start_record_time = False
         
                 torch.cuda.synchronize()
                 start.record()
@@ -547,16 +547,13 @@ def main():
                     
             outputs = model(**batch)
             loss = outputs.loss
-            # loss = loss / args.gradient_accumulation_steps
-            if args.get_mem and iter > 1:
+            if args.get_mem and step > 0:
                 # accelerator.print("===============Before Backward=======================")
                 torch.cuda.synchronize()
                 before_backward = get_memory_usage(True)
-            optimizer.zero_grad()
             accelerator.backward(loss)
-            # loss.backward()
-            torch.utils.checkpoint.first_iter = False
-            if args.get_mem and iter > 1:
+
+            if args.get_mem and step > 0:
                 # accelerator.print("===============After Backward=======================")
                 torch.cuda.synchronize()
                 for t in batch:
@@ -594,15 +591,16 @@ def main():
                 exp_recorder.dump('results/mem_results.json') 
                 exit(0)
                     
-            if args.get_speed and iter > 1:
+            if args.get_speed and step > 0 and step % args.gradient_accumulation_steps == 0:
                 end.record()
                 torch.cuda.synchronize()
                 cur_batch_time = start.elapsed_time(end) / 1000.0 # event in ms
                 batch_total_time += cur_batch_time
+                start_record_time = True
                     
-                if iter == 6:
+                if completed_steps == 5:
                     bs = args.per_device_train_batch_size
-                    train_ips = 5 * bs / batch_total_time
+                    train_ips = (step - 1) * bs / batch_total_time
                     res = "BatchSize: %d\tIPS: %.2f\t,Cost: %.2f ms" % (
                         bs, train_ips, 1000.0 / train_ips)
                     print(res, flush=True)
@@ -610,21 +608,24 @@ def main():
                     if args.swap: exp_recorder.record("algorithm", "swap")
                     else: exp_recorder.record("algorithm", args.opt_level)
                     exp_recorder.record("batch_size", bs)
+                    exp_recorder.record("grad_acc", args.gradient_accumulation_steps)
                     exp_recorder.record("ips", train_ips, 2)
                     exp_recorder.record("bacth_time", cur_batch_time)
                     exp_recorder.record("layer_num", config.num_hidden_layers)
                     exp_recorder.record("hidden_size", config.hidden_size)
                     exp_recorder.record("tstamp", time.time(), 2)
+
                     exp_recorder.dump('results/speed_results.json')
                     exit(0)
 
-            # if step % args.gradient_accumulation_steps == 0 or step == len(train_dataloader) - 1:
             torch.nn.utils.clip_grad.clip_grad_norm_(model.parameters(), args.max_gradient_norm)
-            optimizer.step()
-            lr_scheduler.step()
-            # optimizer.zero_grad()
-            progress_bar.update(1)
-            completed_steps += 1
+            
+            if step % args.gradient_accumulation_steps == 0:
+                optimizer.step()
+                lr_scheduler.step()
+                optimizer.zero_grad()
+                progress_bar.update(1)
+                completed_steps += 1
 
             if completed_steps >= args.max_train_steps:
                 break
@@ -636,10 +637,8 @@ def main():
                         small_batch[k] = v[:8]
                     outputs = model(**small_batch)
                     loss = outputs.loss
-                    # loss = loss / args.gradient_accumulation_steps
                     optimizer.zero_grad()
-                    # accelerator.backward(loss)
-                    loss.backward()
+                    accelerator.backward(loss)
                     del loss
                     del outputs
                     del small_batch

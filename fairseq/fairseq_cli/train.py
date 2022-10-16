@@ -392,6 +392,9 @@ def train(
     record("batch_time", float(bz_exp/ips))
     record("ips", float(ips))
     record("peak_mem",pm)
+    record("total_mem",float(task.total_mem.avg)/1024/1024)
+    record("activation_mem",float(task.activation_mem.avg)/1024/1024)
+    record("model_size",float(task.model_size.avg)/1024/1024)
     record("tstamp", time.time(),2)
     # reset epoch-level meters
     metrics.reset_meters("train")

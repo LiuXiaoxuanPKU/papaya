@@ -171,3 +171,5 @@
 {"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 10, "batch_time": 0.530549, "ips": 18.848407, "peak_mem": 12240908288, "tstamp": 1665412908.22}
 {"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 11, "batch_time": 0.572671, "ips": 19.208223, "peak_mem": 12829577728, "tstamp": 1665412972.71}
 {"network": "transformer_lm_gpt3_medium", "alg": "L1", "batch_size": 12, "batch_time": 0.621596, "ips": 19.305128, "peak_mem": 13416745984, "tstamp": 1665413040.14}
+{"network": "transformer_lm_gpt3_medium", "alg": null, "batch_size": 1, "batch_time": 0.142424, "ips": 7.021302, "peak_mem": 8507009536, "tstamp": 1665797149.7}
+{"network": "transformer_lm_gpt3_medium", "alg": null, "batch_size": 2, "batch_time": 0.143026, "ips": 13.983462, "peak_mem": 8866094080, "tstamp": 1665797172.76}
