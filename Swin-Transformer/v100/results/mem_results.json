@@ -7,8 +7,3 @@
 {"pure_model_size": 749.711899, "model_size": 3790.019653, "network": "swin_large", "batch_size": 28, "peak": 11949.124023, "total": 11847.256958, "activation": 8067.681152, "workspace": 85.682129, "algorithm": null, "fp16": "O1", "ckpt": false}
 {"pure_model_size": 749.711899, "model_size": 3785.369629, "network": "swin_large", "batch_size": 32, "peak": 13046.822266, "total": 12935.932617, "activation": 9148.312012, "workspace": 92.392578, "algorithm": null, "fp16": "O1", "ckpt": false}
 {"pure_model_size": 749.711899, "model_size": 3781.185425, "network": "swin_large", "batch_size": 36, "peak": 14151.081543, "total": 14029.348999, "activation": 10251.443359, "workspace": 100.92334, "algorithm": null, "fp16": "O1", "ckpt": false}
-{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 40, "ips": -1}
-{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 44, "ips": -1}
-{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 48, "ips": -1}
-{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 4, "ips": -1}
-{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 12, "ips": -1}
