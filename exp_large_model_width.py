@@ -50,7 +50,6 @@ print(len(ys), ys)
 pipeline.fit(np.array(xs).reshape(-1, 1), ys)
 # ax.plot(xs, pipeline.predict(np.array(xs).reshape(-1, 1)), label="exact_predict")
 ax.plot(xs, ys, label='exact', marker='o', color='#2596be')
-# plt.scatter([1600], [77.51], color='blue')
 
 xs = list(results['L1'].keys())
 ys = list(results['L1'].values())
@@ -75,7 +74,7 @@ plt.ylabel('max throughput (records/s)', size=15)
 plt.legend(fontsize='large')
 ax.tick_params(axis='both', which='major', labelsize=15)
 plt.tight_layout()
-plt.savefig(f'graphs/implications/large_model.{suffix}')
+plt.savefig(f'graphs/implications/large_model_width.{suffix}')
     
     
 

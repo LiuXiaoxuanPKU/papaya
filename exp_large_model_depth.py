@@ -13,8 +13,9 @@ COLORS = {
     None: "#2596be"
 }
 
+suffix = "pdf"
 data = {}
-file_dir = "speed_results.json"
+file_dir = "text_classification_fp16/v100/results/speed_results_depth.json"
 with open(file_dir, "r") as f:
     lines = f.readlines()
     for line in lines:
@@ -42,7 +43,7 @@ for alg in data:
     for k in sorted(data[alg].keys()):
         xs.append(k)
         ys.append(data[alg][k])
-    plt.plot(xs, ys, "-o", label=NAMES[alg])
+    plt.plot(xs, ys, "-o", label=NAMES[alg], color=COLORS[alg])
 
 plt.xlabel('model depth (# of layers)', size=15)
 plt.ylabel('max throughput (records/s)', size=15)
@@ -50,6 +51,6 @@ plt.legend(fontsize='large')
 ax.tick_params(axis='both', which='major', labelsize=15)
 plt.tight_layout()
 plt.xlim(8, 70)
-plt.ylim(0, 280)
+plt.ylim(0, 350)
 plt.legend()
-plt.savefig("depth.png")
+plt.savefig(f'graphs/implications/large_model_depth.{suffix}')
