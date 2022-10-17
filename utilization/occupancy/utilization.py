@@ -62,7 +62,7 @@ def plotUtil(parsed_file, graph_path, granularity = 0.1):
     lists = sorted(d.items())
     x, y = zip(*lists)
     x = [v*granularity for v in x]
-    plt.style.use(['science','ieee'])
+    # plt.style.use(['science','ieee'])
     plt.plot(x[2:-2],y[2:-2],color="seagreen")
     plt.xlabel("Time(s)", size=22)
     plt.ylabel("Kernel Occupancy(\%)", size=22)

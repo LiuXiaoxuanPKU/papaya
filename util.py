@@ -15,7 +15,8 @@ class Util:
             lines = f.readlines()
         data = {}
         for line in lines:
-            print(line)
+            if line.startswith("//"):
+                continue
             obj = json.loads(line)
             if "ips" in obj and obj["ips"] == -1:
                 continue
