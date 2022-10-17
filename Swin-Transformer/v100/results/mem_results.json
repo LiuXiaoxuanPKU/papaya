@@ -1,9 +1,253 @@
-{"pure_model_size": 749.711899, "model_size": 3789.079956, "network": "swin_large", "batch_size": 4, "peak": 5581.213379, "total": 5352.421753, "activation": 1569.273926, "workspace": 226.479492, "algorithm": null, "fp16": "O1", "ckpt": false}
-{"pure_model_size": 749.711899, "model_size": 3782.071533, "network": "swin_large", "batch_size": 8, "peak": 6577.724121, "total": 6374.684326, "activation": 2593.581543, "workspace": 198.415527, "algorithm": null, "fp16": "O1", "ckpt": false}
-{"pure_model_size": 749.711899, "model_size": 3805.547974, "network": "swin_large", "batch_size": 12, "peak": 7693.708496, "total": 7507.715454, "activation": 3706.297852, "workspace": 179.056641, "algorithm": null, "fp16": "O1", "ckpt": false}
-{"pure_model_size": 749.711899, "model_size": 3776.14209, "network": "swin_large", "batch_size": 16, "peak": 8721.064941, "total": 8556.202637, "activation": 4778.217773, "workspace": 155.61377, "algorithm": null, "fp16": "O1", "ckpt": false}
-{"pure_model_size": 749.711899, "model_size": 3780.88269, "network": "swin_large", "batch_size": 20, "peak": 9802.009766, "total": 9662.55896, "activation": 5877.71582, "workspace": 127.890137, "algorithm": null, "fp16": "O1", "ckpt": false}
-{"pure_model_size": 749.711899, "model_size": 3788.844482, "network": "swin_large", "batch_size": 24, "peak": 10922.529297, "total": 10800.62915, "activation": 7011.098145, "workspace": 108.027344, "algorithm": null, "fp16": "O1", "ckpt": false}
-{"pure_model_size": 749.711899, "model_size": 3790.019653, "network": "swin_large", "batch_size": 28, "peak": 11949.124023, "total": 11847.256958, "activation": 8067.681152, "workspace": 85.682129, "algorithm": null, "fp16": "O1", "ckpt": false}
-{"pure_model_size": 749.711899, "model_size": 3785.369629, "network": "swin_large", "batch_size": 32, "peak": 13046.822266, "total": 12935.932617, "activation": 9148.312012, "workspace": 92.392578, "algorithm": null, "fp16": "O1", "ckpt": false}
-{"pure_model_size": 749.711899, "model_size": 3781.185425, "network": "swin_large", "batch_size": 36, "peak": 14151.081543, "total": 14029.348999, "activation": 10251.443359, "workspace": 100.92334, "algorithm": null, "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 4, "peak": 5490340352, "total": 5446280704, "activation": 1480639868.0, "algorithm": null, "fp16": "O0", "ckpt": false}
+{"network": "swin_large", "batch_size": 8, "peak": 6963070464, "total": 6913397248, "activation": 2945008892.0, "algorithm": null, "fp16": "O0", "ckpt": false}
+{"network": "swin_large", "batch_size": 12, "peak": 8490463232, "total": 8434596864, "activation": 4446449788.0, "algorithm": null, "fp16": "O0", "ckpt": false}
+{"network": "swin_large", "batch_size": 16, "peak": 9927527936, "total": 9865928192, "activation": 5889982460.0, "algorithm": null, "fp16": "O0", "ckpt": false}
+{"network": "swin_large", "batch_size": 20, "peak": 11479565824, "total": 11412003328, "activation": 7419035004.0, "algorithm": null, "fp16": "O0", "ckpt": false}
+{"network": "swin_large", "batch_size": 24, "peak": 13000618496, "total": 12926634496, "activation": 8935158524.0, "algorithm": null, "fp16": "O0", "ckpt": false}
+{"network": "swin_large", "batch_size": 28, "peak": 14343310848, "total": 14263821824, "activation": 10287305852.0, "algorithm": null, "fp16": "O0", "ckpt": false}
+{"network": "swin_large", "algorithm": "fp32", "batch_size": 32, "ips": -1}
+{"network": "swin_large", "algorithm": "fp32", "batch_size": 36, "ips": -1}
+{"network": "swin_large", "algorithm": "fp32", "batch_size": 40, "ips": -1}
+{"network": "swin_large", "batch_size": 4, "peak": 4234925056, "total": 4085364224, "activation": 121803644.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 8, "peak": 4511744512, "total": 4206727680, "activation": 238771452.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 12, "peak": 4792298496, "total": 4338805760, "activation": 362071676.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 16, "peak": 5068705280, "total": 4458963456, "activation": 477557756.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 20, "peak": 5335192576, "total": 4577897472, "activation": 597803388.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 24, "peak": 5612381696, "total": 4705010176, "activation": 723275516.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 28, "peak": 5879053824, "total": 4817227776, "activation": 836324988.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 32, "peak": 6158184960, "total": 4948648448, "activation": 959772156.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 36, "peak": 6423584768, "total": 5062757888, "activation": 1074895740.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 40, "peak": 6702919680, "total": 5188230144, "activation": 1194681084.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 44, "peak": 6977368064, "total": 5313993728, "activation": 1320496252.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 48, "peak": 7247299072, "total": 5428046336, "activation": 1434105852.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 52, "peak": 7525649408, "total": 5557895168, "activation": 1555679100.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 56, "peak": 7788199936, "total": 5670254592, "activation": 1671493372.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 60, "peak": 8067913216, "total": 5796171264, "activation": 1792302716.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 64, "peak": 8339886080, "total": 5920508928, "activation": 1918100476.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 68, "peak": 8608715264, "total": 6037052928, "activation": 2029108604.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 72, "peak": 8880108544, "total": 6155107328, "activation": 2153087740.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 76, "peak": 9154855424, "total": 6281040384, "activation": 2268222588.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 80, "peak": 9424128000, "total": 6394549248, "activation": 2389121532.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 84, "peak": 9698563072, "total": 6520650752, "activation": 2506730364.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 88, "peak": 9962821632, "total": 6632414208, "activation": 2626997500.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 92, "peak": 10242068992, "total": 6757362176, "activation": 2751808124.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 96, "peak": 10506481664, "total": 6875301888, "activation": 2865464316.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 100, "peak": 10782862848, "total": 7000011776, "activation": 2986357628.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 104, "peak": 11059867648, "total": 7123911680, "activation": 3103761148.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 108, "peak": 11326672896, "total": 7240869376, "activation": 3223391868.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 112, "peak": 11612979200, "total": 7370930176, "activation": 3347621372.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 116, "peak": 11871622144, "total": 7483299840, "activation": 3462011260.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 120, "peak": 12153033216, "total": 7613647872, "activation": 3583454460.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 124, "peak": 12420571136, "total": 7726626304, "activation": 3701459580.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 128, "peak": 12707586048, "total": 7865357312, "activation": 3821009916.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 132, "peak": 12967898624, "total": 7974633472, "activation": 3942862204.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "batch_size": 136, "peak": 13249499648, "total": 8103098368, "activation": 4059581180.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "algorithm": "fp32-ckpt", "batch_size": 140, "ips": -1}
+{"network": "swin_large", "batch_size": 144, "peak": 13790078464, "total": 8339501056, "activation": 4298134012.0, "algorithm": null, "fp16": "O0", "ckpt": true}
+{"network": "swin_large", "algorithm": "fp32-ckpt", "batch_size": 148, "ips": -1}
+{"network": "swin_large", "algorithm": "fp32-ckpt", "batch_size": 152, "ips": -1}
+{"network": "swin_large", "batch_size": 4, "peak": 5847173120, "total": 5611525632, "activation": 1637808828.0, "algorithm": null, "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 8, "peak": 6894613504, "total": 6687632384, "activation": 2715861884.0, "algorithm": null, "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 12, "peak": 8061176320, "total": 7874309120, "activation": 3880854076.0, "algorithm": null, "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 16, "peak": 9144699392, "total": 8981299712, "activation": 5009557756.0, "algorithm": null, "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 20, "peak": 10273732096, "total": 10136293376, "activation": 6158336956.0, "algorithm": null, "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 24, "peak": 11449267712, "total": 11338299904, "activation": 7354055804.0, "algorithm": null, "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 28, "peak": 12504488960, "total": 12414644736, "activation": 8427594556.0, "algorithm": null, "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 32, "peak": 13676682240, "total": 13580276736, "activation": 9589547004.0, "algorithm": null, "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 36, "peak": 14838484480, "total": 14733466112, "activation": 10748779708.0, "algorithm": null, "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 40, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 44, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 48, "ips": -1}
+{"network": "swin_large", "batch_size": 4, "peak": 5418514432, "total": 4474284032, "activation": 505103548.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 8, "peak": 5665394176, "total": 4551499264, "activation": 582760828.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 12, "peak": 5921758208, "total": 4644627968, "activation": 666810428.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 16, "peak": 6158981632, "total": 4720715264, "activation": 741425404.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 20, "peak": 6403081728, "total": 4803223552, "activation": 821575100.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 24, "peak": 6667794944, "total": 4904351744, "activation": 918369404.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 28, "peak": 6899856384, "total": 4980229120, "activation": 995754812.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 32, "peak": 7159226880, "total": 5072864768, "activation": 1081060860.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 36, "peak": 7396622336, "total": 5148840448, "activation": 1162976444.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 40, "peak": 7648321536, "total": 5250949632, "activation": 1259632508.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 44, "peak": 7894509056, "total": 5329985536, "activation": 1339440188.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 48, "peak": 8136913920, "total": 5412762112, "activation": 1421453564.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 52, "peak": 8375983616, "total": 5495511040, "activation": 1501979068.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 56, "peak": 8638276096, "total": 5589741568, "activation": 1589075068.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 60, "peak": 8869524992, "total": 5668942336, "activation": 1675820860.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 64, "peak": 9147716096, "total": 5778731520, "activation": 1767541244.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 68, "peak": 9370065920, "total": 5842331648, "activation": 1836865212.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 72, "peak": 9630903296, "total": 5940539904, "activation": 1930706812.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 76, "peak": 9868400128, "total": 6018755072, "activation": 2012438076.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 80, "peak": 10125368832, "total": 6111172096, "activation": 2098683132.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 84, "peak": 10362286592, "total": 6194446848, "activation": 2182342076.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 88, "peak": 10614200832, "total": 6282363392, "activation": 2267689084.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 92, "peak": 10849619968, "total": 6355437568, "activation": 2349414204.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 96, "peak": 11105249280, "total": 6441710592, "activation": 2424245244.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 100, "peak": 11351215616, "total": 6537106432, "activation": 2517618364.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 104, "peak": 11612865024, "total": 6634638336, "activation": 2606636412.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 108, "peak": 11842443264, "total": 6711708672, "activation": 2687852092.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "batch_size": 112, "peak": 12094808576, "total": 6793152512, "activation": 2766505724.0, "algorithm": null, "fp16": "O1", "ckpt": true}
+{"network": "swin_large", "algorithm": "fp16O1-ckpt", "batch_size": 116, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-ckpt", "batch_size": 120, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-ckpt", "batch_size": 124, "ips": -1}
+{"network": "swin_large", "batch_size": 4, "peak": 4484303872, "total": 4392230400, "activation": 808809340.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 8, "peak": 5085747200, "total": 5082430464, "activation": 1491032316.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 12, "peak": 5837436928, "total": 5833378816, "activation": 2244402812.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 16, "peak": 6555527680, "total": 6550892032, "activation": 2955786236.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 20, "peak": 7300048896, "total": 7294254080, "activation": 3701443964.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 24, "peak": 8057001472, "total": 8050047488, "activation": 4450217212.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 28, "peak": 8770615808, "total": 8762502656, "activation": 5157447804.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 32, "peak": 9516465152, "total": 9507192832, "activation": 5903435772.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 36, "peak": 10301049856, "total": 10290618368, "activation": 6685348732.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 40, "peak": 11049211904, "total": 11037621248, "activation": 7425803516.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 44, "peak": 11757671424, "total": 11744921600, "activation": 8137872508.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 48, "peak": 12564723200, "total": 12550814208, "activation": 8940897276.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 52, "peak": 13216900096, "total": 13201831936, "activation": 9593431420.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 56, "peak": 13937260032, "total": 13921032704, "activation": 10307575036.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "batch_size": 60, "peak": 14751830016, "total": 14734443520, "activation": 11119997564.0, "algorithm": null, "fp16": "O2", "ckpt": false}
+{"network": "swin_large", "algorithm": "fp16O2", "batch_size": 64, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O2", "batch_size": 68, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O2", "batch_size": 72, "ips": -1}
+{"network": "swin_large", "batch_size": 4, "peak": 4482722304, "total": 3662197760, "activation": 80208764.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 8, "peak": 4488783360, "total": 3709840384, "activation": 125230332.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 12, "peak": 4491545600, "total": 3777351680, "activation": 190540412.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 16, "peak": 4500502016, "total": 3841412096, "activation": 245880828.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 20, "peak": 4495056384, "total": 3900149760, "activation": 307370364.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 24, "peak": 4513547776, "total": 3973032960, "activation": 367946492.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 28, "peak": 4563039232, "total": 4033479168, "activation": 428260476.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 32, "peak": 4698614272, "total": 4096758272, "activation": 490562556.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 36, "peak": 4843614720, "total": 4161242112, "activation": 550973308.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 40, "peak": 4987951616, "total": 4228935680, "activation": 610402556.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 44, "peak": 5110301696, "total": 4283672064, "activation": 672280700.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 48, "peak": 5257153536, "total": 4346176512, "activation": 736184316.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 52, "peak": 5397201408, "total": 4410753024, "activation": 793439612.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 56, "peak": 5534106112, "total": 4482677760, "activation": 854254332.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 60, "peak": 5673277952, "total": 4539877376, "activation": 914902652.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 64, "peak": 5823044096, "total": 4612822016, "activation": 977636860.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 68, "peak": 5949982208, "total": 4663516160, "activation": 1036798844.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 72, "peak": 6082307072, "total": 4730836992, "activation": 1098901244.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 76, "peak": 6231830528, "total": 4795434496, "activation": 1161374844.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 80, "peak": 6374639616, "total": 4860902400, "activation": 1219691516.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 84, "peak": 6509151744, "total": 4918161408, "activation": 1282382204.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 88, "peak": 6654150144, "total": 4988837888, "activation": 1345767164.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 92, "peak": 6788719104, "total": 5050678784, "activation": 1404980860.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 96, "peak": 6919330304, "total": 5106994176, "activation": 1463075324.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 100, "peak": 7056781312, "total": 5168251904, "activation": 1524233596.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 104, "peak": 7205489664, "total": 5240991744, "activation": 1588365564.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 108, "peak": 7336144896, "total": 5293579264, "activation": 1645255804.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 112, "peak": 7470076928, "total": 5359780352, "activation": 1707337212.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 116, "peak": 7617241600, "total": 5434120192, "activation": 1773462908.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 120, "peak": 7765321728, "total": 5490888704, "activation": 1829155068.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 124, "peak": 7897072640, "total": 5560093184, "activation": 1889852540.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 128, "peak": 8047463936, "total": 5630600192, "activation": 1959377404.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 132, "peak": 8181022208, "total": 5692873728, "activation": 2015239036.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 136, "peak": 8309248512, "total": 5743080448, "activation": 2070973180.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 140, "peak": 8446668288, "total": 5796334080, "activation": 2132518524.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 144, "peak": 8597549056, "total": 5875827712, "activation": 2198014972.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 148, "peak": 8728887296, "total": 5931947008, "activation": 2254684540.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 152, "peak": 8864313856, "total": 5990092288, "activation": 2315249916.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 156, "peak": 9009325568, "total": 6062474752, "activation": 2381249148.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 160, "peak": 9156056064, "total": 6128276480, "activation": 2439166460.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 164, "peak": 9286495232, "total": 6186203136, "activation": 2498029436.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 168, "peak": 9419454464, "total": 6243798528, "activation": 2559263996.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 172, "peak": 9560446464, "total": 6312276480, "activation": 2621714556.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 176, "peak": 9703850496, "total": 6379895808, "activation": 2682029052.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 180, "peak": 9836143616, "total": 6435815424, "activation": 2742102396.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 184, "peak": 9982579200, "total": 6500645888, "activation": 2807958268.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 188, "peak": 10114907136, "total": 6562103808, "activation": 2863476348.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 192, "peak": 10254983168, "total": 6623981568, "activation": 2924568060.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 196, "peak": 10400547840, "total": 6695291392, "activation": 2987758460.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 200, "peak": 10531850240, "total": 6753858048, "activation": 3047942908.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 204, "peak": 10679539712, "total": 6822581760, "activation": 3108028028.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 208, "peak": 10810582016, "total": 6876652544, "activation": 3168382972.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 212, "peak": 10955927552, "total": 6946169856, "activation": 3232976764.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 216, "peak": 11093432320, "total": 7010642432, "activation": 3289767164.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 220, "peak": 11225074176, "total": 7067643904, "activation": 3349740156.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 224, "peak": 11373176832, "total": 7137669632, "activation": 3417057276.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 228, "peak": 11509625344, "total": 7194378752, "activation": 3474013564.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 232, "peak": 11652141568, "total": 7266358272, "activation": 3535524604.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 236, "peak": 11789221376, "total": 7322597888, "activation": 3596628604.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 240, "peak": 11919633408, "total": 7387133440, "activation": 3657123836.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 244, "peak": 12065299968, "total": 7453093888, "activation": 3717880700.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "algorithm": "fp16O2-ckpt", "batch_size": 248, "ips": -1}
+{"network": "swin_large", "batch_size": 252, "peak": 12345128448, "total": 7575111680, "activation": 3840770684.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "batch_size": 256, "peak": 12478702080, "total": 7641663488, "activation": 3900176380.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "algorithm": "fp16O2-ckpt", "batch_size": 260, "ips": -1}
+{"network": "swin_large", "batch_size": 264, "peak": 12758958592, "total": 7767748608, "activation": 4024284412.0, "algorithm": null, "fp16": "O2", "ckpt": true}
+{"network": "swin_large", "algorithm": "fp16O2-ckpt", "batch_size": 268, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-L1", "batch_size": 4, "ips": -1}
+{"network": "swin_large", "batch_size": 4, "peak": 5356187648, "total": 4756176896, "activation": 789900476.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 8, "peak": 5515406848, "total": 4940041216, "activation": 971617148.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 12, "peak": 5701434368, "total": 5166886912, "activation": 1182317116.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 16, "peak": 5862246912, "total": 5372968960, "activation": 1391872252.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 20, "peak": 6037739520, "total": 5588405760, "activation": 1601763772.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 24, "peak": 6214045184, "total": 5806262784, "activation": 1817050236.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 28, "peak": 6392629760, "total": 6023580160, "activation": 2029906748.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 32, "peak": 6603738624, "total": 6222166016, "activation": 2224904700.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 36, "peak": 6804382720, "total": 6402647040, "activation": 2413712060.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 40, "peak": 7053428224, "total": 6633394176, "activation": 2638880636.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 44, "peak": 7279542272, "total": 6835284992, "activation": 2833540156.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 48, "peak": 7496580608, "total": 7032278528, "activation": 3035242748.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 52, "peak": 7751822848, "total": 7266269696, "activation": 3264982972.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 56, "peak": 7992255488, "total": 7491627520, "activation": 3486923900.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 60, "peak": 8222942208, "total": 7702282240, "activation": 3704076092.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 64, "peak": 8454021632, "total": 7902723584, "activation": 3893773308.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "algorithm": "fp16O1-L1", "batch_size": 64, "ips": -1}
+{"network": "swin_large", "batch_size": 68, "peak": 8694778368, "total": 8128385536, "activation": 4113756860.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 72, "peak": 8929049600, "total": 8340517376, "activation": 4328448892.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 76, "peak": 9190756352, "total": 8584327680, "activation": 4553939516.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 80, "peak": 9381207552, "total": 8750956544, "activation": 4734174460.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "algorithm": "fp16O1-L1", "batch_size": 80, "ips": -1}
+{"network": "swin_large", "batch_size": 84, "peak": 9607511040, "total": 8955263488, "activation": 4936504764.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 88, "peak": 9846230016, "total": 9176891392, "activation": 5146922620.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 92, "peak": 10086630912, "total": 9398551040, "activation": 5369594684.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 96, "peak": 10301696512, "total": 9590044160, "activation": 5570175484.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 100, "peak": 10530816512, "total": 9800097792, "activation": 5766920380.0, "algorithm": "L1", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "algorithm": "fp16O1-L1", "batch_size": 100, "ips": -1}
+{"network": "swin_large", "batch_size": 4, "peak": 5291418624, "total": 4372957696, "activation": 409606332.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 8, "peak": 5420274176, "total": 4377289216, "activation": 409742716.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 12, "peak": 5567399424, "total": 4393299456, "activation": 409257532.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 16, "peak": 5666628608, "total": 4370125312, "activation": 401855740.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 20, "peak": 5798926336, "total": 4379064320, "activation": 399383484.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 24, "peak": 5937203200, "total": 4392966144, "activation": 412495996.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 28, "peak": 6062662656, "total": 4389399040, "activation": 407462716.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 32, "peak": 6186627584, "total": 4386245120, "activation": 403880444.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 36, "peak": 6298802688, "total": 4378476032, "activation": 397416124.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 40, "peak": 6445260800, "total": 4396220416, "activation": 406186876.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 44, "peak": 6572801024, "total": 4402723840, "activation": 413297724.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 48, "peak": 6699892736, "total": 4398468608, "activation": 405037308.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 52, "peak": 6812481536, "total": 4390714368, "activation": 398354364.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 56, "peak": 6964446208, "total": 4414734336, "activation": 417314940.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 60, "peak": 7079000576, "total": 4406488576, "activation": 411164988.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 64, "peak": 7210189312, "total": 4411298304, "activation": 407515644.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 68, "peak": 7332762624, "total": 4410908160, "activation": 406298300.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 72, "peak": 7468081152, "total": 4417384448, "activation": 410262396.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 76, "peak": 7577341952, "total": 4407314944, "activation": 401111612.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 80, "peak": 7727387136, "total": 4425658368, "activation": 410217212.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 84, "peak": 7842891264, "total": 4417893888, "activation": 405174716.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 88, "peak": 7971687936, "total": 4421940736, "activation": 411387516.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 92, "peak": 8093082624, "total": 4422329344, "activation": 409837372.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 96, "peak": 8227612672, "total": 4429887488, "activation": 408164348.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 100, "peak": 8345692160, "total": 4422224896, "activation": 405765308.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 104, "peak": 8483180032, "total": 4431443456, "activation": 410884476.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 108, "peak": 8597291008, "total": 4427706880, "activation": 408607292.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 112, "peak": 8739799040, "total": 4434555392, "activation": 408468732.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 116, "peak": 8856483840, "total": 4434192384, "activation": 410604476.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 120, "peak": 8989752320, "total": 4437027840, "activation": 409369724.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 124, "peak": 9109584384, "total": 4435769856, "activation": 406048060.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 128, "peak": 9254267392, "total": 4448869376, "activation": 414536700.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 132, "peak": 9368061440, "total": 4446491136, "activation": 415602364.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 136, "peak": 9507407872, "total": 4452554752, "activation": 411267964.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 140, "peak": 9619170304, "total": 4446635008, "activation": 409216060.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 144, "peak": 9767154176, "total": 4458922496, "activation": 412525820.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 148, "peak": 9883362816, "total": 4453628928, "activation": 410218428.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 152, "peak": 10018589696, "total": 4463385600, "activation": 407807100.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 156, "peak": 10139263488, "total": 4463452672, "activation": 415710524.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 160, "peak": 10279430144, "total": 4473907200, "activation": 415668220.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 164, "peak": 10381713408, "total": 4458744832, "activation": 408913084.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 168, "peak": 10540838912, "total": 4479526912, "activation": 416357756.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 172, "peak": 10690853888, "total": 4470181888, "activation": 411879484.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 176, "peak": 10844119552, "total": 4468473856, "activation": 409221884.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 180, "peak": 10997228032, "total": 4469920256, "activation": 411889084.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "batch_size": 184, "peak": 11152711168, "total": 4471627776, "activation": 410804348.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "algorithm": "fp16O1-swap", "batch_size": 188, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-swap", "batch_size": 192, "ips": -1}

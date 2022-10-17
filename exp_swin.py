@@ -121,7 +121,7 @@ class Experiment:
             import matplotlib
             # matplotlib.rc('axes',edgecolor='silver')
             import matplotlib.pyplot as plt
-            plt.style.use(['grid'])
+            # plt.style.use(['grid'])
             fig, axes = plt.subplots(4, 1, sharex=True)
             fig.set_size_inches(4, 6)
             # plot batch time
@@ -134,12 +134,9 @@ class Experiment:
             Viewer.plot_fit(axes[3],"quantize", quantize_btime_model, np.array(list(quantize_btime.keys())), np.array(
                 list(quantize_btime.values())), None, False) 
             
-            plt.xlabel("Batch Size", size=22)  
-            for ax in axes: 
-                # ax.legend(loc="lower right")
-                ax.tick_params(axis='x', labelsize=18)
-                ax.tick_params(axis='y', labelsize=18)
-                
+            plt.xlabel("Batch Size")
+            Util.set_tick_label_size(axes)  
+            
             # fig.text(-0.02, 0.5, 'Time (s)', va='center', rotation='vertical', size=22)
             plt.savefig(result_dir + "swin_batch_time.%s" % suffix, bbox_inches="tight")
             plt.close()
@@ -147,17 +144,24 @@ class Experiment:
             # plot memory
             fig, ax = plt.subplots(1, 1)
             fig.set_size_inches(4, 4)
-            Viewer.plot_fit(ax, "org", org_mem_model, np.array(list(org_mem.keys())), np.array(
-                list(org_mem.values())), None, False)
-            Viewer.plot_fit(ax, "swap", swap_mem_model, np.array(list(swap_mem.keys())), np.array(
-                list(swap_mem.values())), None, False)
-            Viewer.plot_fit(ax, "ckpt", ckpt_mem_model, np.array(list(ckpt_mem.keys())), np.array(
-                list(ckpt_mem.values())), None, False) 
-            Viewer.plot_fit(ax, "quantize", quantize_mem_model, np.array(list(quantize_mem.keys())), np.array(
-                list(quantize_mem.values())), None, False) 
-            plt.ylabel("Memory (GB)", size=22)
-            plt.xlabel("Batch Size", size=22)
-            # plt.legend(prop={'size': 14})    
+            
+            sample_cnt = 5
+            x, y= Util.sample_data(list(org_mem.keys()), sample_cnt), Util.sample_data(list(org_mem.values()), sample_cnt) 
+            Viewer.plot_fit(ax, "org", org_mem_model, np.array(x), np.array(y), None, False)
+
+            x, y= Util.sample_data(list(swap_mem.keys()), sample_cnt), Util.sample_data(list(swap_mem.values()), sample_cnt) 
+            Viewer.plot_fit(ax, "swap", swap_mem_model, np.array(x), np.array(y), None, False)
+            
+            x, y= Util.sample_data(list(ckpt_mem.keys()), sample_cnt), Util.sample_data(list(ckpt_mem.values()), sample_cnt) 
+            Viewer.plot_fit(ax, "ckpt", ckpt_mem_model, np.array(x), np.array(y), None, False)
+
+            x, y= Util.sample_data(list(quantize_mem.keys()), sample_cnt), Util.sample_data(list(quantize_mem.values()), sample_cnt)
+            Viewer.plot_fit(ax, "quantize", quantize_mem_model, np.array(x), np.array(y), None, False) 
+
+            # plt.ylabel("Memory (GB)", size=22)
+            plt.xlabel("Batch Size")
+            Util.set_tick_label_size([ax])
+   
             plt.yticks(fontsize=15)
             plt.xticks(fontsize=15)
             plt.savefig(result_dir + "swin_mem.%s" % suffix, bbox_inches="tight")

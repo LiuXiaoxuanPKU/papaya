@@ -4,7 +4,7 @@ from fitter import FitterPool, ModelFnPool
 from util import Viewer, Util
 import random,os
 
-suffix = "png"
+suffix = "pdf"
 algo = "text_classification_fp16"
 
 class Experiment:
@@ -71,6 +71,7 @@ class Experiment:
         ips_model = lambda bsize: bsize / btime_model(bsize)
         # print("[predict mem] ", mem_model(np.array(list(mem.keys()))))
         return mem, btime, mem_model, btime_model, ips_model, alpha, beta, gamma, delta, mem_score, btime_score
+    
     def do_plot(machine_tag,to_plot):
         algo = "text_classification_fp16"
         mem_dir = "{}/{}/results/mem_results.json".format(algo,machine_tag)
@@ -82,7 +83,7 @@ class Experiment:
         Path(result_dir).mkdir(parents=True, exist_ok=True)
 
         #print("----------------Org-------------------")
-        is_org = lambda obj : obj['algorithm'] == None
+        is_org = lambda obj : obj['algorithm'] == None and 'grad_acc' not in obj
         org_mem, org_btime, org_mem_model, org_btime_model, org_ips_model,\
         alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_org, mem_dir, ips_dir)
         offset = delta
@@ -93,19 +94,19 @@ class Experiment:
 
 
         #print("----------------Swap-------------------")
-        is_swap = lambda obj : obj['algorithm'] == "swap"
+        is_swap = lambda obj : obj['algorithm'] == "swap" and  'grad_acc' not in obj
         swap_mem, swap_btime, swap_mem_model, swap_btime_model, swap_ips_model,\
         alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_swap, mem_dir, ips_dir, offset)
         print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Swap',alpha,beta,gamma,delta,mem_score,btime_score))
 
         #print("----------------Ckpt-------------------")
-        is_ckpt = lambda obj : obj['algorithm'] == "ckpt"
+        is_ckpt = lambda obj : obj['algorithm'] == "ckpt" and  'grad_acc' not in obj
         ckpt_mem, ckpt_btime, ckpt_mem_model, ckpt_btime_model, ckpt_ips_model,\
         alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_ckpt, mem_dir, ips_dir, offset) 
         print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Ckpt',alpha,beta,gamma,delta,mem_score,btime_score))
 
         #print("----------------Quantize-------------------")
-        is_quantize = lambda obj : obj['algorithm'] == "L1"
+        is_quantize = lambda obj : obj['algorithm'] == "L1" and  'grad_acc' not in obj
         quantize_mem, quantize_btime, quantize_mem_model, quantize_btime_model, quantize_ips_model,\
         alpha, beta, gamma, delta, mem_score, btime_score = Experiment.plot_helper(is_quantize, mem_dir, ips_dir, offset) 
         print ("{:<8} {:<10g} {:<10g} {:<10g} {:<10g} {:<12g} {:<12g}".format('Quantize',alpha,beta,gamma,delta,mem_score,btime_score))
@@ -120,12 +121,16 @@ class Experiment:
             # plot batch time
             Viewer.plot_fit(axes[0],"org", org_btime_model, np.array(list(org_btime.keys())), np.array(
                 list(org_btime.values())), None, False)
-            Viewer.plot_fit(axes[1], "swap", swap_btime_model, np.array(list(swap_btime.keys())), np.array(
-                list(swap_btime.values())), None, False)
-            Viewer.plot_fit(axes[2],"ckpt", ckpt_btime_model, np.array(list(ckpt_btime.keys())), np.array(
-                list(ckpt_btime.values())), None, False) 
-            Viewer.plot_fit(axes[3],"quantize", quantize_btime_model, np.array(list(quantize_btime.keys())), np.array(
-                list(quantize_btime.values())), None, False) 
+
+            sample_cnt = 5
+            x, y= Util.sample_data(list(swap_btime.keys()), sample_cnt), Util.sample_data(list(swap_btime.values()), sample_cnt) 
+            Viewer.plot_fit(axes[1], "swap", swap_btime_model, np.array(x), np.array(y), None, False)
+            
+            x, y= Util.sample_data(list(ckpt_btime.keys()), sample_cnt), Util.sample_data(list(ckpt_btime.values()), sample_cnt) 
+            Viewer.plot_fit(axes[2],"ckpt", ckpt_btime_model, np.array(x), np.array(y), None, False) 
+            
+            x, y= Util.sample_data(list(quantize_btime.keys()), sample_cnt), Util.sample_data(list(quantize_btime.values()), sample_cnt) 
+            Viewer.plot_fit(axes[3],"quantize", quantize_btime_model, np.array(x), np.array(y), None, False) 
             plt.xlabel("Batch Size", size=22)  
             for ax in axes: 
                 # ax.legend(loc="lower right")
@@ -139,19 +144,21 @@ class Experiment:
             fig, ax = plt.subplots(1, 1)
             fig.set_size_inches(4, 4)
             # plot memory
-            Viewer.plot_fit(ax, "org", org_mem_model, np.array(list(org_mem.keys())), np.array(
-                list(org_mem.values())), None, False)
-            # Viewer.plot_fit(ax, "swap", swap_mem_model, np.array(list(swap_mem.keys())), np.array(
-            #     list(swap_mem.values())), None, False)
-            Viewer.plot_fit(ax, "ckpt", ckpt_mem_model, np.array(list(ckpt_mem.keys())), np.array(
-                list(ckpt_mem.values())), None, False) 
-            Viewer.plot_fit(ax, "quantize", quantize_mem_model, np.array(list(quantize_mem.keys())), np.array(
-                list(quantize_mem.values())), None, False) 
-            plt.ylabel("Memory (GB)", size=22)
-            plt.xlabel("Batch Size", size=22)
-            # plt.legend(prop={'size': 14})    
-            plt.yticks(fontsize=15)
-            plt.xticks(fontsize=15)
+            x, y= Util.sample_data(list(org_mem.keys()), sample_cnt), Util.sample_data(list(org_mem.values()), sample_cnt) 
+            Viewer.plot_fit(ax, "org", org_mem_model, np.array(x), np.array(y), None, False)
+            
+            x, y= Util.sample_data(list(swap_mem.keys()), sample_cnt), Util.sample_data(list(swap_mem.values()), sample_cnt) 
+            Viewer.plot_fit(ax, "swap", swap_mem_model, np.array(x), np.array(y), None, False)
+            
+            x, y= Util.sample_data(list(ckpt_mem.keys()), sample_cnt), Util.sample_data(list(ckpt_mem.values()), sample_cnt) 
+            Viewer.plot_fit(ax, "ckpt", ckpt_mem_model, np.array(x), np.array(y), None, False) 
+            
+            x, y= Util.sample_data(list(quantize_mem.keys()), sample_cnt), Util.sample_data(list(quantize_mem.values()), sample_cnt)
+            Viewer.plot_fit(ax, "quantize", quantize_mem_model, np.array(x), np.array(y), None, False) 
+            
+            plt.ylabel("Memory (GB)")
+            plt.xlabel("Batch Size")
+            Util.set_tick_label_size([ax])
             plt.savefig(result_dir + "bert_mem.%s" % suffix,  bbox_inches="tight")
             plt.close()
 
@@ -160,6 +167,8 @@ class Experiment:
             fig.set_size_inches(4, 4)
             Viewer.plot_fit(ax, "org", org_ips_model, np.array(list(org_btime.keys())), np.array(
                 [bsize / org_btime[bsize] for bsize in org_btime]), None, False)
+            print(swap_btime)
+            print(ckpt_btime)
             Viewer.plot_fit(ax, "swap", swap_ips_model, np.array(list(swap_btime.keys())), np.array(
                 [bsize / swap_btime[bsize] for bsize in swap_btime]), None, False)
             Viewer.plot_fit(ax, "ckpt", ckpt_ips_model, np.array(list(ckpt_btime.keys())), np.array(
@@ -179,4 +188,4 @@ class Experiment:
             plt.close()
 
 
-if __name__ == "__main__": Experiment.do_plot("4v100",True)
+if __name__ == "__main__": Experiment.do_plot("v100",True)

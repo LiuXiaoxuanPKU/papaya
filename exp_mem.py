@@ -51,7 +51,7 @@ for line in lines:
 
 swin_data = {}
 
-swin_mem_dir = "Swin-Transformer/v100/results/mem_results.json"
+swin_mem_dir = "Swin-Transformer/v100/results/mem_results_background.json"
 with open(swin_mem_dir, 'r') as f:
     lines = f.readlines()
 

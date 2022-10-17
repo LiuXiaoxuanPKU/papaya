@@ -15,6 +15,7 @@ class Util:
             lines = f.readlines()
         data = {}
         for line in lines:
+            print(line)
             obj = json.loads(line)
             if "ips" in obj and obj["ips"] == -1:
                 continue
@@ -25,10 +26,29 @@ class Util:
             data[obj[key]] = obj[val]
         return data
 
+    def sample_data(data, cnt):
+        if cnt >= len(data):
+            return data
+        interval = max(len(data) // cnt, 2)
+        print(interval, cnt, len(data))
+        i = 0
+        sampled_data = []
+        while i < len(data):
+            sampled_data.append(data[i])
+            i += interval
+        return sampled_data
+
+    def set_tick_label_size(axes):
+        for ax in axes: 
+            ax.tick_params(axis='x', labelsize=18)
+            ax.tick_params(axis='y', labelsize=18)
+            ax.xaxis.label.set_size(20)
+            ax.yaxis.label.set_size(20)
+
 markers = {
-    "org" : "^",
-    "ckpt" : "*",
-    "swap" : "x",
+    "org" : "o",
+    "ckpt" : "o",
+    "swap" : "o",
     "quantize" : "o"
 }
 
@@ -43,7 +63,7 @@ sizes = {
    "org" : 100,
     "ckpt" : 100,
     "swap" : 100,
-    "quantize" : 60
+    "quantize" : 100
 }
 
 colors = {
@@ -57,13 +77,6 @@ class Viewer:
     def plot_fit(ax, label: str, model: Callable[[np.array], float], x: np.array, y: np.array, output_name: str, save_fig: bool = True) -> None:
         # if label == "swap":
         #     return
-
-        if label == "swap":
-            x = x[::4]
-            y = y[::4]
-        else:
-            x = x[::2]
-            y = y[::2]
         
         ax.scatter(x, y, label=label, 
                     marker=markers[label], s=sizes[label],

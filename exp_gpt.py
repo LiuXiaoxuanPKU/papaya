@@ -104,23 +104,24 @@ class Experiment:
                 import matplotlib
                 # matplotlib.rc('axes',edgecolor='silver')
                 import matplotlib.pyplot as plt
-                plt.style.use(['grid'])
+                # plt.style.use(['grid'])
                 fig, axes = plt.subplots(4, 1, sharex=True)
                 fig.set_size_inches(4, 6)
                 # plot batch time
-                Viewer.plot_fit(axes[0], "org", org_btime_model, np.array(list(org_btime.keys())), np.array(
-                    list(org_btime.values())), None, False)
+                sample_cnt = 5
+                x, y= Util.sample_data(list(org_btime.keys()), sample_cnt), Util.sample_data(list(org_btime.values()), sample_cnt) 
+                Viewer.plot_fit(axes[0], "org", org_btime_model, np.array(x), np.array(y), None, False)
                 # Viewer.plot_fit(axes[1], "swap", swap_btime_model, np.array(list(swap_btime.keys())), np.array(
                 #     list(swap_btime.values())), None, False)
-                Viewer.plot_fit(axes[2], "ckpt", ckpt_btime_model, np.array(list(ckpt_btime.keys())), np.array(
-                    list(ckpt_btime.values())), None, False) 
-                Viewer.plot_fit(axes[3], "quantize", quantize_btime_model, np.array(list(quantize_btime.keys())), np.array(
-                    list(quantize_btime.values())), None, False) 
-                plt.xlabel("Batch Size", size=22)  
-                for ax in axes: 
-                    # ax.legend(loc="lower right")
-                    ax.tick_params(axis='x', labelsize=18)
-                    ax.tick_params(axis='y', labelsize=18)  
+                
+                x, y= Util.sample_data(list(ckpt_btime.keys()), sample_cnt), Util.sample_data(list(ckpt_btime.values()), sample_cnt) 
+                Viewer.plot_fit(axes[2], "ckpt", ckpt_btime_model, np.array(x), np.array(y), None, False) 
+
+                x, y= Util.sample_data(list(quantize_btime.keys()), sample_cnt), Util.sample_data(list(quantize_btime.values()), sample_cnt) 
+                Viewer.plot_fit(axes[3], "quantize", quantize_btime_model, np.array(x), np.array(y), None, False) 
+                plt.xlabel("Batch Size")  
+                Util.set_tick_label_size(axes)
+
                 # fig.text(-0.05, 0.5, 'Time (s)', va='center', rotation='vertical', size=22)
                 plt.savefig(result_dir + "gpt3_%s_batch_time.%s" % (human_name,suffix), bbox_inches="tight")
                 plt.close()
@@ -128,19 +129,18 @@ class Experiment:
                 # plot memory
                 fig, ax = plt.subplots(1, 1)
                 fig.set_size_inches(4, 4)
-                Viewer.plot_fit(ax, "org", org_mem_model, np.array(list(org_mem.keys())), np.array(
-                    list(org_mem.values())), None, False)
+                x, y= Util.sample_data(list(org_mem.keys()), sample_cnt), Util.sample_data(list(org_mem.values()), sample_cnt) 
+                Viewer.plot_fit(ax, "org", org_mem_model, np.array(x), np.array(y), None, False)
                 # Viewer.plot_fit(ax, "swap", swap_mem_model, np.array(list(swap_mem.keys())), np.array(
                 #     list(swap_mem.values())), None, False)
-                Viewer.plot_fit(ax, "ckpt", ckpt_mem_model, np.array(list(ckpt_mem.keys())), np.array(
-                    list(ckpt_mem.values())), None, False) 
-                Viewer.plot_fit(ax, "quantize", quantize_mem_model, np.array(list(quantize_mem.keys())), np.array(
-                    list(quantize_mem.values())), None, False)
-                plt.ylabel("Memory (GB)", size=22)
-                plt.xlabel("Batch Size", size=22)
-                # plt.legend(prop={'size': 14})    
-                plt.yticks(fontsize=15)
-                plt.xticks(fontsize=15) 
+                x, y= Util.sample_data(list(ckpt_mem.keys()), sample_cnt), Util.sample_data(list(ckpt_mem.values()), sample_cnt) 
+                Viewer.plot_fit(ax, "ckpt", ckpt_mem_model, np.array(x), np.array(y), None, False) 
+                x, y= Util.sample_data(list(quantize_mem.keys()), sample_cnt), Util.sample_data(list(quantize_mem.values()), sample_cnt) 
+                Viewer.plot_fit(ax, "quantize", quantize_mem_model, np.array(x), np.array(y), None, False)
+               
+                # plt.ylabel("Memory (GB)", size=22)
+                plt.xlabel("Batch Size")
+                Util.set_tick_label_size([ax])
                 plt.savefig(result_dir + "gpt3_%s_mem.%s" % (human_name,suffix), bbox_inches="tight")
                 plt.close()
 
