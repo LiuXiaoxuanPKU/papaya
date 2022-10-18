@@ -1,4 +1,3 @@
-from xml.dom.expatbuilder import parseString
 from torch._utils import _get_device_index
 from typing import List, Optional, Tuple, Union, Any
 from torch.types import Device
