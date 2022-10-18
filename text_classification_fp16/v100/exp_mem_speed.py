@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+from pickle import FALSE
 import time
 
 def run_cmd(cmd):
@@ -16,7 +17,7 @@ def network_to_command(network):
     return cmd
 
 def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False,
-                hidden_size=None, layer_num=None, intermediate_size=None, get_macs=False, grad_acc=1):
+                hidden_size=None, layer_num=None, intermediate_size=None, get_macs=False, get_util = False, grad_acc=1):
     os.environ['DEBUG_SPEED'] = str(debug_speed)
     cmd = network_to_command(network)
     cmd = cmd.replace("BS", f"{batch_size}")
@@ -50,6 +51,9 @@ def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False,
     
     if debug_mem:
         cmd += " --get_mem "
+        
+    if get_util:
+        cmd += " --get_util "
     
     if intermediate_size is not None:
         cmd += f" --customize "
@@ -171,9 +175,9 @@ def binary_search_max_intermediate_size(alg, low, high, batch_size):
     return ret
 
 
-def get_ips(network, alg, batch_size, hidden_size=None, layer_num=None, intermediate_size=None):
+def get_ips(network, alg, batch_size, hidden_size=None, layer_num=None, intermediate_size=None, get_util = False):
     run_benchmark(network, alg, batch_size, layer_num=layer_num,
-                  hidden_size=hidden_size, debug_speed=True, intermediate_size=intermediate_size)
+                  hidden_size=hidden_size, debug_speed=True, intermediate_size=intermediate_size, get_util = get_util)
     line = list(open("results/speed_results.json").readlines())[-2]
     return json.loads(line)['ips']
 
@@ -192,15 +196,19 @@ if __name__ == "__main__":
     parser.add_argument("--layer_num", type=int, default=None)
     parser.add_argument("--hidden_size", type=int, default=None)
     parser.add_argument("--get_mem", action='store_true', default=False)
+    parser.add_argument("--get_util", action='store_true', default=False)
     args = parser.parse_args()
 
 
     if args.mode == 'linear_scan':
         # networks = ['bert-base-cased', 'roberta-base', 'roberta-large']
-        networks = ['roberta-large']
+        # networks = ['roberta-large']
+        networks = ['bert-large-cased']
         batch_sizes = list(range(4, 64, 8)) + list(range(64, 600, 8))
         # batch_sizes = [24, 32, 40, 48]
-        algs = [None, 'ckpt', 'L1']
+        # algs = [None, 'ckpt', 'L1']
+        # algs = ['swap']
+        algs = [None]
     elif args.mode == "grad_acc":
         networks = ['bert-large-cased']
         batch_sizes = [8]
@@ -216,7 +224,7 @@ if __name__ == "__main__":
                 failed = 0
                 for batch_size in batch_sizes:
                     if run_benchmark(network, alg, batch_size, debug_mem=args.get_mem, debug_speed=True, \
-                        layer_num=args.layer_num, hidden_size=args.hidden_size) != 0:
+                        layer_num=args.layer_num, hidden_size=args.hidden_size, get_util = args.get_util) != 0:
                         if failed >= args.retry:
                             break
                         failed += 1   
@@ -227,7 +235,7 @@ if __name__ == "__main__":
                 batch_size = 8
                 for acc in grad_accs:
                     if run_benchmark(network, alg, batch_size, debug_mem=args.get_mem, debug_speed=True, \
-                        layer_num=args.layer_num, hidden_size=args.hidden_size, grad_acc=acc) != 0:
+                        layer_num=args.layer_num, hidden_size=args.hidden_size, grad_acc=acc, get_util = args.get_util) != 0:
                         if failed >= args.retry:
                             break
                         failed += 1  
@@ -237,7 +245,7 @@ if __name__ == "__main__":
                 low, high = 8, 1024
                 max_batch_size = binary_search_max_batch(
                     network, alg, low, high, layer_num=args.layer_num)
-                ips = get_ips(network, alg, max_batch_size)
+                ips = get_ips(network, alg, max_batch_size, get_util = args.get_util)
 
                 out_file = "max_batch_results.json"
                 with open(out_file, "a") as fout:
@@ -258,7 +266,7 @@ if __name__ == "__main__":
             network = 'bert-large-cased'
             max_hidden_size = binary_search_max_hidden_size(
                 alg, low, high, network, batch_size)
-            ips = get_ips(network, alg, batch_size, hidden_size=max_hidden_size)
+            ips = get_ips(network, alg, batch_size, hidden_size=max_hidden_size, get_util = args.get_util)
             macs, params = get_macs(
                 network, alg, batch_size, hidden_size=max_hidden_size)
 
@@ -283,7 +291,7 @@ if __name__ == "__main__":
             batch_size = 16
             max_layer = binary_search_max_layer(alg, low, high, batch_size)
             network = 'bert-large-cased'
-            ips = get_ips(network, alg, batch_size, layer_num=max_layer)
+            ips = get_ips(network, alg, batch_size, layer_num=max_layer, get_util = args.get_util)
             macs, params = get_macs(network, alg, batch_size, layer_num=max_layer)
             out_file = "max_layer_results.json"
             with open(out_file, "a") as fout:
@@ -307,7 +315,7 @@ if __name__ == "__main__":
             max_intermediate_size = binary_search_max_intermediate_size(
                 alg, low, high, batch_size=batch_size)
             network = 'bert-large-cased'
-            ips = get_ips(network, alg, batch_size, intermediate_size=max_intermediate_size)
+            ips = get_ips(network, alg, batch_size, intermediate_size=max_intermediate_size,get_util = args.get_util)
             macs, params = get_macs(network, alg, batch_size, intermediate_size=max_intermediate_size)
 
             out_file = "max_intermediate_results.json"

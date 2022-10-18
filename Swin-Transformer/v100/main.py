@@ -26,7 +26,7 @@ from lr_scheduler import build_scheduler
 from optimizer import build_optimizer
 from logger import create_logger
 from utils import load_checkpoint, load_pretrained, save_checkpoint, get_grad_norm, auto_resume_helper, reduce_tensor
-
+from utilization import gpuUtilization, UtilizationContext, UtilizationTrainContext
 import gact
 from gact.utils import get_memory_usage, compute_tensor_bytes, exp_recorder
 
@@ -77,6 +77,7 @@ def parse_option():
     parser.add_argument("--level", type=str, default=None, help="actnn optimization level")
     parser.add_argument("--get-speed", action='store_true', help="get train speed")
     parser.add_argument("--get-mem", action='store_true', help="get train memory")
+    parser.add_argument("--get-util", action='store_true', help="profile utilization, used with --get-speed")
 
     args, unparsed = parser.parse_known_args()
 
@@ -148,24 +149,25 @@ def main(args, config):
 
     logger.info("Start training")
     start_time = time.time()
-    for epoch in range(config.TRAIN.START_EPOCH, config.TRAIN.EPOCHS):
-        data_loader_train.sampler.set_epoch(epoch)
+    with UtilizationContext(args.get_util) as context:
+        for epoch in range(config.TRAIN.START_EPOCH, config.TRAIN.EPOCHS):
+            data_loader_train.sampler.set_epoch(epoch)
 
-        train_one_epoch(args, config, model, criterion, data_loader_train, optimizer, epoch, mixup_fn, lr_scheduler)
-        if dist.get_rank() == 0 and (epoch % config.SAVE_FREQ == 0 or epoch == (config.TRAIN.EPOCHS - 1)):
-            save_checkpoint(config, epoch, model_without_ddp, max_accuracy, optimizer, lr_scheduler, logger)
+            train_one_epoch(args, config, model, criterion, data_loader_train, optimizer, epoch, mixup_fn, lr_scheduler, context)
+            if dist.get_rank() == 0 and (epoch % config.SAVE_FREQ == 0 or epoch == (config.TRAIN.EPOCHS - 1)):
+                save_checkpoint(config, epoch, model_without_ddp, max_accuracy, optimizer, lr_scheduler, logger)
 
-        acc1, acc5, loss = validate(config, data_loader_val, model)
-        logger.info(f"Accuracy of the network on the {len(dataset_val)} test images: {acc1:.1f}%")
-        max_accuracy = max(max_accuracy, acc1)
-        logger.info(f'Max accuracy: {max_accuracy:.2f}%')
+            acc1, acc5, loss = validate(config, data_loader_val, model)
+            logger.info(f"Accuracy of the network on the {len(dataset_val)} test images: {acc1:.1f}%")
+            max_accuracy = max(max_accuracy, acc1)
+            logger.info(f'Max accuracy: {max_accuracy:.2f}%')
 
     total_time = time.time() - start_time
     total_time_str = str(datetime.timedelta(seconds=int(total_time)))
     logger.info('Training time {}'.format(total_time_str))
 
 
-def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoch, mixup_fn, lr_scheduler):
+def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoch, mixup_fn, lr_scheduler, context):
     model.train()
     if args.level is not None:
         gact.set_optimization_level(args.level)
@@ -201,111 +203,27 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
 
         if mixup_fn is not None:
             samples, targets = mixup_fn(samples, targets)
-
-        if args.get_mem and idx > 1:
-            print("========== Init Data Loader ===========")
-            init_mem = get_memory_usage(True)
-            data_size = gact.utils.compute_tensor_bytes([samples, targets])
-            model_size = init_mem - data_size
-
-            states = optimizer.state_dict()['state']
-            for k in states:
-                print(k, type(states[k]))
-            exit(0)
-            state_size = gact.utils.compute_tensor_bytes(list(states.values()))
-            exp_recorder.record("state_size", state_size / MB)
-            exp_recorder.record("model_size", model_size / MB)
-
-        if args.get_speed:
-            torch.cuda.synchronize()
-            start_event = time.time()
-            
-        outputs = model(samples)
-
-        if config.TRAIN.ACCUMULATION_STEPS > 1:
-            loss = criterion(outputs, targets)
-            loss = loss / config.TRAIN.ACCUMULATION_STEPS
-            if config.AMP_OPT_LEVEL != "O0":
-                with amp.scale_loss(loss, optimizer) as scaled_loss:
-                    scaled_loss.backward()
-                if config.TRAIN.CLIP_GRAD:
-                    grad_norm = torch.nn.utils.clip_grad_norm_(amp.master_params(optimizer), config.TRAIN.CLIP_GRAD)
-                else:
-                    grad_norm = get_grad_norm(amp.master_params(optimizer))
-            else:
-                loss.backward()
-                if config.TRAIN.CLIP_GRAD:
-                    grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), config.TRAIN.CLIP_GRAD)
-                else:
-                    grad_norm = get_grad_norm(model.parameters())
-            if (idx + 1) % config.TRAIN.ACCUMULATION_STEPS == 0:
-                optimizer.step()
-                optimizer.zero_grad()
-                lr_scheduler.step_update(epoch * num_steps + idx)
-        else:
-            loss = criterion(outputs, targets)
+        with UtilizationTrainContext(context):
             if args.get_mem and idx > 1:
-                print("========== Before Backward ===========")
-                before_backward = get_memory_usage(True)
-            
-            optimizer.zero_grad()
-            if config.AMP_OPT_LEVEL != "O0":
-                with amp.scale_loss(loss, optimizer) as scaled_loss:
-                    scaled_loss.backward()
-                if config.TRAIN.CLIP_GRAD:
-                    grad_norm = torch.nn.utils.clip_grad_norm_(amp.master_params(optimizer), config.TRAIN.CLIP_GRAD)
-                else:
-                    grad_norm = get_grad_norm(amp.master_params(optimizer))
-            else:
-                loss.backward()
-                if config.TRAIN.CLIP_GRAD:
-                    grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), config.TRAIN.CLIP_GRAD)
-                else:
-                    grad_norm = get_grad_norm(model.parameters())
-            
-            if args.get_mem and idx > 1:
-                if args.level is not None:     
-                    controller.iterate(None)
-                del loss
-                print("========== After Backward ===========")
-                after_backward = get_memory_usage(True)
-                total_mem = before_backward - data_size
-                act_mem = before_backward - after_backward
-                ref_act = before_backward - after_backward
-                peak_mem = torch.cuda.max_memory_allocated()
-                res = "Sample shape: %s\tTotal Mem: %.2f MB\tAct Mem: %.2f MB\tRef Mem: %.2f\tPeak Mem: %.2f" % (
-                    str(samples.shape), total_mem / MB, act_mem / MB, ref_act / MB, peak_mem / MB)
-                print(res)
-                if "small" in args.cfg:
-                    network = "swin_small"
-                elif "tiny" in args.cfg:
-                    network = "swin_tiny"
-                elif "large" in args.cfg:
-                    network = "swin_large"
-                else:
-                    print("[Error] unknown network type", args.cfg)
-                    exit(0)
-                exp_recorder.record("network", network)
-                exp_recorder.record("batch_size", samples.shape[0])
-                exp_recorder.record("peak", peak_mem / MB)
-                exp_recorder.record("total", total_mem / MB)
-                exp_recorder.record("activation", act_mem / MB)
-                exp_recorder.record("peak", peak_mem / MB)
-                exp_recorder.record("workspace", (peak_mem - total_mem - data_size) / MB)
+                print("========== Init Data Loader ===========")
+                init_mem = get_memory_usage(True)
+                data_size = gact.utils.compute_tensor_bytes([samples, targets])
+                model_size = init_mem - data_size
 
-                exp_recorder.record("algorithm", args.level)
-                exp_recorder.record("fp16", args.amp_opt_level)
-                exp_recorder.record("ckpt", args.use_checkpoint)
-                exp_recorder.dump("results/mem_results.json") 
-                exp_recorder.record("tstamp", time.time(), 2)
+                states = optimizer.state_dict()['state']
+                for k in states:
+                    print(k, type(states[k]))
                 exit(0)
-                
-            optimizer.step()
-            lr_scheduler.step_update(epoch * num_steps + idx)
+                state_size = gact.utils.compute_tensor_bytes(list(states.values()))
+                exp_recorder.record("state_size", state_size / MB)
+                exp_recorder.record("model_size", model_size / MB)
 
-
-        def backprop():
+            if args.get_speed:
+                torch.cuda.synchronize()
+                start_event = time.time()
+            
             outputs = model(samples)
+
             if config.TRAIN.ACCUMULATION_STEPS > 1:
                 loss = criterion(outputs, targets)
                 loss = loss / config.TRAIN.ACCUMULATION_STEPS
@@ -328,6 +246,9 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
                     lr_scheduler.step_update(epoch * num_steps + idx)
             else:
                 loss = criterion(outputs, targets)
+                if args.get_mem and idx > 1:
+                    print("========== Before Backward ===========")
+                    before_backward = get_memory_usage(True)
                 
                 optimizer.zero_grad()
                 if config.AMP_OPT_LEVEL != "O0":
@@ -344,63 +265,145 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
                     else:
                         grad_norm = get_grad_norm(model.parameters())
                 
+                if args.get_mem and idx > 1:
+                    if args.level is not None:     
+                        controller.iterate(None)
+                    del loss
+                    print("========== After Backward ===========")
+                    after_backward = get_memory_usage(True)
+                    total_mem = before_backward - data_size
+                    act_mem = before_backward - after_backward
+                    ref_act = before_backward - after_backward
+                    peak_mem = torch.cuda.max_memory_allocated()
+                    res = "Sample shape: %s\tTotal Mem: %.2f MB\tAct Mem: %.2f MB\tRef Mem: %.2f\tPeak Mem: %.2f" % (
+                        str(samples.shape), total_mem / MB, act_mem / MB, ref_act / MB, peak_mem / MB)
+                    print(res)
+                    if "small" in args.cfg:
+                        network = "swin_small"
+                    elif "tiny" in args.cfg:
+                        network = "swin_tiny"
+                    elif "large" in args.cfg:
+                        network = "swin_large"
+                    else:
+                        print("[Error] unknown network type", args.cfg)
+                        exit(0)
+                    exp_recorder.record("network", network)
+                    exp_recorder.record("batch_size", samples.shape[0])
+                    exp_recorder.record("peak", peak_mem / MB)
+                    exp_recorder.record("total", total_mem / MB)
+                    exp_recorder.record("activation", act_mem / MB)
+                    exp_recorder.record("peak", peak_mem / MB)
+                    exp_recorder.record("workspace", (peak_mem - total_mem - data_size) / MB)
+
+                    exp_recorder.record("algorithm", args.level)
+                    exp_recorder.record("fp16", args.amp_opt_level)
+                    exp_recorder.record("ckpt", args.use_checkpoint)
+                    exp_recorder.dump("results/mem_results.json") 
+                    exp_recorder.record("tstamp", time.time(), 2)
+                    exit(0)
+                    
                 optimizer.step()
                 lr_scheduler.step_update(epoch * num_steps + idx)
 
-        if args.level is not None:
-            controller.iterate(backprop)
-            torch.cuda.empty_cache()
-            
-        if args.get_speed:
-            torch.cuda.synchronize()
-            cur_batch_time = (time.time() - start_event)
-            bs = samples.shape[0]
-            global train_step_ct, train_ips_list
-            train_ips_list.append(bs / cur_batch_time)
-            if train_step_ct >= 6:
-                train_ips = np.median(train_ips_list)
-                res = "BatchSize: %d\tIPS: %.2f\t,Cost: %.2f ms" % (
-                    bs, train_ips, cur_batch_time)
-                print(res, flush=True)
-                if "small" in args.cfg:
-                    network = "swin_small"
-                elif "tiny" in args.cfg:
-                    network = "swin_tiny"
-                elif "large" in args.cfg:
-                    network = "swin_large"
-                else:
-                    print("[Error] unknown network type", args.cfg)
-                    exit(0)
-                exp_recorder.record("network", network)
-                exp_recorder.record("batch_size", bs)
-                exp_recorder.record("ips", train_ips, 2)
-                exp_recorder.record("batch_time", bs / train_ips)
-                exp_recorder.record("algorithm", args.level)
-                exp_recorder.record("fp16", args.amp_opt_level)
-                exp_recorder.record("ckpt", args.use_checkpoint)
-                exp_recorder.record("tstamp", time.time(), 2)
-                exp_recorder.dump('results/speed_results.json')
-                exit(0)
-            train_step_ct += 1
-        
-        torch.cuda.synchronize()        
-        loss_meter.update(loss.item(), targets.size(0))
-        norm_meter.update(grad_norm)
-        batch_time.update(time.time() - end)
-        end = time.time()
-        torch.cuda.empty_cache()
 
-        if idx % config.PRINT_FREQ == 0:
-            lr = optimizer.param_groups[0]['lr']
-            memory_used = torch.cuda.max_memory_allocated() / (1024.0 * 1024.0)
-            etas = batch_time.avg * (num_steps - idx)
-            logger.info(
-                f'Train: [{epoch}/{config.TRAIN.EPOCHS}][{idx}/{num_steps}]\t'
-                f'eta {datetime.timedelta(seconds=int(etas))} lr {lr:.6f}\t'
-                f'time {batch_time.val:.4f} ({batch_time.avg:.4f})\t'
-                f'loss {loss_meter.val:.4f} ({loss_meter.avg:.4f})\t'
-                f'grad_norm {norm_meter.val:.4f} ({norm_meter.avg:.4f})\t'
-                f'mem {memory_used:.0f}MB')
+            def backprop():
+                outputs = model(samples)
+                if config.TRAIN.ACCUMULATION_STEPS > 1:
+                    loss = criterion(outputs, targets)
+                    loss = loss / config.TRAIN.ACCUMULATION_STEPS
+                    if config.AMP_OPT_LEVEL != "O0":
+                        with amp.scale_loss(loss, optimizer) as scaled_loss:
+                            scaled_loss.backward()
+                        if config.TRAIN.CLIP_GRAD:
+                            grad_norm = torch.nn.utils.clip_grad_norm_(amp.master_params(optimizer), config.TRAIN.CLIP_GRAD)
+                        else:
+                            grad_norm = get_grad_norm(amp.master_params(optimizer))
+                    else:
+                        loss.backward()
+                        if config.TRAIN.CLIP_GRAD:
+                            grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), config.TRAIN.CLIP_GRAD)
+                        else:
+                            grad_norm = get_grad_norm(model.parameters())
+                    if (idx + 1) % config.TRAIN.ACCUMULATION_STEPS == 0:
+                        optimizer.step()
+                        optimizer.zero_grad()
+                        lr_scheduler.step_update(epoch * num_steps + idx)
+                else:
+                    loss = criterion(outputs, targets)
+                    
+                    optimizer.zero_grad()
+                    if config.AMP_OPT_LEVEL != "O0":
+                        with amp.scale_loss(loss, optimizer) as scaled_loss:
+                            scaled_loss.backward()
+                        if config.TRAIN.CLIP_GRAD:
+                            grad_norm = torch.nn.utils.clip_grad_norm_(amp.master_params(optimizer), config.TRAIN.CLIP_GRAD)
+                        else:
+                            grad_norm = get_grad_norm(amp.master_params(optimizer))
+                    else:
+                        loss.backward()
+                        if config.TRAIN.CLIP_GRAD:
+                            grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), config.TRAIN.CLIP_GRAD)
+                        else:
+                            grad_norm = get_grad_norm(model.parameters())
+                    
+                    optimizer.step()
+                    lr_scheduler.step_update(epoch * num_steps + idx)
+
+            if args.level is not None:
+                controller.iterate(backprop)
+                torch.cuda.empty_cache()
+                
+            if args.get_speed:
+                torch.cuda.synchronize()
+                cur_batch_time = (time.time() - start_event)
+                bs = samples.shape[0]
+                global train_step_ct, train_ips_list
+                train_ips_list.append(bs / cur_batch_time)
+                if train_step_ct >= 6:
+                    train_ips = np.median(train_ips_list)
+                    res = "BatchSize: %d\tIPS: %.2f\t,Cost: %.2f ms" % (
+                        bs, train_ips, cur_batch_time)
+                    print(res, flush=True)
+                    if "small" in args.cfg:
+                        network = "swin_small"
+                    elif "tiny" in args.cfg:
+                        network = "swin_tiny"
+                    elif "large" in args.cfg:
+                        network = "swin_large"
+                    else:
+                        print("[Error] unknown network type", args.cfg)
+                        exit(0)
+                    exp_recorder.record("network", network)
+                    exp_recorder.record("batch_size", bs)
+                    exp_recorder.record("ips", train_ips, 2)
+                    exp_recorder.record("batch_time", bs / train_ips)
+                    exp_recorder.record("algorithm", args.level)
+                    exp_recorder.record("fp16", args.amp_opt_level)
+                    exp_recorder.record("ckpt", args.use_checkpoint)
+                    if context.enabled: exp_recorder.record("utilization", context.getAvg())
+                    exp_recorder.record("tstamp", time.time(), 2)
+                    exp_recorder.dump('results/speed_results.json')
+                    exit(0)
+                train_step_ct += 1
+            
+            torch.cuda.synchronize()        
+            loss_meter.update(loss.item(), targets.size(0))
+            norm_meter.update(grad_norm)
+            batch_time.update(time.time() - end)
+            end = time.time()
+            torch.cuda.empty_cache()
+
+            if idx % config.PRINT_FREQ == 0:
+                lr = optimizer.param_groups[0]['lr']
+                memory_used = torch.cuda.max_memory_allocated() / (1024.0 * 1024.0)
+                etas = batch_time.avg * (num_steps - idx)
+                logger.info(
+                    f'Train: [{epoch}/{config.TRAIN.EPOCHS}][{idx}/{num_steps}]\t'
+                    f'eta {datetime.timedelta(seconds=int(etas))} lr {lr:.6f}\t'
+                    f'time {batch_time.val:.4f} ({batch_time.avg:.4f})\t'
+                    f'loss {loss_meter.val:.4f} ({loss_meter.avg:.4f})\t'
+                    f'grad_norm {norm_meter.val:.4f} ({norm_meter.avg:.4f})\t'
+                    f'mem {memory_used:.0f}MB')
     epoch_time = time.time() - start
     logger.info(f"EPOCH {epoch} training takes {datetime.timedelta(seconds=int(epoch_time))}")
     

@@ -29,6 +29,7 @@ import time
 import gact
 from gact.utils import get_memory_usage, compute_tensor_bytes, exp_recorder
 from utils import AverageMeter
+from utilization import gpuUtilization, UtilizationContext, UtilizationTrainContext
 
 import transformers
 from accelerate import Accelerator, DeepSpeedPlugin
@@ -171,6 +172,7 @@ def parse_args():
     )
     parser.add_argument("--hub_token", type=str, help="The token to use to push to the Model Hub.")
     parser.add_argument("--get_mem", action="store_true", help="Whether or not to check the usage of memory")
+    parser.add_argument("--get_util", action="store_true", help="Whether or not to profile gpu utilization")
     parser.add_argument("--get_speed", action="store_true", help="Whether or not to get ips")
     parser.add_argument("--gact", action="store_true", help="Whether or not to use gact")
     parser.add_argument("--opt_level", type=str, help="Optimization level of gact")
@@ -450,6 +452,7 @@ def main():
         },
     ]
     optimizer = AdamW(optimizer_grouped_parameters, lr=args.learning_rate, weight_decay=args.weight_decay)
+    
 
     # Prepare everything with our `accelerator`.
     model, optimizer, train_dataloader, eval_dataloader = accelerator.prepare(
@@ -501,176 +504,176 @@ def main():
 
 
     start_record_time = True
-
-    for epoch in range(args.num_train_epochs):
-        model.train()
-        for step, batch in enumerate(train_dataloader):
-            print(step, completed_steps)
-            if args.get_mem and step > 0:
-                torch.cuda.synchronize()
-                # accelerator.print("===============After Data Loading=======================")
-                init_mem = get_memory_usage(False)  # model size + data size
-                data_size = gact.utils.compute_tensor_bytes(list(batch.values()))
-                model_size = init_mem - data_size
-                torch.cuda.reset_peak_memory_stats()
-                
-            if args.get_speed and step > 0 and start_record_time:
-                start = torch.cuda.Event(enable_timing=True)
-                end = torch.cuda.Event(enable_timing=True)
-                start_record_time = False
-        
-                torch.cuda.synchronize()
-                start.record()
-                
-            for k, v in batch.items():
-                batch[k] = v.to(args.device)
-                
-            if args.get_macs:
-                from thop import profile
-                inputs_for_flops = (
-                    batch.get("input_ids", None),
-                    batch.get("attention_mask", None),
-                    batch.get("token_type_ids", None),
-                    batch.get("position_ids", None),
-                    batch.get("head_mask", None),
-                    batch.get("input_embeds", None),
-                    batch.get("labels", None),
-                )
-                macs, params = profile(model, inputs=inputs_for_flops,)
-
-                print(f"Macs: {macs}\t Params: {params}")
-                out_file = "get_macs.json"
-                with open(out_file, 'w') as fout:
-                    fout.write(json.dumps([macs, params]))
-                print(f"save results to {out_file}")
-                exit()
+    with UtilizationContext(args.get_util) as context:
+        for epoch in range(args.num_train_epochs):
+            model.train()
+            for step, batch in enumerate(train_dataloader):
+                print(step, completed_steps)
+                if args.get_mem and step > 0:
+                    torch.cuda.synchronize()
+                    # accelerator.print("===============After Data Loading=======================")
+                    init_mem = get_memory_usage(False)  # model size + data size
+                    data_size = gact.utils.compute_tensor_bytes(list(batch.values()))
+                    model_size = init_mem - data_size
+                    torch.cuda.reset_peak_memory_stats()
                     
-            outputs = model(**batch)
-            loss = outputs.loss
-            if args.get_mem and step > 0:
-                # accelerator.print("===============Before Backward=======================")
-                torch.cuda.synchronize()
-                before_backward = get_memory_usage(True)
-            accelerator.backward(loss)
+                if args.get_speed and step > 0 and start_record_time:
+                    start = torch.cuda.Event(enable_timing=True)
+                    end = torch.cuda.Event(enable_timing=True)
+                    start_record_time = False
+            
+                    torch.cuda.synchronize()
+                    start.record()    
+                for k, v in batch.items():
+                    batch[k] = v.to(args.device)
+                    
+                if args.get_macs:
+                    from thop import profile
+                    inputs_for_flops = (
+                        batch.get("input_ids", None),
+                        batch.get("attention_mask", None),
+                        batch.get("token_type_ids", None),
+                        batch.get("position_ids", None),
+                        batch.get("head_mask", None),
+                        batch.get("input_embeds", None),
+                        batch.get("labels", None),
+                    )
+                    macs, params = profile(model, inputs=inputs_for_flops,)
 
-            if args.get_mem and step > 0:
-                # accelerator.print("===============After Backward=======================")
-                torch.cuda.synchronize()
-                for t in batch:
-                    del t
-                after_backward = get_memory_usage(False)  # model size
-                # init : weight + optimizer state + data size + grad (iter > 1)
-                # before backward : weight + optimizer state + data size + activation + loss + output + grad (iter > 1)
-                # after backward : init
-                # grad = weight
-                # total - act = weight + optimizer state + data size + loss + output + grad
-                total_mem.update(before_backward - data_size)
-                activation_mem.update(before_backward - after_backward)
-                peak_mem.update(
-                    torch.cuda.max_memory_allocated())
-                del loss
-                del outputs
-                    
-                workspace_mem = peak_mem.get_value() - total_mem.get_value()
+                    print(f"Macs: {macs}\t Params: {params}")
+                    out_file = "get_macs.json"
+                    with open(out_file, 'w') as fout:
+                        fout.write(json.dumps([macs, params]))
+                    print(f"save results to {out_file}")
+                    exit()
+                with UtilizationTrainContext(context):        
+                    outputs = model(**batch)
+                    loss = outputs.loss
+                    if args.get_mem and step > 0:
+                        # accelerator.print("===============Before Backward=======================")
+                        torch.cuda.synchronize()
+                        before_backward = get_memory_usage(True)
+                    accelerator.backward(loss)
 
-                accelerator.print("peak %d MB" % (peak_mem.get_value() / 1024 / 1024))
-                accelerator.print("total %d MB" % (total_mem.get_value() / 1024 / 1024))
-                accelerator.print("activation %d MB" % (activation_mem.get_value() / 1024 / 1024))
-                exp_recorder.record("network", args.model_name_or_path)
-                if args.swap: exp_recorder.record("algorithm", "swap")
-                else: exp_recorder.record("algorithm", args.opt_level)
-                exp_recorder.record("batch_size", args.per_device_train_batch_size)
-                exp_recorder.record("layer_num", config.num_hidden_layers)
-                exp_recorder.record("hidden_size", config.hidden_size)
-                exp_recorder.record("peak", peak_mem.get_value() / 1024 / 1024)
-                exp_recorder.record("total", total_mem.get_value() / 1024 / 1024)
-                exp_recorder.record("activation", activation_mem.get_value() / 1024 / 1024)
-                exp_recorder.record("model_size", model_size / 1024 / 1024)
-                exp_recorder.record("workspace_size", workspace_mem / 1024 / 1024)
-                exp_recorder.record("tstamp", time.time(), 2)
-                exp_recorder.dump('results/mem_results.json') 
-                exit(0)
-                    
-            if args.get_speed and step > 0 and step % args.gradient_accumulation_steps == 0:
-                end.record()
-                torch.cuda.synchronize()
-                cur_batch_time = start.elapsed_time(end) / 1000.0 # event in ms
-                batch_total_time += cur_batch_time
-                start_record_time = True
-                    
-                if completed_steps == 5:
-                    bs = args.per_device_train_batch_size
-                    train_ips = (step - 1) * bs / batch_total_time
-                    res = "BatchSize: %d\tIPS: %.2f\t,Cost: %.2f ms" % (
-                        bs, train_ips, 1000.0 / train_ips)
-                    print(res, flush=True)
+                if args.get_mem and step > 0:
+                    # accelerator.print("===============After Backward=======================")
+                    torch.cuda.synchronize()
+                    for t in batch:
+                        del t
+                    after_backward = get_memory_usage(False)  # model size
+                    # init : weight + optimizer state + data size + grad (iter > 1)
+                    # before backward : weight + optimizer state + data size + activation + loss + output + grad (iter > 1)
+                    # after backward : init
+                    # grad = weight
+                    # total - act = weight + optimizer state + data size + loss + output + grad
+                    total_mem.update(before_backward - data_size)
+                    activation_mem.update(before_backward - after_backward)
+                    peak_mem.update(
+                        torch.cuda.max_memory_allocated())
+                    del loss
+                    del outputs
+                        
+                    workspace_mem = peak_mem.get_value() - total_mem.get_value()
+
+                    accelerator.print("peak %d MB" % (peak_mem.get_value() / 1024 / 1024))
+                    accelerator.print("total %d MB" % (total_mem.get_value() / 1024 / 1024))
+                    accelerator.print("activation %d MB" % (activation_mem.get_value() / 1024 / 1024))
                     exp_recorder.record("network", args.model_name_or_path)
                     if args.swap: exp_recorder.record("algorithm", "swap")
                     else: exp_recorder.record("algorithm", args.opt_level)
-                    exp_recorder.record("batch_size", bs)
-                    exp_recorder.record("grad_acc", args.gradient_accumulation_steps)
-                    exp_recorder.record("ips", train_ips, 2)
-                    exp_recorder.record("bacth_time", cur_batch_time)
+                    exp_recorder.record("batch_size", args.per_device_train_batch_size)
                     exp_recorder.record("layer_num", config.num_hidden_layers)
                     exp_recorder.record("hidden_size", config.hidden_size)
+                    exp_recorder.record("peak", peak_mem.get_value() / 1024 / 1024)
+                    exp_recorder.record("total", total_mem.get_value() / 1024 / 1024)
+                    exp_recorder.record("activation", activation_mem.get_value() / 1024 / 1024)
+                    exp_recorder.record("model_size", model_size / 1024 / 1024)
+                    exp_recorder.record("workspace_size", workspace_mem / 1024 / 1024)
                     exp_recorder.record("tstamp", time.time(), 2)
-
-                    exp_recorder.dump('results/speed_results.json')
+                    exp_recorder.dump('results/mem_results.json') 
                     exit(0)
+                        
+                if args.get_speed and step > 0 and step % args.gradient_accumulation_steps == 0:
+                    end.record()
+                    torch.cuda.synchronize()
+                    cur_batch_time = start.elapsed_time(end) / 1000.0 # event in ms
+                    batch_total_time += cur_batch_time
+                    start_record_time = True
+                        
+                    if completed_steps == 18:
+                        bs = args.per_device_train_batch_size
+                        train_ips = (step - 1) * bs / batch_total_time
+                        res = "BatchSize: %d\tIPS: %.2f\t,Cost: %.2f ms" % (
+                            bs, train_ips, 1000.0 / train_ips)
+                        print(res, flush=True)
+                        exp_recorder.record("network", args.model_name_or_path)
+                        if args.swap: exp_recorder.record("algorithm", "swap")
+                        else: exp_recorder.record("algorithm", args.opt_level)
+                        exp_recorder.record("batch_size", bs)
+                        exp_recorder.record("grad_acc", args.gradient_accumulation_steps)
+                        exp_recorder.record("ips", train_ips, 2)
+                        exp_recorder.record("bacth_time", cur_batch_time)
+                        exp_recorder.record("layer_num", config.num_hidden_layers)
+                        exp_recorder.record("hidden_size", config.hidden_size)
+                        exp_recorder.record("utilization", context.getAvg())
+                        exp_recorder.record("tstamp", time.time(), 2)
 
-            torch.nn.utils.clip_grad.clip_grad_norm_(model.parameters(), args.max_gradient_norm)
-            
-            if step % args.gradient_accumulation_steps == 0:
-                optimizer.step()
-                lr_scheduler.step()
-                optimizer.zero_grad()
-                progress_bar.update(1)
-                completed_steps += 1
+                        exp_recorder.dump('results/speed_results.json')
+                        exit(0)
 
-            if completed_steps >= args.max_train_steps:
-                break
-
-            if args.gact:
-                def backprop():
-                    small_batch = {}
-                    for k, v in batch.items():
-                        small_batch[k] = v[:8]
-                    outputs = model(**small_batch)
-                    loss = outputs.loss
+                torch.nn.utils.clip_grad.clip_grad_norm_(model.parameters(), args.max_gradient_norm)
+                
+                if step % args.gradient_accumulation_steps == 0:
+                    optimizer.step()
+                    lr_scheduler.step()
                     optimizer.zero_grad()
-                    accelerator.backward(loss)
-                    del loss
-                    del outputs
-                    del small_batch
-                controller.iterate(backprop)
+                    progress_bar.update(1)
+                    completed_steps += 1
 
-        with torch.no_grad():
-            model.eval()
-            for step, batch in enumerate(eval_dataloader):
-                for k, v in batch.items():
-                    batch[k] = v.to(args.device)
-                outputs = model(**batch)
-                predictions = outputs.logits.argmax(dim=-1) if not is_regression else outputs.logits.squeeze()
-                metric.add_batch(
-                    predictions=accelerator.gather(predictions),
-                    references=accelerator.gather(batch["labels"]),
-                )
+                if completed_steps >= args.max_train_steps:
+                    break
 
-        eval_metric = metric.compute()
-        logger.info(f"epoch {epoch}: {eval_metric}")
-            
-        if eval_metric[metric_key[args.task_name]] > best_metric:
-            best_metric = eval_metric[metric_key[args.task_name]]
+                if args.gact:
+                    def backprop():
+                        small_batch = {}
+                        for k, v in batch.items():
+                            small_batch[k] = v[:8]
+                        outputs = model(**small_batch)
+                        loss = outputs.loss
+                        optimizer.zero_grad()
+                        accelerator.backward(loss)
+                        del loss
+                        del outputs
+                        del small_batch
+                    controller.iterate(backprop)
 
-        if args.push_to_hub and epoch < args.num_train_epochs - 1:
-            accelerator.wait_for_everyone()
-            unwrapped_model = accelerator.unwrap_model(model)
-            unwrapped_model.save_pretrained(args.output_dir, save_function=accelerator.save)
-            if accelerator.is_main_process:
-                tokenizer.save_pretrained(args.output_dir)
-                repo.push_to_hub(
-                    commit_message=f"Training in progress epoch {epoch}", blocking=False, auto_lfs_prune=True
-                )
+            with torch.no_grad():
+                model.eval()
+                for step, batch in enumerate(eval_dataloader):
+                    for k, v in batch.items():
+                        batch[k] = v.to(args.device)
+                    outputs = model(**batch)
+                    predictions = outputs.logits.argmax(dim=-1) if not is_regression else outputs.logits.squeeze()
+                    metric.add_batch(
+                        predictions=accelerator.gather(predictions),
+                        references=accelerator.gather(batch["labels"]),
+                    )
+
+            eval_metric = metric.compute()
+            logger.info(f"epoch {epoch}: {eval_metric}")
+                
+            if eval_metric[metric_key[args.task_name]] > best_metric:
+                best_metric = eval_metric[metric_key[args.task_name]]
+
+            if args.push_to_hub and epoch < args.num_train_epochs - 1:
+                accelerator.wait_for_everyone()
+                unwrapped_model = accelerator.unwrap_model(model)
+                unwrapped_model.save_pretrained(args.output_dir, save_function=accelerator.save)
+                if accelerator.is_main_process:
+                    tokenizer.save_pretrained(args.output_dir)
+                    repo.push_to_hub(
+                        commit_message=f"Training in progress epoch {epoch}", blocking=False, auto_lfs_prune=True
+                    )
 
     if args.output_dir is not None:
         accelerator.wait_for_everyone()
