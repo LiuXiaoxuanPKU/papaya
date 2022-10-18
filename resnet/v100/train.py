@@ -275,8 +275,9 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
             print(res)
             exp_recorder.record("batch_size", len(output))
             exp_recorder.record("total", total_mem / MB, 2)
+            exp_recorder.record("peak", peak_mem / MB, 2)
             exp_recorder.record("activation", act_mem / MB, 2)
-            exp_recorder.record("workspace", (peak_mem - total_mem) / MB)
+            exp_recorder.record("workspace", (peak_mem - total_mem - data_size) / MB)
 
             exp_recorder.dump('mem_results.json')
             exit(0)
