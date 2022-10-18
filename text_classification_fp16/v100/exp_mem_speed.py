@@ -197,10 +197,13 @@ if __name__ == "__main__":
 
     if args.mode == 'linear_scan':
         # networks = ['bert-base-cased', 'roberta-base', 'roberta-large']
-        networks = ['roberta-large']
+        # networks = ['roberta-large']
+        networks = ['bert-base-cased']
         batch_sizes = list(range(4, 64, 8)) + list(range(64, 600, 8))
         # batch_sizes = [24, 32, 40, 48]
-        algs = [None, 'ckpt', 'L1']
+        # algs = [None, 'ckpt', 'L1']
+        algs = ['swap']
+        # algs = [None]
     elif args.mode == "grad_acc":
         networks = ['bert-large-cased']
         batch_sizes = [8]

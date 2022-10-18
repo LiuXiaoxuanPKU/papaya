@@ -30,6 +30,7 @@ import torch
 from omegaconf import DictConfig, OmegaConf
 
 from fairseq import checkpoint_utils, options, quantization_utils, tasks, utils
+from fairseq import utilization
 from fairseq.data import data_utils, iterators
 from fairseq.data.plasma_utils import PlasmaStore
 from fairseq.dataclass.configs import FairseqConfig
@@ -182,39 +183,40 @@ def main(cfg: FairseqConfig) -> None:
     lr = trainer.get_lr()
 
     train_meter = meters.StopwatchMeter()
-    if cfg.actnn.ut: 
-        run_flag,profile_flag = Value('b',1),Value('b', 0)
-        p = Process(target=log_utlization, args=(run_flag, profile_flag,cfg.actnn.utpath))
-    else: run_flag,profile_flag = None, None
+    # if cfg.actnn.ut: 
+    #     run_flag,profile_flag = Value('b',1),Value('b', 0)
+    #     p = Process(target=log_utlization, args=(run_flag, profile_flag,cfg.actnn.utpath))
+    # else: run_flag,profile_flag = None, None
     train_meter.start()
-    while epoch_itr.next_epoch_idx <= max_epoch:
-        if lr <= cfg.optimization.stop_min_lr:
-            logger.info(
-                f"stopping training because current learning rate ({lr}) is smaller "
-                "than or equal to minimum learning rate "
-                f"(--stop-min-lr={cfg.optimization.stop_min_lr})"
+    with utilization.UtilizationContext(cfg.actnn.ut) as context:
+        while epoch_itr.next_epoch_idx <= max_epoch:
+            if lr <= cfg.optimization.stop_min_lr:
+                logger.info(
+                    f"stopping training because current learning rate ({lr}) is smaller "
+                    "than or equal to minimum learning rate "
+                    f"(--stop-min-lr={cfg.optimization.stop_min_lr})"
+                )
+                break
+
+            # train for one epoch
+            # if cfg.actnn.ut: p.start()
+            valid_losses, should_stop = train(cfg, trainer, task, epoch_itr,context)
+            # if cfg.actnn.ut: 
+            #     run_flag.value = 0
+            #     p.join()
+            if should_stop:
+                break
+            
+            # only use first validation loss to update the learning rate
+            lr = trainer.lr_step(epoch_itr.epoch, valid_losses[0])
+
+            epoch_itr = trainer.get_train_iterator(
+                epoch_itr.next_epoch_idx,
+                # sharded data: get train iterator for next epoch
+                load_dataset=task.has_sharded_data("train"),
+                # don't cache epoch iterators for sharded datasets
+                disable_iterator_cache=task.has_sharded_data("train"),
             )
-            break
-
-        # train for one epoch
-        if cfg.actnn.ut: p.start()
-        valid_losses, should_stop = train(cfg, trainer, task, epoch_itr,profile_flag)
-        if cfg.actnn.ut: 
-            run_flag.value = 0
-            p.join()
-        if should_stop:
-            break
-        
-        # only use first validation loss to update the learning rate
-        lr = trainer.lr_step(epoch_itr.epoch, valid_losses[0])
-
-        epoch_itr = trainer.get_train_iterator(
-            epoch_itr.next_epoch_idx,
-            # sharded data: get train iterator for next epoch
-            load_dataset=task.has_sharded_data("train"),
-            # don't cache epoch iterators for sharded datasets
-            disable_iterator_cache=task.has_sharded_data("train"),
-        )
     train_meter.stop()
 
     logger.info("done training in {:.1f} seconds".format(train_meter.sum))
@@ -230,26 +232,26 @@ def main(cfg: FairseqConfig) -> None:
         PathManager.async_close()
         logger.info("ioPath PathManager finished waiting.")
 
-def log_utlization(run_flag,prof_flag,ut_path):
-    start_time = time.time()
-    with open(ut_path,"a") as log_f:
-        while run_flag.value==1:
-            if prof_flag.value==1:
-                log_f.write("%f:%d\n"%(time.time()-start_time,get_gpu_util()[0]))
-                #print("%f:%d%\n"%(time.time()-start_time,torch.cuda.utilization()))
-            time.sleep(0.5)
+# def log_utlization(run_flag,prof_flag,ut_path):
+#     start_time = time.time()
+#     with open(ut_path,"a") as log_f:
+#         while run_flag.value==1:
+#             if prof_flag.value==1:
+#                 log_f.write("%f:%d\n"%(time.time()-start_time,get_gpu_util()[0]))
+#                 #print("%f:%d%\n"%(time.time()-start_time,torch.cuda.utilization()))
+#             time.sleep(0.5)
 
-import subprocess as sp
-def get_gpu_util():
-    output_to_list = lambda x: x.decode('ascii').split('\n')[:-1]
-    ACCEPTABLE_AVAILABLE_MEMORY = 1024
-    COMMAND = "nvidia-smi --query-gpu=utilization.gpu --format=csv"
-    try:
-        util_info = output_to_list(sp.check_output(COMMAND.split(),stderr=sp.STDOUT))[1:]
-    except sp.CalledProcessError as e:
-        raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
-    util_values = [int(x.split()[0]) for i, x in enumerate(util_info)]
-    return util_values
+# import subprocess as sp
+# def get_gpu_util():
+#     output_to_list = lambda x: x.decode('ascii').split('\n')[:-1]
+#     ACCEPTABLE_AVAILABLE_MEMORY = 1024
+#     COMMAND = "nvidia-smi --query-gpu=utilization.gpu --format=csv"
+#     try:
+#         util_info = output_to_list(sp.check_output(COMMAND.split(),stderr=sp.STDOUT))[1:]
+#     except sp.CalledProcessError as e:
+#         raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+#     util_values = [int(x.split()[0]) for i, x in enumerate(util_info)]
+#     return util_values
 
 def should_stop_early(cfg: DictConfig, valid_loss: float) -> bool:
     # skip check if no validation was done in the current epoch
@@ -281,7 +283,7 @@ def should_stop_early(cfg: DictConfig, valid_loss: float) -> bool:
 
 @metrics.aggregate("train")
 def train(
-    cfg: DictConfig, trainer: Trainer, task: tasks.FairseqTask, epoch_itr, profile_flag
+    cfg: DictConfig, trainer: Trainer, task: tasks.FairseqTask, epoch_itr, utilization_context
 ) -> Tuple[List[Optional[float]], bool]:
     """Train the model for one epoch and return validation losses."""
     # Initialize data iterator
@@ -352,10 +354,8 @@ def train(
         with metrics.aggregate("train_inner"), torch.autograd.profiler.record_function(
             "train_step-%d" % i
         ):
-            if cfg.actnn.ut: profile_flag.value = 1
-            log_output = trainer.train_step(samples)
-            if cfg.actnn.ut: profile_flag.value = 0
-        
+            with utilization.UtilizationTrainContext(utilization_context):
+                log_output = trainer.train_step(samples)
         if log_output is not None:  # not OOM, overflow, ...
             # log mid-epoch stats
             num_updates = trainer.get_num_updates()
@@ -395,6 +395,7 @@ def train(
     record("total_mem",float(task.total_mem.avg)/1024/1024)
     record("activation_mem",float(task.activation_mem.avg)/1024/1024)
     record("model_size",float(task.model_size.avg)/1024/1024)
+    record("utilization",utilization_context.getAvg())
     record("tstamp", time.time(),2)
     # reset epoch-level meters
     metrics.reset_meters("train")

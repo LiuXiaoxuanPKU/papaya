@@ -15,7 +15,7 @@ def network_to_command(network):
     return cmd
 
 
-def run_benchmark(network, batch_size, ckpt, fp16, actnn_level, get_mem):
+def run_benchmark(network, batch_size, ckpt, fp16, actnn_level, get_mem, get_util = False):
     cmd = network_to_command(network)
     cmd = cmd.replace("BS", f"{batch_size}")
     cmd = cmd.replace("NET", f"{network}")
@@ -56,6 +56,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--retry", type=int, default=1)
     parser.add_argument("--get_mem", action='store_true')
+    parser.add_argument("--get_util", action='store_true')
     args = parser.parse_args()
 
     networks = ["swin_large"]
@@ -77,7 +78,7 @@ if __name__ == "__main__":
                     fp16 = alg.split("-")[0][-2:]
                 else:
                     fp16 = None
-                ret_code = run_benchmark(net, batch_size, ckpt, fp16, actnn_level, args.get_mem)
+                ret_code = run_benchmark(net, batch_size, ckpt, fp16, actnn_level, args.get_mem, args.get_util)
                 if ret_code != 0:
                     try_cnt += 1
                     if try_cnt == 3:

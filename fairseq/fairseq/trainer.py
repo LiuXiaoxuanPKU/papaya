@@ -21,7 +21,7 @@ from click import pass_obj
 import torch
 from omegaconf import OmegaConf
 
-from fairseq import checkpoint_utils, models, optim, utils
+from fairseq import checkpoint_utils, models, optim, utils, utilization
 from fairseq.dataclass.configs import FairseqConfig
 from fairseq.dataclass.utils import convert_namespace_to_omegaconf
 from fairseq.distributed import utils as distributed_utils
