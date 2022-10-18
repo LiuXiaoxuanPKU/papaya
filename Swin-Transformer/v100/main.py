@@ -380,7 +380,7 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
                     exp_recorder.record("algorithm", args.level)
                     exp_recorder.record("fp16", args.amp_opt_level)
                     exp_recorder.record("ckpt", args.use_checkpoint)
-                    exp_recorder.record("utilization", context.getAvg())
+                    if context.enabled: exp_recorder.record("utilization", context.getAvg())
                     exp_recorder.record("tstamp", time.time(), 2)
                     exp_recorder.dump('results/speed_results.json')
                     exit(0)

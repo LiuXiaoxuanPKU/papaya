@@ -395,7 +395,7 @@ def train(
     record("total_mem",float(task.total_mem.avg)/1024/1024)
     record("activation_mem",float(task.activation_mem.avg)/1024/1024)
     record("model_size",float(task.model_size.avg)/1024/1024)
-    record("utilization",utilization_context.getAvg())
+    if utilization_context.enabled: record("utilization",utilization_context.getAvg())
     record("tstamp", time.time(),2)
     # reset epoch-level meters
     metrics.reset_meters("train")

@@ -79,7 +79,7 @@ class UtilizationContext():
             self.__proc.join()
         
     def getAvg(self):
-        assert(self.enabled)
+        if not self.enabled: return None
         return self.__gpu_utilization.getAvg()
     
     def startProfile(self):
@@ -98,8 +98,8 @@ class UtilizationContext():
     def log_utilization(run_flag,prof_flag,gpu):
         while run_flag.value==1:
             if prof_flag.value==1:
-                gpu.profile(start_n = 1)
-            time.sleep(0.2)
+                gpu.profile(start_n = 2)
+            time.sleep(0.18)
         
         
 class UtilizationTrainContext():

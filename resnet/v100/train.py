@@ -342,8 +342,7 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
                     exp_recorder.record("batch_size", train_max_batch)
                     exp_recorder.record("ips", train_ips, 2)
                     exp_recorder.record("tstamp", time.time(), 2)
-                    if context.enabled: 
-                        exp_recorder.record("utilization",context.getAvg())
+                    if context.enabled: exp_recorder.record("utilization",context.getAvg())
                     exp_recorder.dump('speed_results.json')
                     exit(0)
                 train_step_ct += 1
