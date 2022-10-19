@@ -1,7 +1,13 @@
 import matplotlib.pyplot as plt
 import json
+import sys
+sys.path.append(".")
+from util import Util
+from plot_all.plot_util import ALG_MAP, ALG_MARKER, ALG_COLOR
 
-filename = 'resnet/v100/results/speed_results.json'
+org_filename = 'resnet/v100/results/speed_results.json'
+dtr_filename = 'resnet/v100/results/dtr_speed_results.json'
+
 
 NET_TO_NAME = {
     "resnet50" : "ResNet-50",
@@ -9,9 +15,9 @@ NET_TO_NAME = {
     "wide_resnet50_2" : "Wide-ResNet-50"
 }
 
-def plot(network):
+def load_data(network):
     results = {}
-    with open(filename, 'r') as f:
+    with open(org_filename, 'r') as f:
         lines = f.readlines()
         for line in lines:
             if line.startswith("/"):
@@ -27,28 +33,47 @@ def plot(network):
             if alg not in results:
                 results[alg] = {}
             results[alg][bz] = ips
+    
+    with open(dtr_filename, 'r') as f:
+        lines = f.readlines()
+        for line in lines:
+            if line.startswith("/"):
+                continue
+            obj = json.loads(line)
+            if network != obj['network']:
+                continue
+            alg, bz, ips = 'dtr', obj['batch_size'], obj['ips']
+            if ips == -1:
+                continue
+            if alg not in results:
+                results[alg] = {}
+            if bz in results[alg]:
+                results[alg][bz] = max(ips, results[alg][bz])
+            else:
+                results[alg][bz] = ips
+    return results
 
-    alg_map = {
-        "exact" : "exact",
-        "swap" : "swap",
-        "L4bit-swap" : "quantize+swap",
-        "swap-lz4" : "lz4+swap",
-        "ckpt" : "checkpoint",
-        "L1" : "quantize",
-        "L1_ckpt" : "quantize+checkpoint",
-        "swap_ckpt" : "swap+checkpoint"
-    }
-
+def plot(network):
+    results = load_data(network)
     fig, ax = plt.subplots()
     for alg in results:
-        ax.plot(results[alg].keys(), results[alg].values(), label=alg_map[alg], marker='o')
-        ax.legend(prop={"size":13})
-        # ax.set_yscale("log")
-    plt.xticks(fontsize=15)
-    plt.yticks(fontsize=15)
-    ax.set_title(f"{NET_TO_NAME[network]}", size=22)
-    ax.set_xlabel("batch size", size=22)
-    ax.set_ylabel("throughput (record/s)", size=22)
+        sorted_x, sorted_y = Util.sort_dict(results[alg])
+        max_x, max_y = sorted_x[-1], sorted_y[-1]
+        sample_cnt = 10
+        sorted_x = Util.sample_data(sorted_x, sample_cnt) + [max_x]
+        sorted_y = Util.sample_data(sorted_y, sample_cnt) + [max_y]
+        
+        ax.plot(sorted_x, sorted_y, label=ALG_MAP[alg], marker=ALG_MARKER[alg], \
+                color=ALG_COLOR[alg], markersize=8, linewidth=3)
+        ax.scatter([max_x+30], [max_y], marker='x', s=120, color='black', linewidths=3)
+        # ax.legend(prop={"size":13}, loc='upper right')
+        # ax.legend(prop={"size":13}, loc=(-0.1, -0.6), ncol = 5)
+
+    # ax.set_title(f"{NET_TO_NAME[network]}", size=22)
+    plt.grid()
+    ax.set_xlabel("Batch Size")
+    ax.set_ylabel("Throughput (images/s)")
+    Util.set_tick_label_size([ax])
     fig.savefig(f'graphs/case_study/{network}.pdf', bbox_inches='tight')
     plt.close()
     
