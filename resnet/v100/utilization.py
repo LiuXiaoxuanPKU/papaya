@@ -67,6 +67,7 @@ class UtilizationContext():
          
     def __enter__(self):
         if self.__profile:
+            print("Crearting utilization profiling process...")
             self.__run_flag.value = 1
             self.__proc.start()
         return self
