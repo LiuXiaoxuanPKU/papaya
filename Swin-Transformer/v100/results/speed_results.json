@@ -247,3 +247,65 @@
 {"network": "swin_large", "algorithm": "fp16O1", "batch_size": 4, "ips": -1}
 {"network": "swin_large", "algorithm": "fp16O1", "batch_size": 8, "ips": -1}
 {"network": "swin_large", "algorithm": "fp16O1", "batch_size": 4, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 4, "ips": -1}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 4, "ips": 8.21, "batch_time": 0.48694, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666163598.77}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 8, "ips": 14.5, "batch_time": 0.551703, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666163623.89}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 12, "ips": 23.52, "batch_time": 0.510172, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666163653.65}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 12, "ips": -1}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 16, "ips": 27.15, "batch_time": 0.589421, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666163683.94}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 20, "ips": 31.71, "batch_time": 0.630736, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666163714.25}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 24, "ips": 35.36, "batch_time": 0.678736, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666163744.73}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 24, "ips": -1}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 28, "ips": 36.28, "batch_time": 0.771834, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666163774.98}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 32, "ips": 38.9, "batch_time": 0.822643, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666163805.24}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 36, "ips": 39.54, "batch_time": 0.910439, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666163835.87}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 36, "ips": -1}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 40, "ips": 40.5, "batch_time": 0.987713, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666163876.55}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 44, "ips": 41.16, "batch_time": 1.069096, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666163911.99}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 48, "ips": 42.12, "batch_time": 1.139732, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666163947.25}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 48, "ips": -1}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 52, "ips": 41.2, "batch_time": 1.262009, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666163982.98}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 52, "ips": -1}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 56, "ips": 42.14, "batch_time": 1.329012, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164018.44}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 60, "ips": 43.33, "batch_time": 1.384811, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164053.52}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 64, "ips": 44.03, "batch_time": 1.45339, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164090.8}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 68, "ips": 44.45, "batch_time": 1.529667, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164129.59}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 72, "ips": 44.63, "batch_time": 1.613217, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164169.89}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 76, "ips": 44.92, "batch_time": 1.692013, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164210.47}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 80, "ips": 44.81, "batch_time": 1.785358, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164250.84}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 80, "ips": -1}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 84, "ips": 45.27, "batch_time": 1.855719, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164369.43}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 88, "ips": 45.83, "batch_time": 1.920117, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164409.82}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 92, "ips": 45.67, "batch_time": 2.014273, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164450.41}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 96, "ips": 46.12, "batch_time": 2.081583, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164495.83}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 100, "ips": 46.23, "batch_time": 2.162981, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164541.37}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 104, "ips": 46.59, "batch_time": 2.232204, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164586.52}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 108, "ips": 46.24, "batch_time": 2.335787, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164632.24}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 112, "ips": 46.92, "batch_time": 2.387287, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164677.6}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 116, "ips": 46.7, "batch_time": 2.483759, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164723.14}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 120, "ips": 47.41, "batch_time": 2.531341, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164773.54}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 124, "ips": 47.09, "batch_time": 2.63348, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164823.82}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 124, "ips": -1}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 128, "ips": 47.02, "batch_time": 2.72253, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164874.56}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 128, "ips": -1}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 132, "ips": 47.15, "batch_time": 2.799425, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164924.74}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 136, "ips": 47.53, "batch_time": 2.861566, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666164975.2}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 140, "ips": 47.32, "batch_time": 2.958477, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165025.97}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 144, "ips": 47.73, "batch_time": 3.01703, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165076.16}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 148, "ips": 47.49, "batch_time": 3.116295, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165133.39}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 152, "ips": 47.76, "batch_time": 3.182844, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165187.4}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 156, "ips": 47.29, "batch_time": 3.298856, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165243.02}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 160, "ips": 46.95, "batch_time": 3.40755, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165298.13}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 160, "ips": -1}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 164, "ips": 46.83, "batch_time": 3.501753, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165381.66}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 168, "ips": 46.88, "batch_time": 3.583589, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165437.21}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 172, "ips": 47.01, "batch_time": 3.658545, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165498.19}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 172, "ips": -1}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 176, "ips": 47.54, "batch_time": 3.701851, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165557.63}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 180, "ips": 46.97, "batch_time": 3.832156, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165618.97}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 184, "ips": 47.35, "batch_time": 3.885582, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165679.69}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 188, "ips": 46.64, "batch_time": 4.030797, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165739.96}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 192, "ips": 46.06, "batch_time": 4.168288, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165800.66}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 196, "ips": 45.83, "batch_time": 4.276958, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165866.3}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 200, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 204, "ips": -1}
