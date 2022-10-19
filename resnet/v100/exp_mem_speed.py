@@ -165,11 +165,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.get_util: get_util = True
     if args.mode == 'linear_scan':
-        networks = ['resnet50', 'resnet152', 'wide_resnet50_2']
-        batch_sizes = list(range(32, 256, 8)) + list(range(256, 1280, 16))
+        networks = ['resnet50', 'wide_resnet50_2']
+        batch_sizes = list(range(4, 32, 4)) + list(range(32, 256, 8)) + list(range(256, 1280, 16))
         # batch_sizes = list(range(4, 32, 4))
         # batch_sizes = [80]
-        algs = ['L4bit-swap']
+        algs = ['chen_ckpt']
     else:
         networks = ['resnet152']
         algs = ['L1']
