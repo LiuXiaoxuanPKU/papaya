@@ -167,8 +167,9 @@ if __name__ == "__main__":
     if args.mode == 'linear_scan':
         networks = ['resnet50', 'resnet152', 'wide_resnet50_2']
         batch_sizes = list(range(32, 256, 8)) + list(range(256, 1280, 16))
+        # batch_sizes = list(range(4, 32, 4))
         # batch_sizes = [80]
-        algs = [None]
+        algs = ['L4bit-swap']
     else:
         networks = ['resnet152']
         algs = ['L1']
