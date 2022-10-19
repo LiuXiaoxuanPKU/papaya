@@ -28,15 +28,20 @@ class Util:
         return data
 
     def sample_data(data, cnt):
+        last_point = data[-1]
+        data = data[:-1]
         if cnt >= len(data):
             return data
         interval = max(len(data) // cnt, 2)
+        # always keep the last data point
+        max_v = max(data)
         # print(interval, cnt, len(data))
         i = 0
         sampled_data = []
         while i < len(data):
             sampled_data.append(data[i])
             i += interval
+        sampled_data.append(last_point)
         return sampled_data
 
     def set_tick_label_size(axes):

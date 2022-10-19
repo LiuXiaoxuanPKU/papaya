@@ -1,17 +1,9 @@
 import json
 import matplotlib.pyplot as plt
-
-NAMES = {
-    "L1" : "quantize",
-    "ckpt": "checkpoint",
-    None: "exact"
-}
-
-COLORS = {
-    "L1" : "orange",
-    "ckpt": "green",
-    None: "#2596be"
-}
+import sys
+sys.path.append('.')
+from plot_case_study.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
+from util import Util
 
 suffix = "pdf"
 data = {}
@@ -25,6 +17,8 @@ with open(file_dir, "r") as f:
             continue
         if alg == "swap":
             continue
+        if alg is None:
+            alg = 'exact'
         if layer_num <= 10:
             continue
         if alg not in data:
@@ -36,21 +30,22 @@ with open(file_dir, "r") as f:
 
 
 fig, ax = plt.subplots(1, 1)
-fig.set_size_inches(4, 4)
+fig.set_size_inches(6, 6)
 for alg in data:
     xs = []
     ys = []
     for k in sorted(data[alg].keys()):
         xs.append(k)
         ys.append(data[alg][k])
-    plt.plot(xs, ys, "-o", label=NAMES[alg], color=COLORS[alg])
+    plt.plot(xs, ys, marker=ALG_MARKER[alg], label=ALG_MAP[alg], color=ALG_COLOR[alg], ms=12, lw=3)
 
-plt.xlabel('model depth (# of layers)', size=15)
-plt.ylabel('max throughput (records/s)', size=15)
-plt.legend(fontsize='large')
-ax.tick_params(axis='both', which='major', labelsize=15)
-plt.tight_layout()
+plt.xlabel('Model depth (# of layers)')
+plt.grid()
+# plt.ylabel('max throughput (records/s)', size=15)
+# ax.tick_params(axis='both', which='major', labelsize=15)
+Util.set_tick_label_size([ax])
 plt.xlim(8, 70)
 plt.ylim(0, 350)
-plt.legend()
-plt.savefig(f'graphs/implications/large_model_depth.{suffix}')
+plt.legend(fontsize=20)
+plt.tight_layout()
+plt.savefig(f'graphs/case_study/large_model_depth.{suffix}')

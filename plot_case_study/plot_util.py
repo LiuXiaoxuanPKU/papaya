@@ -15,8 +15,8 @@ ALG_MARKER = {
     "swap" : "^",
     "L4bit-swap" : "P",
     "swap-lz4" : "d",
-    "ckpt" : "p",
-    "L1" : "H",
+    "ckpt" : "X",
+    "L1" : "^",
     "L1_ckpt" : "o",
     "swap_ckpt" : "o",
     "dtr" : "s"
