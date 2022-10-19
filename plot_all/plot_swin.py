@@ -24,6 +24,8 @@ def load_data(network):
             alg, bz, ips = obj['algorithm'], obj['batch_size'], obj['ips']
             if ips == -1:
                 continue
+            if obj['fp16'] != 'O1':
+                continue
             if alg is None:
                 alg = 'exact'
             if alg not in results:
@@ -43,14 +45,14 @@ def plot(network):
         
         ax.plot(sorted_x, sorted_y, label=ALG_MAP[alg], marker=ALG_MARKER[alg], \
                 color=ALG_COLOR[alg], markersize=8, linewidth=3)
-        ax.scatter([max_x+10], [max_y], marker='x', s=120, color='black', linewidths=3)
-        ax.legend(prop={"size":13}, loc='upper right')
+        ax.scatter([max_x+10], [max_y], marker='x', s=140, color='black', linewidths=3)
+        # ax.legend(prop={"size":13}, loc='upper right')
         # ax.legend(prop={"size":13}, loc=(-0.1, -0.6), ncol = 5)
 
     # ax.set_title(f"{NET_TO_NAME[network]}", size=22)
     plt.grid()
     ax.set_xlabel("Batch Size")
-    ax.set_ylabel("Throughput (images/s)")
+    # ax.set_ylabel("Throughput (images/s)")
     Util.set_tick_label_size([ax])
     fig.savefig(f'graphs/case_study/{network}.pdf', bbox_inches='tight')
     plt.close()

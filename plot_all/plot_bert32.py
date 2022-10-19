@@ -33,10 +33,9 @@ def plot():
         xs = Util.sample_data(list(results[alg].keys()), sample_cnt)
         ys = Util.sample_data(list(results[alg].values()), sample_cnt)
         ax.plot(xs, ys, label=ALG_MAP[alg], marker=ALG_MARKER[alg], color=ALG_COLOR[alg], markersize=8, linewidth=3)
-        ax.scatter([max(xs)+30], [max(ys)], marker='x', s=120, color='black', linewidths=3)
+        ax.scatter([max(xs)+30], [max(ys)], marker='x', s=140, color='black', linewidths=3)
 
     ax.set_xlabel("Batch size")
-    ax.set_ylabel("Throughput (record/s)")
     plt.grid()
     Util.set_tick_label_size([ax])
 

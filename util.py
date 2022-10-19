@@ -41,10 +41,10 @@ class Util:
 
     def set_tick_label_size(axes):
         for ax in axes: 
-            ax.tick_params(axis='x', labelsize=18)
-            ax.tick_params(axis='y', labelsize=18)
-            ax.xaxis.label.set_size(20)
-            ax.yaxis.label.set_size(20)
+            ax.tick_params(axis='x', labelsize=22)
+            ax.tick_params(axis='y', labelsize=22)
+            ax.xaxis.label.set_size(24)
+            ax.yaxis.label.set_size(24)
 
     def sort_dict(dic):
         keys = sorted(list(dic.keys()))[:-1]

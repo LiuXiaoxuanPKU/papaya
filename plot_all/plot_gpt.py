@@ -1,5 +1,9 @@
 import matplotlib.pyplot as plt
 import json
+import sys
+sys.path.append(".")
+from plot_all.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
+from util import Util
 
 filename = 'GPT/v100/results/speed_results.json'
 
@@ -30,27 +34,23 @@ def plot(network):
                 results[alg] = {}
             results[alg][bz] = ips
 
-    alg_map = {
-        "exact" : "exact",
-        "swap" : "swap",
-        "L4bit-swap" : "quantize+swap",
-        "swap-lz4" : "lz4+swap",
-        "ckpt" : "checkpoint",
-        "L1" : "quantize",
-        "L1_ckpt" : "quantize+checkpoint",
-        "swap_ckpt" : "swap+checkpoint"
-    }
-
     fig, ax = plt.subplots()
     for alg in results:
-        ax.plot(results[alg].keys(), results[alg].values(), label=alg_map[alg], marker='o')
-        ax.legend(prop={"size":13})
+        xs, ys = list(results[alg].keys()), list(results[alg].values())
+        max_x, max_y = max(xs), max(ys)
+        sample_cnt = 10
+        xs, ys = Util.sample_data(xs, sample_cnt), Util.sample_data(ys, sample_cnt)
+        xs += [max_x]
+        ys += [max_y]
+        ax.plot(xs, ys, color=ALG_COLOR[alg], label=ALG_MAP[alg], marker=ALG_MARKER[alg],
+            markersize=8, linewidth=3)
+        ax.scatter([max_x+2], [max_y], marker='x', s=140, color='black', linewidths=3)
+        # ax.legend(prop={"size":13})
         # ax.set_yscale("log")
-    plt.xticks(fontsize=15)
-    plt.yticks(fontsize=15)
-    ax.set_title(f"{NET_TO_NAME[network]}", size=22)
-    ax.set_xlabel("batch size", size=22)
-    ax.set_ylabel("throughput (record/s)", size=22)
+    plt.grid()
+    ax.set_xlabel("Batch size",)
+    # ax.set_ylabel("Throughput (record/s)")
+    Util.set_tick_label_size([ax])
     fig.savefig(f'graphs/case_study/{network}.pdf', bbox_inches='tight')
     plt.close()
     
