@@ -243,7 +243,6 @@
 {"network": "swin_large", "batch_size": 184, "ips": 16.96, "batch_time": 10.850788, "algorithm": "swap", "fp16": "O1", "ckpt": false, "tstamp": 1652604827.71}
 {"network": "swin_large", "algorithm": "fp16O1-swap", "batch_size": 188, "ips": -1}
 {"network": "swin_large", "algorithm": "fp16O1-swap", "batch_size": 192, "ips": -1}
-{"network": "swin_large", "algorithm": "fp16O1-swap", "batch_size": 196, "ips": -1}{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 4, "ips": -1}
 {"network": "swin_large", "algorithm": "fp16O1", "batch_size": 4, "ips": -1}
 {"network": "swin_large", "algorithm": "fp16O1", "batch_size": 8, "ips": -1}
 {"network": "swin_large", "algorithm": "fp16O1", "batch_size": 4, "ips": -1}
