@@ -208,7 +208,7 @@ if __name__ == "__main__":
         # batch_sizes = [24, 32, 40, 48]
         # algs = [None, 'ckpt', 'L1']
         # algs = ['swap']
-        algs = [None]
+        algs = ['ckpt']
     elif args.mode == "grad_acc":
         networks = ['bert-large-cased']
         batch_sizes = [8]

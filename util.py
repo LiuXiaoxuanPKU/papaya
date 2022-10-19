@@ -31,7 +31,7 @@ class Util:
         if cnt >= len(data):
             return data
         interval = max(len(data) // cnt, 2)
-        print(interval, cnt, len(data))
+        # print(interval, cnt, len(data))
         i = 0
         sampled_data = []
         while i < len(data):
@@ -46,16 +46,23 @@ class Util:
             ax.xaxis.label.set_size(20)
             ax.yaxis.label.set_size(20)
 
+    def sort_dict(dic):
+        keys = sorted(list(dic.keys()))[:-1]
+        sk, sv = keys, []
+        for k in keys:
+            sv.append(dic[k])
+        return sk, sv
+
 markers = {
     "org" : "o",
-    "ckpt" : "o",
-    "swap" : "o",
-    "quantize" : "o"
+    "ckpt" : "p",
+    "swap" : "D",
+    "quantize" : "v"
 }
 
 lines = {
     "org" : "-",
-    "ckpt" : "-",
+    "ckpt" : "--",
     "swap" : "-",
     "quantize" : "-"
 }

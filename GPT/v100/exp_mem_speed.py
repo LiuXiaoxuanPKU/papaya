@@ -28,7 +28,8 @@ def network_to_command(network, bz, max_exp = 50):
     return cmd
 
 
-def run_benchmark(network, batch_size, max_exp, alg, get_mem = False, large_bucket = False):
+def run_benchmark(network, batch_size, max_exp, alg, get_mem = False, large_bucket = False, get_util = False):
+    print("get_util = ",get_util)
     cmd = network_to_command(network, batch_size, max_exp)
 
     exp_recorder.record("network", network)
@@ -36,6 +37,8 @@ def run_benchmark(network, batch_size, max_exp, alg, get_mem = False, large_buck
     #cmd += " --utpath %s_%d_util.log"%(alg,batch_size)
     if large_bucket:
         cmd += " --bucket-cap-mb 250 "
+    if get_util:
+        cmd += " --ut True "
     if alg == "ckpt":
         cmd += " --checkpoint-activations"
         cmd += " --alg ckpt"
@@ -79,6 +82,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--retry", type=int, default=1)
     parser.add_argument("--get_mem", action='store_true')
+    parser.add_argument("--get_util", action='store_true')
     parser.add_argument("--large_bucket", action='store_true')
     parser.add_argument('--network', nargs='*', type=str)
     args = parser.parse_args()
@@ -97,7 +101,7 @@ if __name__ == "__main__":
                 try:
                     shutil.rmtree("checkpoints")
                 except: pass
-                ret_code = run_benchmark(net, batch_size, max_exp, alg, args.large_bucket)
+                ret_code = run_benchmark(net, batch_size, max_exp, alg, large_bucket = args.large_bucket, get_util = args.get_util)
                 if ret_code != 0:
                     try_cnt += 1
                     if try_cnt == 3:

@@ -1,42 +1,46 @@
 import matplotlib.pyplot as plt
 import json
+import sys
+sys.path.append('.')
+from plot_all.plot_util import ALG_MAP, ALG_MARKER, ALG_COLOR
+from util import Util
 
-results = {}
 filename = 'text_classification/results/speed_results_no_limit.json'
-with open(filename, 'r') as f:
-    lines = f.readlines()
-    for line in lines:
-        if line.startswith("/"):
-            continue
-        obj = json.loads(line)
-        alg, layer_num, bz, ips = obj['algorithm'], obj['layer_num'], obj['batch_size'], obj['ips']
-        if ips == -1:
-            continue
-        if alg is None:
-            alg = 'exact'
-        if alg not in results:
-            results[alg] = {}
-        results[alg][bz] = ips
 
-alg_map = {
-    "exact" : "exact",
-    "swap" : "swap",
-    "L4bit-swap" : "quantize+swap",
-    "swap-lz4" : "lz4+swap",
-    "ckpt" : "checkpoint",
-    "L1" : "quantize",
-    "L1_ckpt" : "quantize+checkpoint",
-    "swap_ckpt" : "swap+checkpoint"
-}
+def load_data():
+    results = {}
+    with open(filename, 'r') as f:
+        lines = f.readlines()
+        for line in lines:
+            if line.startswith("/"):
+                continue
+            obj = json.loads(line)
+            alg, layer_num, bz, ips = obj['algorithm'], obj['layer_num'], obj['batch_size'], obj['ips']
+            if ips == -1:
+                continue
+            if alg is None:
+                alg = 'exact'
+            if alg not in results:
+                results[alg] = {}
+            results[alg][bz] = ips
+    return results
 
-fig, ax = plt.subplots()
-for alg in results:
-    ax.plot(results[alg].keys(), results[alg].values(), label=alg_map[alg], marker='o')
-    ax.legend(prop={"size":13})
-    # ax.set_yscale("log")
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
-ax.set_title("Bert Large on V100", size=22)
-ax.set_xlabel("batch size", size=22)
-ax.set_ylabel("throughput (record/s)", size=22)
-fig.savefig('graphs/case_study/mem_optimization.pdf', bbox_inches='tight')
+def plot():
+    results = load_data()
+    fig, ax = plt.subplots()
+    for alg in results:
+        sample_cnt = 10
+        xs = Util.sample_data(list(results[alg].keys()), sample_cnt)
+        ys = Util.sample_data(list(results[alg].values()), sample_cnt)
+        ax.plot(xs, ys, label=ALG_MAP[alg], marker=ALG_MARKER[alg], color=ALG_COLOR[alg], markersize=8, linewidth=3)
+        ax.scatter([max(xs)+30], [max(ys)], marker='x', s=120, color='black', linewidths=3)
+
+    ax.set_xlabel("Batch size")
+    ax.set_ylabel("Throughput (record/s)")
+    plt.grid()
+    Util.set_tick_label_size([ax])
+
+    fig.savefig('graphs/case_study/bert.pdf', bbox_inches='tight')
+
+
+plot()

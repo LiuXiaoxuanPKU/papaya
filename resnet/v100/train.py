@@ -226,10 +226,19 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
 
     if args.benchmark == "exact":
         pass
-    elif args.benchmark == "gact":
+    elif args.benchmark == "gact" and args.alg != "chen_ckpt":
         gact.set_optimization_level(args.alg)
         controller = gact.controller.Controller(model)
         controller.install_hook()
+    
+    if args.alg == "chen_ckpt":
+        import sys
+        sys.path.append("./pytorch-memonger/")
+        from memonger import SublinearSequential
+        model = SublinearSequential(
+            *list(model.children())  
+        )
+
     # gpu_utilization = gpuUtilization();
     # run_flag,profile_flag = Value('b',1),Value('b', 0)
     # utilization_proc = Process(target=log_utilization, args=(run_flag, profile_flag,gpu_utilization))
@@ -322,7 +331,7 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
                     del output
                     del partial_image
                     del partial_target
-                if args.benchmark == "gact":
+                if args.benchmark == "gact" and args.alg != "chen_ckpt":
                     controller.iterate(backprop)
                 bs = len(images)
                 del images
@@ -347,7 +356,7 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
                     exit(0)
                 train_step_ct += 1
             
-        if args.benchmark == "gact":
+        if args.benchmark == "gact" and args.alg != "chen_ckpt":
             controller.uninstall_hook()
     
 
