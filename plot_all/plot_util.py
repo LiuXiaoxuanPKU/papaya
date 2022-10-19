@@ -23,8 +23,8 @@ ALG_MARKER = {
 }
 
 ALG_COLOR = {
-    "exact" : "maroon",
-    "swap" : "orangered",
+    "exact" : "royalblue",
+    "swap" : "forestgreen",
     "L4bit-swap" : "chocolate",
     "swap-lz4" : "gold",
     "ckpt" : "olive",
