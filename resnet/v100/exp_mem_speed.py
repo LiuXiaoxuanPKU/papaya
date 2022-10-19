@@ -169,7 +169,8 @@ if __name__ == "__main__":
         batch_sizes = list(range(32, 256, 8)) + list(range(256, 1280, 16))
         # batch_sizes = list(range(4, 32, 4))
         # batch_sizes = [80]
-        algs = ['L4bit-swap']
+        # algs = ['L4bit-swap']
+        algs = [None]
     else:
         networks = ['resnet152']
         algs = ['L1']
