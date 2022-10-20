@@ -6,7 +6,8 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 from fitter import Data
-
+import random
+random.seed(0)
 
 class Util:
     def load_data(dir: str, key: str, val: str, \
@@ -57,6 +58,17 @@ class Util:
         for k in keys:
             sv.append(dic[k])
         return sk, sv
+
+    def sample_dict(dic, percentenge):
+        sample_data = {}
+        sample_num = max(2, int(len(dic) * percentenge))
+        remove_num = 3
+        if len(dic) - sample_num < remove_num:
+            return dic
+        sample_keys = random.sample(list(dic.keys())[remove_num:], sample_num)
+        for k in sample_keys:
+            sample_data[k] = dic[k]
+        return sample_data
 
 markers = {
     "org" : "o",
