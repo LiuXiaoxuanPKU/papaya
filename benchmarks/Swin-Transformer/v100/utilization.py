@@ -28,7 +28,7 @@ class gpuUtilization:
         self.__n+=1
         if self.__n>start_n: 
             ret = self.get()
-            print("Get utilization {}%.".format(ret))
+            # print("Get utilization {}%.".format(ret))
             self.samples.append(ret)
     def getAvg(self):
         return np.average(self.samples)

@@ -359,7 +359,7 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
                 bs = samples.shape[0]
                 global train_step_ct, train_ips_list
                 train_ips_list.append(bs / cur_batch_time)
-                if train_step_ct >= 6:
+                if train_step_ct >= 18:
                     train_ips = np.median(train_ips_list)
                     res = "BatchSize: %d\tIPS: %.2f\t,Cost: %.2f ms" % (
                         bs, train_ips, cur_batch_time)

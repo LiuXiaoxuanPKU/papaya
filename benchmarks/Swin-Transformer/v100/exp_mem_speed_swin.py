@@ -32,6 +32,7 @@ def run_benchmark(network, batch_size, ckpt, fp16, actnn_level, get_mem, get_uti
     else:
         cmd += " --get-speed"
         out_file = "results/speed_results.json"
+        if get_util: cmd += " --get-util"
         
     ret_code = run_cmd(cmd)
 
@@ -61,7 +62,8 @@ if __name__ == "__main__":
 
     networks = ["swin_large"]
     # algs = ["fp32", "fp32-ckpt", "fp16O1", "fp16O1-ckpt", "fp16O2", "fp16O2-ckpt"]
-    algs = ["fp16O1"]
+    # algs = ["fp16O1"]
+    algs = ["ckpt"]
     actnn_level = None
     
     for net in networks:
