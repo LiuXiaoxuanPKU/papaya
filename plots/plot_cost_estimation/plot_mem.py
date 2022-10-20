@@ -5,7 +5,7 @@ from plots.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
 import numpy as np
 from pathlib import Path
 from fitter import FitterPool, ModelFnPool
-from util import Viewer, Util
+from util import Util
 import random
 import matplotlib.pyplot as plt
 
@@ -33,12 +33,12 @@ GB_NORMALIZE = {
 
 NET_TO_ALGS = {
     # resnet should have ["None", "L1", "swap", "dtr", "L4bit-swap"]
-    "resnet50" : ["None", "L1", "swap"],
-    "wide_resnet50_2" : ["None", "L1"],
+    "resnet50" : ["None", "L1", "swap", "L4bit-swap", "dtr"],
+    "wide_resnet50_2" : ["None", "L1", "L4bit-swap", "swap", "dtr"],
     # bert should have [None, "L1", "swap", "L14bit-swap"]
     "bert-large-cased" : [None, "L1", "swap"],
-    # swin should have [None, "L1", "swap", "L14bit-swap", "ckpt"]
-    "swin_large" : [None, "L1", "swap", "ckpt"],
+    "swin_large" : [None, "L1", "swap", "ckpt", "L4bit-swap"],
+    # gpt should have [None, "L1", "swap", "L14bit-swap"]
     "transformer_lm_gpt3_small" : [None, "L1", "ckpt"]
 }
 
@@ -74,6 +74,8 @@ def plot(hardware, network):
         alg_mem = Util.load_data(mem_dir, "batch_size", "peak", is_alg)   
         for k in alg_mem:
             alg_mem[k] /= GB_NORMALIZE[network]
+            if alg == "dtr":
+                alg_mem[k] /= 1e6
         xs, ys = list(alg_mem.keys()), list(alg_mem.values())
         sample_cnt = 10
         xs, ys = Util.sample_data(xs, sample_cnt), Util.sample_data(ys, sample_cnt)
