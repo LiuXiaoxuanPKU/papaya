@@ -6,7 +6,8 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 from fitter import Data
-
+import random
+random.seed(0)
 
 class Util:
     def load_data(dir: str, key: str, val: str, \
@@ -28,23 +29,28 @@ class Util:
         return data
 
     def sample_data(data, cnt):
+        last_point = data[-1]
+        data = data[:-1]
         if cnt >= len(data):
             return data
         interval = max(len(data) // cnt, 2)
+        # always keep the last data point
+        max_v = max(data)
         # print(interval, cnt, len(data))
         i = 0
         sampled_data = []
         while i < len(data):
             sampled_data.append(data[i])
             i += interval
+        sampled_data.append(last_point)
         return sampled_data
 
     def set_tick_label_size(axes):
         for ax in axes: 
-            ax.tick_params(axis='x', labelsize=18)
-            ax.tick_params(axis='y', labelsize=18)
-            ax.xaxis.label.set_size(20)
-            ax.yaxis.label.set_size(20)
+            ax.tick_params(axis='x', labelsize=22)
+            ax.tick_params(axis='y', labelsize=22)
+            ax.xaxis.label.set_size(24)
+            ax.yaxis.label.set_size(24)
 
     def sort_dict(dic):
         keys = sorted(list(dic.keys()))[:-1]
@@ -52,6 +58,17 @@ class Util:
         for k in keys:
             sv.append(dic[k])
         return sk, sv
+
+    def sample_dict(dic, percentenge):
+        sample_data = {}
+        sample_num = max(2, int(len(dic) * percentenge))
+        remove_num = 3
+        if len(dic) - sample_num < remove_num:
+            return dic
+        sample_keys = random.sample(list(dic.keys())[remove_num:], sample_num)
+        for k in sample_keys:
+            sample_data[k] = dic[k]
+        return sample_data
 
 markers = {
     "org" : "o",
