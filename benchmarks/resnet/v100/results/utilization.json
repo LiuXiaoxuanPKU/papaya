@@ -1,0 +1,42 @@
+{"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 32, "ips": 331.35, "tstamp": 1666153337.75, "utilization": 8.873418}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 40, "ips": 339.97, "tstamp": 1666153400.82, "utilization": 50.636364}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 48, "ips": 357.35, "tstamp": 1666153460.79, "utilization": 61.583333}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 56, "ips": 352.02, "tstamp": 1666153528.17, "utilization": 69.5}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 64, "ips": 359.17, "tstamp": 1666153600.11, "utilization": 74.375}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 72, "ips": 365.52, "tstamp": 1666153682.21, "utilization": 62.052632}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 80, "ips": 365.39, "tstamp": 1666153770.86, "utilization": 89.35}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 88, "ips": 366.62, "tstamp": 1666153864.22, "utilization": 55.5}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 96, "ips": 374.4, "tstamp": 1666153962.53, "utilization": 89.130435}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 104, "ips": 377.18, "tstamp": 1666154066.33, "utilization": 84.565217}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 112, "ips": 370.81, "tstamp": 1666154170.69, "utilization": 86.115385}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 120, "ips": 370.98, "tstamp": 1666154283.24, "utilization": 74.642857}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 128, "ips": 375.51, "tstamp": 1666154405.16, "utilization": 86.133333}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 136, "ips": 372.49, "tstamp": 1666154525.21, "utilization": 92.806452}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 144, "ips": 374.14, "tstamp": 1666154647.65, "utilization": 89.333333}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 152, "ips": 376.57, "tstamp": 1666154772.5, "utilization": 87.090909}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 160, "ips": 374.62, "tstamp": 1666154903.84, "utilization": 83.828571}
+ {"network": "resnet50", "algorithm": "None", "benchmark": "exact", "batch_size": 168, "ips": 374.53, "tstamp": 1666155044.26, "utilization": 96.486486}
+ {"network": "resnet50", "algorithm": null, "batch_size": 176, "ips": -1}
+ {"network": "resnet50", "algorithm": null, "batch_size": 184, "ips": -1}
+ {"network": "resnet152", "algorithm": "None", "benchmark": "exact", "batch_size": 32, "ips": 140.6, "tstamp": 1666155197.1, "utilization": 86.176471}
+ {"network": "resnet152", "algorithm": "None", "benchmark": "exact", "batch_size": 40, "ips": 141.6, "tstamp": 1666155237.58, "utilization": 85.4}
+ {"network": "resnet152", "algorithm": "None", "benchmark": "exact", "batch_size": 48, "ips": 152.1, "tstamp": 1666155283.4, "utilization": 86.565217}
+ {"network": "resnet152", "algorithm": "None", "benchmark": "exact", "batch_size": 56, "ips": 149.23, "tstamp": 1666155335.54, "utilization": 89.862069}
+ {"network": "resnet152", "algorithm": "None", "benchmark": "exact", "batch_size": 64, "ips": 150.93, "tstamp": 1666155390.65, "utilization": 83.393939}
+ {"network": "resnet152", "algorithm": "None", "benchmark": "exact", "batch_size": 72, "ips": 153.69, "tstamp": 1666155454.77, "utilization": 94.727273}
+ {"network": "resnet152", "algorithm": null, "batch_size": 80, "ips": -1}
+ {"network": "resnet152", "algorithm": null, "batch_size": 88, "ips": -1}
+ {"network": "wide_resnet50_2", "algorithm": "None", "benchmark": "exact", "batch_size": 32, "ips": 184.17, "tstamp": 1666155557.98, "utilization": 80.529412}
+ {"network": "wide_resnet50_2", "algorithm": "None", "benchmark": "exact", "batch_size": 40, "ips": 182.96, "tstamp": 1666155598.47, "utilization": 81.681818}
+ {"network": "wide_resnet50_2", "algorithm": "None", "benchmark": "exact", "batch_size": 48, "ips": 195.09, "tstamp": 1666155646.61, "utilization": 86.0}
+ {"network": "wide_resnet50_2", "algorithm": "None", "benchmark": "exact", "batch_size": 56, "ips": 189.55, "tstamp": 1666155699.67, "utilization": 86.25}
+ {"network": "wide_resnet50_2", "algorithm": "None", "benchmark": "exact", "batch_size": 64, "ips": 197.87, "tstamp": 1666155761.14, "utilization": 82.275862}
+ {"network": "wide_resnet50_2", "algorithm": "None", "benchmark": "exact", "batch_size": 72, "ips": 195.45, "tstamp": 1666155824.05, "utilization": 88.225806}
+ {"network": "wide_resnet50_2", "algorithm": "None", "benchmark": "exact", "batch_size": 80, "ips": 196.35, "tstamp": 1666155892.55, "utilization": 91.617647}
+ {"network": "wide_resnet50_2", "algorithm": "None", "benchmark": "exact", "batch_size": 88, "ips": 196.6, "tstamp": 1666155964.86, "utilization": 86.5}
+ {"network": "wide_resnet50_2", "algorithm": "None", "benchmark": "exact", "batch_size": 96, "ips": 200.48, "tstamp": 1666156042.01, "utilization": 92.026316}
+ {"network": "wide_resnet50_2", "algorithm": "None", "benchmark": "exact", "batch_size": 104, "ips": 201.7, "tstamp": 1666156126.11, "utilization": 94.076923}
+ {"network": "wide_resnet50_2", "algorithm": "None", "benchmark": "exact", "batch_size": 112, "ips": 200.34, "tstamp": 1666156211.6, "utilization": 85.25}
+ {"network": "wide_resnet50_2", "algorithm": "None", "benchmark": "exact", "batch_size": 120, "ips": 200.01, "tstamp": 1666156305.83, "utilization": 93.652174}
+ {"network": "wide_resnet50_2", "algorithm": null, "batch_size": 128, "ips": -1}
+ {"network": "wide_resnet50_2", "algorithm": null, "batch_size": 136, "ips": -1}

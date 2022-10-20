@@ -308,3 +308,6 @@
 {"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 196, "ips": 45.83, "batch_time": 4.276958, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false, "tstamp": 1666165866.3}
 {"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 200, "ips": -1}
 {"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 204, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 4, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 8, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 12, "ips": -1}
