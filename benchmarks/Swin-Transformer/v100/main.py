@@ -92,7 +92,7 @@ def main(args, config):
     logger.info(f"Creating model:{config.MODEL.TYPE}/{config.MODEL.NAME}")
     model = build_model(config)
     model.cuda()
-    logger.info(str(model))
+    # logger.info(str(model))
     
 
     optimizer = build_optimizer(config, model)
@@ -210,12 +210,9 @@ def train_one_epoch(args, config, model, criterion, data_loader, optimizer, epoc
                 data_size = gact.utils.compute_tensor_bytes([samples, targets])
                 model_size = init_mem - data_size
 
-                states = optimizer.state_dict()['state']
-                for k in states:
-                    print(k, type(states[k]))
-                exit(0)
-                state_size = gact.utils.compute_tensor_bytes(list(states.values()))
-                exp_recorder.record("state_size", state_size / MB)
+                #states = optimizer.state_dict()['state']
+                #state_size = gact.utils.compute_tensor_bytes(list(states.values()))
+                #exp_recorder.record("state_size", state_size / MB)
                 exp_recorder.record("model_size", model_size / MB)
 
             if args.get_speed:

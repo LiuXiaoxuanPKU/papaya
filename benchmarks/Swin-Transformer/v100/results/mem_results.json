@@ -251,3 +251,24 @@
 {"network": "swin_large", "batch_size": 184, "peak": 11152711168, "total": 4471627776, "activation": 410804348.0, "algorithm": "swap", "fp16": "O1", "ckpt": false}
 {"network": "swin_large", "algorithm": "fp16O1-swap", "batch_size": 188, "ips": -1}
 {"network": "swin_large", "algorithm": "fp16O1-swap", "batch_size": 192, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 196, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 164, "ips": -1}
+{"pure_model_size": 749.711899, "model_size": 3772.39978, "network": "swin_large", "batch_size": 164, "peak": 10054667480, "total": 4613.064819, "activation": 840.731934, "workspace": 5346.805176, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false}
+{"pure_model_size": 749.711899, "model_size": 3770.125366, "network": "swin_large", "batch_size": 180, "peak": 10666859863, "total": 4650.909058, "activation": 876.053711, "workspace": 5911.904785, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false}
+{"pure_model_size": 749.711899, "model_size": 3767.905151, "network": "swin_large", "batch_size": 196, "peak": 11273573730, "total": 4687.910034, "activation": 919.04834, "workspace": 6472.369141, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 212, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 228, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 244, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 260, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 276, "ips": -1}
+{"pure_model_size": 749.711899, "model_size": 3776.383667, "network": "swin_large", "batch_size": 4, "peak": 5054728027, "total": 4189.048218, "activation": 413.719727, "workspace": 863.367676, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false}
+{"pure_model_size": 749.711899, "model_size": 3782.809937, "network": "swin_large", "batch_size": 20, "peak": 5554417480, "total": 4228.796753, "activation": 446.655273, "workspace": 1314.060059, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false}
+{"pure_model_size": 749.711899, "model_size": 3776.976929, "network": "swin_large", "batch_size": 36, "peak": 6052230469, "total": 4268.373901, "activation": 490.436035, "workspace": 1763.047363, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false}
+{"pure_model_size": 749.711899, "model_size": 3778.174683, "network": "swin_large", "batch_size": 52, "peak": 6553625488, "total": 4308.255737, "activation": 528.001465, "workspace": 2215.312012, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false}
+{"pure_model_size": 749.711899, "model_size": 3775.841187, "network": "swin_large", "batch_size": 68, "peak": 7055037109, "total": 4355.703979, "activation": 578.402832, "workspace": 2660.026855, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false}
+{"network": "swin_large", "algorithm": "fp16O1-L4bit-swap", "batch_size": 68, "ips": -1}
+{"pure_model_size": 749.711899, "model_size": 3777.973999, "network": "swin_large", "batch_size": 84, "peak": 7561191406, "total": 4402.477417, "activation": 625.274414, "workspace": 3110.15918, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false}
+{"pure_model_size": 749.711899, "model_size": 3766.817261, "network": "swin_large", "batch_size": 100, "peak": 8051225098, "total": 4436.265015, "activation": 667.01416, "workspace": 3557.156738, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false}
+{"pure_model_size": 749.711899, "model_size": 3772.473022, "network": "swin_large", "batch_size": 116, "peak": 8558266113, "total": 4500.295776, "activation": 725.936523, "workspace": 3990.918457, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false}
+{"pure_model_size": 749.711899, "model_size": 3773.467163, "network": "swin_large", "batch_size": 132, "peak": 9055636719, "total": 4536.961792, "activation": 766.104492, "workspace": 4442.374512, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false}
+{"pure_model_size": 749.711899, "model_size": 3779.015503, "network": "swin_large", "batch_size": 148, "peak": 9567509277, "total": 4587.953003, "activation": 811.878906, "workspace": 4894.007324, "algorithm": "L4bit-swap", "fp16": "O1", "ckpt": false}
