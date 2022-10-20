@@ -33,3 +33,12 @@ ALG_COLOR = {
     "swap_ckpt" : "dodgerblue",
     "dtr" : "mediumpurple"
 }
+
+NET_TO_FOLER = {
+    "resnet50" : "resnet",
+    "wide_resnet50_2" : "resnet",
+    "resnet152" : "resnet",
+    "bert-large-cased" : "text_classification_fp16",
+    "swin_large" : "Swin-Transformer",
+    "transformer_lm_gpt3_small" : "GPT"
+}

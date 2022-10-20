@@ -1,6 +1,6 @@
 import sys
 sys.path.append('.')
-from plots.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
+from plots.plot_util import ALG_COLOR, ALG_MARKER, NET_TO_FOLER
 
 import numpy as np
 from pathlib import Path
@@ -13,14 +13,6 @@ random.seed(0)
 
 suffix = "pdf"
 
-NET_TO_FOLER = {
-    "resnet50" : "resnet",
-    "wide_resnet50_2" : "resnet",
-    "resnet152" : "resnet",
-    "bert-large-cased" : "text_classification_fp16",
-    "swin_large" : "Swin-Transformer",
-    "transformer_lm_gpt3_small" : "GPT"
-}
 
 GB_NORMALIZE = {
     "resnet50" : 1e3,
@@ -32,7 +24,6 @@ GB_NORMALIZE = {
 }
 
 NET_TO_ALGS = {
-    # resnet should have ["None", "L1", "swap", "dtr", "L4bit-swap"]
     "resnet50" : ["None", "L1", "swap", "L4bit-swap", "dtr"],
     "wide_resnet50_2" : ["None", "L1", "L4bit-swap", "swap", "dtr"],
     # bert should have [None, "L1", "swap", "L14bit-swap"]
@@ -61,7 +52,7 @@ def cond_gen(network, alg):
 
 def plot(hardware, network):
     mem_dir = f"benchmarks/{NET_TO_FOLER[network]}/{hardware}/results/mem_results.json"
-    result_file = f"graphs/cost_estimation/{network}.{suffix}"
+    result_file = f"graphs/cost_estimation/memory/{network}.{suffix}"
     if not Path(mem_dir).is_file():
         print("Error: No experiment data found. Pease run expriment from \
             scratch with --run-new for {}@{}".format(network,hardware))
