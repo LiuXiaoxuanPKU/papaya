@@ -51,7 +51,7 @@ def run_benchmark(network, batch_size, max_exp, alg, get_mem = False, large_buck
     if alg == "swap":
         cmt += " ----ddp-backend fully_sharded --cpu-offload "
         cmt.replace("--optimizer adam","--optimizer cpu_adam")
-    if alg in ["L1", "swap"]:
+    if alg in ["L1", "L4bit-swap"]:
        cmd += " --alg %s"% alg 
        
     if get_mem:
@@ -89,7 +89,8 @@ if __name__ == "__main__":
     max_exp_init,max_exp = 30,30
     networks = args.network if args.network else ["transformer_lm_gpt3_small"] #["transformer_lm_gpt3_medium","transformer_lm_gpt3_large"]#
     # algs = [None, "ckpt", "L1"]
-    algs = [None]
+    # algs = [None]
+    algs = ["L4bit-swap"]
     actnn_level = None
     
     for net in networks:

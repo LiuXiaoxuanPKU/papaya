@@ -42,7 +42,7 @@ def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False,
         cmd += " --ckpt"
         cmd += " --gact --opt_level swap"
     elif alg == "swap":
-        cmd += " --swap"
+        cmd += " --swap --ckpt "
     elif alg != None:
         cmd += " --output_dir log/sst2/LEVEL/ --gact --opt_level LEVEL ".replace("LEVEL", alg)
         
@@ -207,8 +207,8 @@ if __name__ == "__main__":
         batch_sizes = list(range(4, 64, 8)) + list(range(64, 600, 8))
         # batch_sizes = [24, 32, 40, 48]
         # algs = [None, 'ckpt', 'L1']
-        # algs = ['swap']
-        algs = ['ckpt']
+        algs = ['swap']
+        # algs = ['ckpt']
     elif args.mode == "grad_acc":
         networks = ['bert-large-cased']
         batch_sizes = [8]
