@@ -664,12 +664,6 @@ def main():
 
             eval_metric = metric.compute()
             logger.info(f"epoch {epoch}: {eval_metric}")
-                
-    if args.output_dir is not None:
-        accelerator.wait_for_everyone()
-        with open(os.path.join(args.output_dir, 'result.txt'), 'a') as f:
-            f.write('lr:%f, bsz:%d, result:%f\n' % (args.learning_rate, args.per_device_train_batch_size, best_metric))
-
 
 if __name__ == "__main__":
     main()
