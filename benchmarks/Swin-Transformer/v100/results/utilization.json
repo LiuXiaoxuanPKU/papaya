@@ -1,0 +1,19 @@
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 4, "ips": 16.27, "batch_time": 0.245866, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 41.428571, "tstamp": 1666247878.35}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 8, "ips": 29.8, "batch_time": 0.268469, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 52.166667, "tstamp": 1666247909.19}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 12, "ips": 41.88, "batch_time": 0.2865, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 58.586207, "tstamp": 1666247940.09}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 16, "ips": 53.55, "batch_time": 0.298763, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 64.0, "tstamp": 1666247970.05}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 20, "ips": 59.39, "batch_time": 0.336769, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 72.151515, "tstamp": 1666248000.63}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 24, "ips": 63.96, "batch_time": 0.375244, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 74.486486, "tstamp": 1666248031.48}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 28, "ips": 70.24, "batch_time": 0.398654, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 74.692308, "tstamp": 1666248066.64}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 32, "ips": 71.15, "batch_time": 0.449783, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 77.268293, "tstamp": 1666248102.49}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 36, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 40, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 44, "ips": -1}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 4, "ips": 17.01, "batch_time": 0.235119, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 41.619048, "tstamp": 1666311427.63}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 8, "ips": 30.24, "batch_time": 0.264539, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 55.708333, "tstamp": 1666311458.35}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 12, "ips": 41.64, "batch_time": 0.288199, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 59.928571, "tstamp": 1666311488.96}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 16, "ips": 52.28, "batch_time": 0.306045, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 66.366667, "tstamp": 1666311519.54}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 20, "ips": 57.34, "batch_time": 0.348783, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 73.666667, "tstamp": 1666311550.32}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 24, "ips": 64.03, "batch_time": 0.374839, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 75.444444, "tstamp": 1666311580.65}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 28, "ips": 68.96, "batch_time": 0.406045, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 79.605263, "tstamp": 1666311616.2}
+{"pure_model_size": 749.711899, "network": "swin_large", "batch_size": 32, "ips": 72.33, "batch_time": 0.442398, "algorithm": null, "fp16": "O1", "ckpt": false, "utilization": 81.55, "tstamp": 1666311651.74}

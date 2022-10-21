@@ -62,14 +62,13 @@ if __name__ == "__main__":
 
     networks = ["swin_large"]
     # algs = ["fp32", "fp32-ckpt", "fp16O1", "fp16O1-ckpt", "fp16O2", "fp16O2-ckpt"]
-    # algs = ["fp16O1"]
-    algs = ["ckpt"]
+    algs = ["fp16O1"]
     actnn_level = None
     
     for net in networks:
         for alg in algs:
             try_cnt = 0
-            for batch_size in range(164, 800, 4):
+            for batch_size in range(4, 200, 4):
                 if "ckpt" in alg:
                     ckpt = True
                 else:
@@ -83,5 +82,5 @@ if __name__ == "__main__":
                 ret_code = run_benchmark(net, batch_size, ckpt, fp16, actnn_level, args.get_mem, args.get_util)
                 if ret_code != 0:
                     try_cnt += 1
-                    if try_cnt == 3:
+                    if try_cnt == 8:
                         break

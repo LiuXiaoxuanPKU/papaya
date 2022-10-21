@@ -618,7 +618,10 @@ def main():
                         exp_recorder.record("utilization", context.getAvg())
                         exp_recorder.record("tstamp", time.time(), 2)
 
-                        exp_recorder.dump('results/speed_results.json')
+                        if args.get_util:
+                            exp_recorder.dump('results/utilization.json')
+                        else:
+                            exp_recorder.dump('results/speed_results.json')
                         exit(0)
 
                 torch.nn.utils.clip_grad.clip_grad_norm_(model.parameters(), args.max_gradient_norm)
@@ -662,46 +665,10 @@ def main():
             eval_metric = metric.compute()
             logger.info(f"epoch {epoch}: {eval_metric}")
                 
-            if eval_metric[metric_key[args.task_name]] > best_metric:
-                best_metric = eval_metric[metric_key[args.task_name]]
-
-            if args.push_to_hub and epoch < args.num_train_epochs - 1:
-                accelerator.wait_for_everyone()
-                unwrapped_model = accelerator.unwrap_model(model)
-                unwrapped_model.save_pretrained(args.output_dir, save_function=accelerator.save)
-                if accelerator.is_main_process:
-                    tokenizer.save_pretrained(args.output_dir)
-                    repo.push_to_hub(
-                        commit_message=f"Training in progress epoch {epoch}", blocking=False, auto_lfs_prune=True
-                    )
-
     if args.output_dir is not None:
         accelerator.wait_for_everyone()
         with open(os.path.join(args.output_dir, 'result.txt'), 'a') as f:
             f.write('lr:%f, bsz:%d, result:%f\n' % (args.learning_rate, args.per_device_train_batch_size, best_metric))
-
-        # if args.task_name == "mnli":
-        #     # Final evaluation on mismatched validation set
-        #     eval_dataset = processed_datasets["validation_mismatched"]
-        #     eval_dataloader = DataLoader(
-        #         eval_dataset, collate_fn=data_collator, batch_size=args.per_device_eval_batch_size
-        #     )
-        #     eval_dataloader = accelerator.prepare(eval_dataloader)
-
-        #     model.eval()
-        #     for step, batch in enumerate(eval_dataloader):
-        #         outputs = model(**batch)
-        #         predictions = outputs.logits.argmax(dim=-1)
-        #         metric.add_batch(
-        #             predictions=accelerator.gather(predictions),
-        #             references=accelerator.gather(batch["labels"]),
-        #         )
-
-        #     eval_metric = metric.compute()
-        #     logger.info(f"mnli-mm: {eval_metric}")
-
-    # eval_metric = metric.compute()
-    # logger.info(f"epoch {epoch}: {eval_metric}")
 
 
 if __name__ == "__main__":
