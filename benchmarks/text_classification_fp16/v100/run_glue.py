@@ -600,7 +600,7 @@ def main():
                     batch_total_time += cur_batch_time
                     start_record_time = True
                         
-                    if completed_steps == 18:
+                    if completed_steps == 6:
                         bs = args.per_device_train_batch_size
                         train_ips = (step - 1) * bs / batch_total_time
                         res = "BatchSize: %d\tIPS: %.2f\t,Cost: %.2f ms" % (
