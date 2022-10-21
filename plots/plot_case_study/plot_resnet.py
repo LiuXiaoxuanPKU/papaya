@@ -3,11 +3,9 @@ import json
 import sys
 sys.path.append(".")
 from util import Util
-from plot_all.plot_util import ALG_MAP, ALG_MARKER, ALG_COLOR
+from plots.plot_util import ALG_MAP, ALG_MARKER, ALG_COLOR
 
-org_filename = 'resnet/v100/results/speed_results.json'
-dtr_filename = 'resnet/v100/results/dtr_speed_results.json'
-
+org_filename = 'benchmarks/resnet/v100/results/speed_results.json'
 
 NET_TO_NAME = {
     "resnet50" : "ResNet-50",
@@ -33,24 +31,6 @@ def load_data(network):
             if alg not in results:
                 results[alg] = {}
             results[alg][bz] = ips
-    
-    with open(dtr_filename, 'r') as f:
-        lines = f.readlines()
-        for line in lines:
-            if line.startswith("/"):
-                continue
-            obj = json.loads(line)
-            if network != obj['network']:
-                continue
-            alg, bz, ips = 'dtr', obj['batch_size'], obj['ips']
-            if ips == -1:
-                continue
-            if alg not in results:
-                results[alg] = {}
-            if bz in results[alg]:
-                results[alg][bz] = max(ips, results[alg][bz])
-            else:
-                results[alg][bz] = ips
     return results
 
 def plot(network):
@@ -63,6 +43,8 @@ def plot(network):
         sorted_x = Util.sample_data(sorted_x, sample_cnt) + [max_x]
         sorted_y = Util.sample_data(sorted_y, sample_cnt) + [max_y]
         
+        if alg is None:
+            alg = 'exact'
         ax.plot(sorted_x, sorted_y, label=ALG_MAP[alg], marker=ALG_MARKER[alg], \
                 color=ALG_COLOR[alg], markersize=8, linewidth=3)
         ax.scatter([max_x+30], [max_y], marker='x', s=140, color='black', linewidths=3)

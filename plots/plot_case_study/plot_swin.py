@@ -3,9 +3,9 @@ import json
 import sys
 sys.path.append(".")
 from util import Util
-from plot_all.plot_util import ALG_MAP, ALG_MARKER, ALG_COLOR
+from plots.plot_util import ALG_MAP, ALG_MARKER, ALG_COLOR
 
-org_filename = 'Swin-Transformer/v100/results/speed_results.json'
+org_filename = 'benchmarks/Swin-Transformer/v100/results/speed_results.json'
 
 NET_TO_NAME = {
     "swin_large" : "Swin-Large",
@@ -26,8 +26,12 @@ def load_data(network):
                 continue
             if obj['fp16'] != 'O1':
                 continue
-            if alg is None:
+            if alg is None and obj["ckpt"] == False:
                 alg = 'exact'
+            if alg is None and obj["ckpt"] == True:
+                alg = 'ckpt'
+            if alg == 'L1' and obj['ckpt'] == True:
+                alg = 'L1_ckpt'
             if alg not in results:
                 results[alg] = {}
             results[alg][bz] = ips

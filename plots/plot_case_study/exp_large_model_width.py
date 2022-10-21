@@ -7,10 +7,10 @@ from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import Pipeline
 import sys
 sys.path.append('.')
-from plot_case_study.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
+from plots.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
 from util import Util
 
-with open('text_classification_fp16/v100/results/speed_results_hidden_size.json', 'r') as f:
+with open('benchmarks/text_classification_fp16/v100/results/speed_results_hidden_size.json', 'r') as f:
     lines = f.readlines()
 
 suffix = "pdf"

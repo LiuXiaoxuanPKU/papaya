@@ -3,12 +3,12 @@ import json
 import sys
 sys.path.append(".")
 from util import Util
-from plot_case_study.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
+from plots.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
 
 
 def load_data(layer_num):
     results = {}
-    filename = f'text_classification_fp16/v100/results/speed_results_{layer_num}.json'
+    filename = f'benchmarks/text_classification_fp16/v100/results/speed_results_{layer_num}.json'
     with open(filename, 'r') as f:
         lines = f.readlines()
         for line in lines:

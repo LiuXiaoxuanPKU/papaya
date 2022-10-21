@@ -2,12 +2,12 @@ import json
 import matplotlib.pyplot as plt
 import sys
 sys.path.append('.')
-from plot_case_study.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
+from plots.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
 from util import Util
 
 suffix = "pdf"
 data = {}
-file_dir = "text_classification_fp16/v100/results/speed_results_depth.json"
+file_dir = "benchmarks/text_classification_fp16/v100/results/speed_results_depth.json"
 with open(file_dir, "r") as f:
     lines = f.readlines()
     for line in lines:

@@ -2,10 +2,10 @@ import matplotlib.pyplot as plt
 import json
 import sys
 sys.path.append(".")
-from plot_all.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
+from plots.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
 from util import Util
 
-filename = 'GPT/v100/results/speed_results.json'
+filename = 'benchmarks/GPT/v100/results/speed_results.json'
 
 NET_TO_NAME = {
     "transformer_lm_gpt3_small" : "GPT3-Small",

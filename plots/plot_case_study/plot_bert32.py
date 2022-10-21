@@ -2,10 +2,10 @@ import matplotlib.pyplot as plt
 import json
 import sys
 sys.path.append('.')
-from plot_all.plot_util import ALG_MAP, ALG_MARKER, ALG_COLOR
+from plots.plot_util import ALG_MAP, ALG_MARKER, ALG_COLOR
 from util import Util
 
-filename = 'text_classification/results/speed_results_no_limit.json'
+filename = 'benchmarks/text_classification/results/speed_results_no_limit.json'
 
 def load_data():
     results = {}

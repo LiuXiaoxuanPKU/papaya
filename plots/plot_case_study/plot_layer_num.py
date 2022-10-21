@@ -1,7 +1,7 @@
 import sys
 from unittest import result
 sys.path.append('.')
-from plot_case_study.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
+from plots.plot_util import ALG_COLOR, ALG_MAP, ALG_MARKER
 import matplotlib.pyplot as plt
 import json
 from util import Util
@@ -9,7 +9,7 @@ from util import Util
 
 def load_data():
     results = {}
-    filename = 'text_classification/results/speed_results_quantize_all.json'
+    filename = 'benchmarks/text_classification/results/speed_results_quantize_all.json'
     with open(filename, 'r') as f:
         lines = f.readlines()
         for line in lines:
@@ -50,7 +50,8 @@ def plot(results):
         xs, ys = Util.sample_data(xs, sample_cnt), Util.sample_data(ys, sample_cnt)
         ax.plot(xs, ys, label=alg_name, marker=ALG_MARKER[alg.split('_')[0]], markersize=8, linewidth=3, color=COLOR[alg.split('_')[-1]])
         ax.legend(prop={"size":14})
-        
+    
+    plt.grid()
     ax.set_title("Bert of different layers on V100", size=24)
     ax.set_xlabel("Batch size")
     ax.set_ylabel("Throughput (records/s)")
