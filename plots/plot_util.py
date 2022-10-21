@@ -42,3 +42,13 @@ NET_TO_FOLER = {
     "swin_large" : "Swin-Transformer",
     "transformer_lm_gpt3_small" : "GPT"
 }
+
+NET_TO_ALGS = {
+    "resnet50" : [None, "L1", "swap", "L4bit-swap", "dtr"],
+    "wide_resnet50_2" : [None, "L1", "L4bit-swap", "swap", "dtr"],
+    # bert should have [None, "L1", "swap", "L4bit-swap"]
+    "bert-large-cased" : [None, "L1", "swap"],
+    "swin_large" : [None, "L1", "swap", "ckpt", "L4bit-swap"],
+    # gpt should have [None, "L1", "swap", "L4bit-swap"]
+    "transformer_lm_gpt3_small" : [None, "L1", "ckpt", "L4bit-swap"]
+}

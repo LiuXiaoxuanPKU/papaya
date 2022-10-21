@@ -25,6 +25,12 @@ class Util:
                 continue
             if val == "batch_time" and "batch_time" not in obj:
                 obj["batch_time"] = obj["batch_size"] / obj["ips"]
+            if val == "batch_time" and obj["batch_time"] > 1e10:
+                obj["batch_time"] = obj["batch_size"] / obj["ips"]
+            if "algorithm" in obj and obj["algorithm"] == "None":
+                obj["algorithm"] = None
+            if "alg" in obj and obj["alg"] == "None":
+                obj["alg"] = None
             data[obj[key]] = obj[val]
         return data
 
@@ -45,12 +51,12 @@ class Util:
         sampled_data.append(last_point)
         return sampled_data
 
-    def set_tick_label_size(axes):
+    def set_tick_label_size(axes, size=20):
         for ax in axes: 
-            ax.tick_params(axis='x', labelsize=22)
-            ax.tick_params(axis='y', labelsize=22)
-            ax.xaxis.label.set_size(24)
-            ax.yaxis.label.set_size(24)
+            ax.tick_params(axis='x', labelsize=size)
+            ax.tick_params(axis='y', labelsize=size)
+            ax.xaxis.label.set_size(size+2)
+            ax.yaxis.label.set_size(size+2)
 
     def sort_dict(dic):
         keys = sorted(list(dic.keys()))[:-1]
