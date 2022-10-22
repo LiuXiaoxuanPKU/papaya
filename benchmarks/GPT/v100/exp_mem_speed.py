@@ -90,7 +90,7 @@ if __name__ == "__main__":
     networks = args.network if args.network else ["transformer_lm_gpt3_small"] #["transformer_lm_gpt3_medium","transformer_lm_gpt3_large"]#
     # algs = [None, "ckpt", "L1"]
     # algs = [None]
-    algs = ["L4bit-swap"]
+    algs = ["cpu-off"]
     actnn_level = None
     
     for net in networks:
