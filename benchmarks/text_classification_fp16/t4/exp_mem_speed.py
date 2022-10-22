@@ -25,23 +25,12 @@ def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False,
         cmd += " --ckpt "
     elif alg == 'L1_ckpt':
         cmd += " --ckpt "
-        cmd += " --actnn --opt_level L1 "
-    elif alg == 'L1_ckpt_eff':
-        cmd += " --ckpt "
-        cmd += " --actnn --opt_level L1 "
-        cmd += " --eff "
-    elif alg == "L1.4_ckpt":
-        cmd += " --ckpt "
-        cmd += " --actnn --opt_level L1.4 "
-    elif alg == "L1.4_ckpt_effi":
-        cmd += " --ckpt "
-        cmd += " --actnn --opt_level L1.4 "
-        cmd += " --eff "
+        cmd += " --gact --opt_level L1 "
     elif alg == "ckpt_swap":
         cmd += " --ckpt"
-        cmd += " --actnn --opt_level swap"
+        cmd += " --gact --opt_level swap"
     elif alg != None:
-        cmd += " --output_dir log/sst2/LEVEL/ --actnn --opt_level LEVEL ".replace("LEVEL", alg)
+        cmd += " --output_dir log/sst2/LEVEL/ --gact --opt_level LEVEL ".replace("LEVEL", alg)
         
     if debug_speed:
         cmd += " --get_speed "
@@ -184,7 +173,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", type=str, default='linear_scan')
     parser.add_argument("--retry", type=int, default=1)
-    parser.add_argument("--layer_num", type=int, default=48)
+    parser.add_argument("--layer_num", type=int, default=24)
     parser.add_argument("--hidden_size", type=int, default=1024)
     parser.add_argument("--get_mem", action='store_true')
     args = parser.parse_args()
@@ -192,9 +181,11 @@ if __name__ == "__main__":
 
     if args.mode == 'linear_scan':
         networks = ['bert-large-cased']
-        batch_sizes = list(range(4, 64, 4)) + list(range(64, 600, 8)) 
+        batch_sizes = list(range(4, 64, 4)) + list(range(64, 600, 32)) 
         # batch_sizes = [24, 32, 40, 48]
-        algs = [None,'ckpt','L1', 'L4bit-swap', 'L1_ckpt', 'swap_ckpt']
+        # algs = [None,'ckpt','L1', 'L4bit-swap', 'L1_ckpt', 'swap_ckpt']
+        algs = ['L4bit-swap', 'L1_ckpt', 'swap_ckpt']
+        algs = ['ckpt_swap']
         # algs = ['L1']
     else:
         networks = ['bert-large-cased']
@@ -315,15 +306,15 @@ if __name__ == "__main__":
             alg = 'swap'
             run_benchmark(network, alg, batch_size, debug_mem=True, debug_speed=False)
             
-            # # swap actnn 4 bit blocking
+            # # swap gact 4 bit blocking
             # alg = 'L4bit-block'
             # run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=True)
             
-            # swap actnn 4 bit
+            # swap gact 4 bit
             alg = 'L4bit-swap'
             run_benchmark(network, alg, batch_size, debug_mem=True, debug_speed=False)
             
-            # swap actnn 4 bit + prefetch
+            # swap gact 4 bit + prefetch
             alg = 'L4bit-swap-prefetch'
             run_benchmark(network, alg, batch_size, debug_mem=True, debug_speed=False)
     elif args.mode == 'ckpt-softmax':
@@ -338,11 +329,11 @@ if __name__ == "__main__":
             alg = 'ckpt'
             run_benchmark(network, alg, batch_size, debug_mem=True, debug_speed=False)
             
-            # swap actnn 4 bit
+            # swap gact 4 bit
             alg = 'L1_ckpt'
             run_benchmark(network, alg, batch_size, debug_mem=True, debug_speed=False)
             
-            # swap actnn 4 bit + prefetch
+            # swap gact 4 bit + prefetch
             alg = 'L1_ckpt_eff'
             run_benchmark(network, alg, batch_size, debug_mem=True, debug_speed=False)      
     elif args.mode == 'mem':
