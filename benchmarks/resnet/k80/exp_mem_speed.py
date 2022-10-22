@@ -1,8 +1,10 @@
 import argparse
+from itertools import filterfalse
 import json
 import os
 import time
 
+get_util = False
 
 def run_cmd(cmd):
     print(cmd)
@@ -38,6 +40,9 @@ def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False, 
         
     if get_macs:
         cmd += ' --get_macs'
+    
+    if get_util:
+        cmd += ' --get_util'
 
     ret_code = run_cmd(cmd)
 
@@ -151,15 +156,18 @@ def get_macs(network, alg, batch_size, input_size=None):
 
 
 if __name__ == "__main__":
+    
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", type=str, default='linear_scan')
     parser.add_argument("--retry", type=int, default=1)
+    parser.add_argument("--get_mem", action='store_true', default=False)
+    parser.add_argument("--get_util", action='store_true', default=False)
     args = parser.parse_args()
-
+    if args.get_util: get_util = True
     if args.mode == 'linear_scan':
-        networks = ['resnet50', 'resnet152']
-        batch_sizes = list(range(32, 256, 16)) + list(range(256, 1280, 32))
-        algs = ['L0', 'L1']
+        networks = ['resnet50', 'wide_resnet50_2']
+        batch_sizes = list(range(4, 32, 4)) + list(range(32, 256, 8)) + list(range(256, 1280, 16))
+        algs = [None, 'L1', 'L4bit-swap', 'swap']
     else:
         networks = ['resnet152']
         algs = ['L1']
@@ -169,7 +177,7 @@ if __name__ == "__main__":
             failed = 0
             for alg in algs:
                 for batch_size in batch_sizes:
-                    if run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=True) != 0:
+                    if run_benchmark(network, alg, batch_size, debug_mem=args.get_mem, debug_speed=True) != 0:
                         if failed >= args.retry:
                             break
                         failed += 1

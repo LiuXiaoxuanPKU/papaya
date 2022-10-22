@@ -20,11 +20,13 @@ import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import torchvision.models as models
 import numpy as np
+from multiprocessing import Process, Value
 
 from scaled_resnet import scaled_resnet, scaled_wide_resnet
 import gact
 from gact import config
 from gact.utils import get_memory_usage, compute_tensor_bytes, exp_recorder
+from utilization import gpuUtilization, UtilizationContext, UtilizationTrainContext
 
 MB = 1024**2
 GB = 1024**3
@@ -80,6 +82,7 @@ parser.add_argument('--input-size', type=int)
 parser.add_argument('--get_macs', action='store_true')
 parser.add_argument('--get_mem', action='store_true')
 parser.add_argument('--get_speed', action='store_true')
+parser.add_argument('--get_util', action='store_true')
 
 best_acc1 = 0
 
@@ -117,7 +120,7 @@ def main_worker(args):
         usage = get_memory_usage(True)
         exp_recorder.record("network", args.arch)
         exp_recorder.record("algorithm", args.alg)
-        exp_recorder.record("model_only", usage / GB, 2)
+        exp_recorder.record("model_only", usage / MB, 2)
 
     # define loss function (criterion) and optimizer
     criterion = nn.CrossEntropyLoss().cuda(args.gpu)
@@ -223,122 +226,138 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
 
     if args.benchmark == "exact":
         pass
-    elif args.benchmark == "gact":
+    elif args.benchmark == "gact" and args.alg != "chen_ckpt":
         gact.set_optimization_level(args.alg)
         controller = gact.controller.Controller(model)
         controller.install_hook()
+    
+    if args.alg == "chen_ckpt":
+        import sys
+        sys.path.append("./pytorch-memonger/")
+        from memonger import SublinearSequential
+        model = SublinearSequential(
+            *list(model.children())  
+        )
 
+    # gpu_utilization = gpuUtilization();
+    # run_flag,profile_flag = Value('b',1),Value('b', 0)
+    # utilization_proc = Process(target=log_utilization, args=(run_flag, profile_flag,gpu_utilization))
     # switch to train mode
-    model.train()
-    for (i, (images, target)) in enumerate(train_loader):
-        images = images.cuda(args.gpu, non_blocking=False)
-        target = target.cuda(args.gpu, non_blocking=False)
-        
-        start = torch.cuda.Event(enable_timing=True)
-        end = torch.cuda.Event(enable_timing=True)
-        torch.cuda.synchronize()
-        start.record()
-        
-        if args.get_mem:
-            print("========== Init Data Loader ===========")
-            init_mem = get_memory_usage(True)
-            exp_recorder.record("data_loader", init_mem /
-                                GB - exp_recorder.val_dict['model_only'], 2)
+    with UtilizationContext(args.get_util) as context:
+        model.train()
+        for (i, (images, target)) in enumerate(train_loader):
+            images = images.cuda(args.gpu, non_blocking=False)
+            target = target.cuda(args.gpu, non_blocking=False)
+            
+            start = torch.cuda.Event(enable_timing=True)
+            end = torch.cuda.Event(enable_timing=True)
+            torch.cuda.synchronize()
+            start.record()
+            
+            if args.get_mem and i > 1:
+                print("========== Init Data Loader ===========")
+                init_mem = get_memory_usage(True)
+                data_size = gact.utils.compute_tensor_bytes([images, target])
+                exp_recorder.record("data_size", data_size / MB)
+                exp_recorder.record("data_loader", init_mem /
+                                    MB - exp_recorder.val_dict['model_only'], 2)
 
-        # compute output
-        output = model(images)
-        loss = criterion(output, target)
+            # compute output
+            with UtilizationTrainContext(context):
+                output = model(images)
+                loss = criterion(output, target)
 
-        if args.get_mem:
-            torch.cuda.reset_peak_memory_stats()
+                if args.get_mem and i > 1:
+                    torch.cuda.reset_peak_memory_stats()
 
-            print("========== Before Backward ===========")
-            before_backward = get_memory_usage(True)
-            act_mem = get_memory_usage() - init_mem - \
-                compute_tensor_bytes([loss, output])
+                    print("========== Before Backward ===========")
+                    before_backward = get_memory_usage(True)
+                    optimizer.zero_grad()
+                    loss.backward()
+                    optimizer.step()
+                    if args.benchmark == "gact": 
+                        controller.iterate(None)
+                    del loss
 
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-            if args.benchmark == "gact": 
-                controller.iterate(None)
-            del loss
+                    print("========== After Backward ===========")
+                    after_backward = get_memory_usage(True)
+                    total_mem = before_backward - data_size
+                    act_mem = before_backward - after_backward
+                    peak_mem = torch.cuda.max_memory_allocated()
+                    ref_act = 0
+                    res = "Batch size: %d\tTotal Mem: %.2f MB\tAct Mem: %.2f MB\tRef Mem: %.2f\tPeak Mem: %.2f" % (
+                        len(output), total_mem / MB, act_mem / MB, ref_act / MB, peak_mem / MB)
+                    print(res)
+                    exp_recorder.record("batch_size", len(output))
+                    exp_recorder.record("total", total_mem / MB, 2)
+                    exp_recorder.record("peak", peak_mem / MB, 2)
+                    exp_recorder.record("activation", act_mem / MB, 2)
+                    exp_recorder.record("workspace", (peak_mem - total_mem - data_size) / MB)
+                    exp_recorder.dump('mem_results.json')
+                    exit(0)
 
-            print("========== After Backward ===========")
-            after_backward = get_memory_usage(True)
-            total_mem = before_backward + (after_backward - init_mem)
-            ref_act = before_backward - after_backward
-            peak_mem = torch.cuda.max_memory_allocated()
-            res = "Batch size: %d\tTotal Mem: %.2f MB\tAct Mem: %.2f MB\tRef Mem: %.2f\tPeak Mem: %.2f" % (
-                len(output), total_mem / MB, act_mem / MB, ref_act / MB, peak_mem / MB)
-            print(res)
-            exp_recorder.record("batch_size", len(output))
-            exp_recorder.record("total", total_mem / GB, 2)
-            exp_recorder.record("activation", act_mem / GB, 2)
-            exp_recorder.dump('mem_results.json')
-            exit(0)
+                # measure accuracy and record loss
+                acc1, acc5 = accuracy(output, target, topk=(1, 5))
+                losses.update(loss.item(), images.size(0))
+                top1.update(acc1[0], images.size(0))
+                top5.update(acc5[0], images.size(0))
+                
 
-        # measure accuracy and record loss
-        acc1, acc5 = accuracy(output, target, topk=(1, 5))
-        losses.update(loss.item(), images.size(0))
-        top1.update(acc1[0], images.size(0))
-        top5.update(acc5[0], images.size(0))
-        
+                # compute gradient and do SGD step
+                optimizer.zero_grad()
+                loss.backward()
+                with torch.no_grad():
+                    optimizer.step()
+            
+                if i % args.print_freq == 0:
+                    progress.display(i)
+                
+                # measure elapsed time
+                end.record()
+                torch.cuda.synchronize()
+                cur_batch_time = start.elapsed_time(end) / 1000.0 # event in ms
 
-        # compute gradient and do SGD step
-        optimizer.zero_grad()
-        loss.backward()
-        with torch.no_grad():
-            optimizer.step()
-        
-        if i % args.print_freq == 0:
-            progress.display(i)
-        
-        # measure elapsed time
-        end.record()
-        torch.cuda.synchronize()
-        cur_batch_time = start.elapsed_time(end) / 1000.0 # event in ms
-
-        # only use 8 batch size to get sensitivity
-        def backprop():
-            model.train()
-            partial_bz = 8
-            partial_image = images[:partial_bz, :, :, :]
-            partial_target = target[:partial_bz]
-            output = model(partial_image)
-            loss = criterion(output, partial_target)
-            optimizer.zero_grad()
-            loss.backward()
-            del loss
-            del output
-            del partial_image
-            del partial_target
-        if args.benchmark == "gact":
-            controller.iterate(backprop)
-        bs = len(images)
-        del images
-        train_ips_list.append(bs / cur_batch_time)
-           
-        if args.get_speed:
-            global train_step_ct, train_max_batch
-            train_max_batch = max(train_max_batch, bs)
-            if train_step_ct >= 6:
-                train_ips = np.median(train_ips_list)
-                res = "BatchSize: %d\tIPS: %.2f\t,Cost: %.2f ms" % (
-                    bs, train_ips, cur_batch_time)
-                print(res, flush=True)
-                exp_recorder.record("network", args.arch)
-                exp_recorder.record("algorithm", args.alg)
-                exp_recorder.record("benchmark", args.benchmark)
-                exp_recorder.record("batch_size", train_max_batch)
-                exp_recorder.record("ips", train_ips, 2)
-                exp_recorder.record("tstamp", time.time(), 2)
-                exp_recorder.dump('speed_results.json')
-                exit(0)
-            train_step_ct += 1
-        
-    if args.benchmark == "gact":
-        controller.uninstall_hook()
+                # only use 8 batch size to get sensitivity
+                def backprop():
+                    model.train()
+                    partial_bz = 8
+                    partial_image = images[:partial_bz, :, :, :]
+                    partial_target = target[:partial_bz]
+                    output = model(partial_image)
+                    loss = criterion(output, partial_target)
+                    optimizer.zero_grad()
+                    loss.backward()
+                    del loss
+                    del output
+                    del partial_image
+                    del partial_target
+                if args.benchmark == "gact" and args.alg != "chen_ckpt":
+                    controller.iterate(backprop)
+                bs = len(images)
+                del images
+                train_ips_list.append(bs / cur_batch_time)
+            
+            if args.get_speed:
+                global train_step_ct, train_max_batch
+                train_max_batch = max(train_max_batch, bs)
+                if train_step_ct >= 6:
+                    train_ips = np.median(train_ips_list)
+                    res = "BatchSize: %d\tIPS: %.2f\t,Cost: %.2f ms" % (
+                        bs, train_ips, cur_batch_time)
+                    print(res, flush=True)
+                    exp_recorder.record("network", args.arch)
+                    exp_recorder.record("algorithm", args.alg)
+                    exp_recorder.record("benchmark", args.benchmark)
+                    exp_recorder.record("batch_size", train_max_batch)
+                    exp_recorder.record("ips", train_ips, 2)
+                    exp_recorder.record("tstamp", time.time(), 2)
+                    if context.enabled: exp_recorder.record("utilization",context.getAvg())
+                    exp_recorder.dump('speed_results.json')
+                    exit(0)
+                train_step_ct += 1
+            
+        if args.benchmark == "gact" and args.alg != "chen_ckpt":
+            controller.uninstall_hook()
     
 
 
@@ -458,6 +477,7 @@ def accuracy(output, target, topk=(1,)):
             correct_k = correct[:k].reshape(-1).float().sum(0, keepdim=True)
             res.append(correct_k.mul_(100.0 / batch_size))
         return res
+
 
 
 if __name__ == '__main__':
