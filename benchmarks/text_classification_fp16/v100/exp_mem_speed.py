@@ -1,7 +1,6 @@
 import argparse
 import json
 import os
-from pickle import FALSE
 import time
 
 def run_cmd(cmd):
@@ -27,17 +26,17 @@ def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False,
     elif alg == 'L1_ckpt':
         cmd += " --ckpt "
         cmd += " --gact --opt_level L1 "
-    elif alg == 'L1_ckpt_eff':
-        cmd += " --ckpt "
-        cmd += " --gact --opt_level L1 "
-        cmd += " --eff "
-    elif alg == "L1.4_ckpt":
-        cmd += " --ckpt "
-        cmd += " --gact --opt_level L1.4 "
-    elif alg == "L1.4_ckpt_effi":
-        cmd += " --ckpt "
-        cmd += " --gact --opt_level L1.4 "
-        cmd += " --eff "
+    # elif alg == 'L1_ckpt_eff':
+    #     cmd += " --ckpt "
+    #     cmd += " --gact --opt_level L1 "
+    #     cmd += " --eff "
+    # elif alg == "L1.4_ckpt":
+    #     cmd += " --ckpt "
+    #     cmd += " --gact --opt_level L1.4 "
+    # elif alg == "L1.4_ckpt_effi":
+    #     cmd += " --ckpt "
+    #     cmd += " --gact --opt_level L1.4 "
+    #     cmd += " --eff "
     elif alg == "ckpt_swap":
         cmd += " --ckpt"
         cmd += " --gact --opt_level swap"
@@ -204,11 +203,8 @@ if __name__ == "__main__":
         # networks = ['bert-base-cased', 'roberta-base', 'roberta-large']
         # networks = ['roberta-large']
         networks = ['bert-large-cased']
-        batch_sizes = list(range(4, 64, 4)) + list(range(64, 600, 8))
-        # batch_sizes = [24, 32, 40, 48]
-        # algs = [None, 'ckpt', 'L1']
-        algs = [None]
-        # algs = ['ckpt']
+        batch_sizes = list(range(64, 1000, 16))
+        algs = ['L1']
     elif args.mode == "grad_acc":
         networks = ['bert-large-cased']
         batch_sizes = [8]
@@ -223,7 +219,7 @@ if __name__ == "__main__":
             for alg in algs:
                 failed = 0
                 for batch_size in batch_sizes:
-                    if run_benchmark(network, alg, batch_size, debug_mem=args.get_mem, debug_speed=True, \
+                    if run_benchmark(network, alg, batch_size, debug_mem=args.get_mem, debug_speed=(not args.get_mem), \
                         layer_num=args.layer_num, hidden_size=args.hidden_size, get_util = args.get_util) != 0:
                         if failed >= args.retry:
                             break
