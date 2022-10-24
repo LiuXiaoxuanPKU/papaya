@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 import time
+from tkinter import FALSE
 
 def run_cmd(cmd):
     print(cmd)
@@ -9,14 +10,14 @@ def run_cmd(cmd):
 
 # bert-large-cased
 def network_to_command(network):
-    cmd = "accelerate launch run_glue.py --model_name_or_path ARCH --task_name sst2 --max_length 128 " + \
+    cmd = "accelerate launch  --config_file train_config.yaml run_glue.py --model_name_or_path ARCH --task_name sst2 --max_length 128 " + \
         "--per_device_train_batch_size BS --per_device_eval_batch_size 128 --learning_rate 1e-5 " + \
-        "--num_train_epochs 1 --seed 42 --pad_to_max_length "
+        "--num_train_epochs 1 --seed 42 --pad_to_max_length"
     cmd = cmd.replace("ARCH", network)
     return cmd
 
 def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False,
-                hidden_size=None, layer_num=None, intermediate_size=None, get_macs=False):
+                hidden_size=1024, layer_num=24, intermediate_size=None, get_macs=False, get_util = False, grad_acc=1):
     os.environ['DEBUG_SPEED'] = str(debug_speed)
     cmd = network_to_command(network)
     cmd = cmd.replace("BS", f"{batch_size}")
@@ -26,20 +27,22 @@ def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False,
     elif alg == 'L1_ckpt':
         cmd += " --ckpt "
         cmd += " --actnn --opt_level L1 "
-    elif alg == 'L1_ckpt_eff':
-        cmd += " --ckpt "
-        cmd += " --actnn --opt_level L1 "
-        cmd += " --eff "
-    elif alg == "L1.4_ckpt":
-        cmd += " --ckpt "
-        cmd += " --actnn --opt_level L1.4 "
-    elif alg == "L1.4_ckpt_effi":
-        cmd += " --ckpt "
-        cmd += " --actnn --opt_level L1.4 "
-        cmd += " --eff "
+    # elif alg == 'L1_ckpt_eff':
+    #     cmd += " --ckpt "
+    #     cmd += " --actnn --opt_level L1 "
+    #     cmd += " --eff "
+    # elif alg == "L1.4_ckpt":
+    #     cmd += " --ckpt "
+    #     cmd += " --actnn --opt_level L1.4 "
+    # elif alg == "L1.4_ckpt_effi":
+    #     cmd += " --ckpt "
+    #     cmd += " --actnn --opt_level L1.4 "
+    #     cmd += " --eff "
     elif alg == "ckpt_swap":
         cmd += " --ckpt"
         cmd += " --actnn --opt_level swap"
+    elif alg == "swap":
+        cmd += " --swap --ckpt "
     elif alg != None:
         cmd += " --output_dir log/sst2/LEVEL/ --actnn --opt_level LEVEL ".replace("LEVEL", alg)
         
@@ -48,6 +51,9 @@ def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False,
     
     if debug_mem:
         cmd += " --get_mem "
+        
+    if get_util:
+        cmd += " --get_util "
     
     if intermediate_size is not None:
         cmd += f" --customize "
@@ -63,6 +69,9 @@ def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False,
 
     if get_macs:
         cmd += " --get_macs "
+    
+    if grad_acc:
+        cmd += f" --gradient_accumulation_steps {grad_acc}"
 
     ret_code = run_cmd(cmd)
 
@@ -97,13 +106,13 @@ def round_down(x):
 def round_down_16(x):
     return int(x // 16 * 16)
 
-def binary_search_max_batch(network, alg, low, high):
+def binary_search_max_batch(network, alg, low, high, layer_num):
     ret = 0
     low, high = round_up(low), round_down(high)
 
-    while low <= high:
+    while low <= high - 8:
         mid = round_down(low + (high - low) // 2)
-        success = run_benchmark(network, alg, mid, debug_speed=True) == 0
+        success = run_benchmark(network, alg, mid, debug_speed=True, layer_num=layer_num) == 0
         if success:
             ret = mid
             low = round_up(mid + 1)
@@ -166,12 +175,20 @@ def binary_search_max_intermediate_size(alg, low, high, batch_size):
     return ret
 
 
-def get_ips(network, alg, batch_size, hidden_size=None, layer_num=None, intermediate_size=None):
+def get_ips(network, alg, batch_size, hidden_size=None, layer_num=None, intermediate_size=None, get_util = False):
     run_benchmark(network, alg, batch_size, layer_num=layer_num,
-                  hidden_size=hidden_size, debug_speed=True, intermediate_size=intermediate_size)
-    line = list(open("speed_results.json").readlines())[-1]
+                  hidden_size=hidden_size, debug_speed=True, intermediate_size=intermediate_size, get_util = get_util)
+    line = list(open("results/speed_results.json").readlines())[-2]
     return json.loads(line)['ips']
 
+def test_last(network,alg,batch_size):
+    lines = list(open("results/speed_results.json").readlines())
+    if not lines: return False
+    line = lines[-1]
+    try:
+        record = json.loads(line)
+        return record['network']==network and record['algorithm']==alg and str(record['batch_size'])==str(batch_size)
+    except: return False
 
 def get_macs(network, alg, batch_size, hidden_size=None, layer_num=None, intermediate_size=None):
     run_benchmark(network, alg, batch_size, layer_num=layer_num,
@@ -184,43 +201,74 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--mode", type=str, default='linear_scan')
     parser.add_argument("--retry", type=int, default=1)
-    parser.add_argument("--layer_num", type=int, default=24)
-    parser.add_argument("--hidden_size", type=int, default=1024)
+    parser.add_argument("--layer_num", type=int, default=None)
+    parser.add_argument("--hidden_size", type=int, default=None)
     parser.add_argument("--get_mem", action='store_true', default=False)
+    parser.add_argument("--get_util", action='store_true', default=False)
     args = parser.parse_args()
 
 
     if args.mode == 'linear_scan':
+        # networks = ['bert-base-cased', 'roberta-base', 'roberta-large']
+        # networks = ['roberta-large']
         networks = ['bert-large-cased']
-        batch_sizes = list(range(4, 64, 4)) + list(range(64, 600, 8)) 
-        batch_sizes = list(range(144, 600, 8)) 
-        algs = ['L1']
+        # batch_sizes = list(range(4, 64, 4)) + list(range(64, 600, 16))
+        batch_sizes = list(range(4, 64, 8)) + list(range(64, 600, 32))
+        algs = [None, 'L1', 'ckpt', 'L4bit-swap', 'L1_ckpt', 'ckpt_swap']
+        # batch_sizes = [116, 132]
+    elif args.mode == "grad_acc":
+        networks = ['bert-large-cased']
+        batch_sizes = [8]
+        algs = [None]
+        grad_accs = range(1, 20, 1)
     else:
         networks = ['bert-large-cased']
-        algs = [None, 'L1', 'L1.2']
+        algs = ['swap', None, 'ckpt', 'L1']
 
     if args.mode == 'linear_scan':
+        # algs = ['L1', 'ckpt', 'L4bit-swap', 'L1_ckpt', 'ckpt_swap', None]
+        algs = ['L4bit-swap', 'L1_ckpt', 'ckpt_swap']
+        batch_sizes = list(range(300, 600, 16))
         for network in networks:
             for alg in algs:
                 failed = 0
+                if alg is None: batch_sizes = list(range(20, 64, 8)) + list(range(64, 600, 32))
+                elif alg == "L1": batch_sizes = list(range(120, 600, 8))
+                elif alg == "ckpt": batch_sizes = list(range(284, 600, 16))
+                else: batch_sizes = list(range(328, 600, 16))
                 for batch_size in batch_sizes:
-                    if run_benchmark(network, alg, batch_size, debug_mem=args.get_mem, debug_speed=True, \
-                        layer_num=args.layer_num, hidden_size=args.hidden_size) != 0:
+                    if run_benchmark(network, alg, batch_size, debug_mem=args.get_mem, debug_speed=(not args.get_mem), \
+                        layer_num=args.layer_num, hidden_size=args.hidden_size, get_util = args.get_util) != 0 or \
+                            test_last(network = network,alg = alg,batch_size = batch_size)==False:
                         if failed >= args.retry:
                             break
-                        failed += 1                                            
-    elif args.mode == 'binary_search_max_batch':
+                        failed += 1   
+    elif args.mode == 'grad_acc':
         for network in networks:
             for alg in algs:
-                low, high = 16, 1024
+                failed = 0
+                batch_size = 8
+                for acc in grad_accs:
+                    if run_benchmark(network, alg, batch_size, debug_mem=args.get_mem, debug_speed=True, \
+                        layer_num=args.layer_num, hidden_size=args.hidden_size, grad_acc=acc, get_util = args.get_util) != 0:
+                        if failed >= args.retry:
+                            break
+                        failed += 1  
+    elif args.mode == 'binary_search_max_batch':
+        networks = ['bert-large-cased']
+        algs = [None, 'L1', 'ckpt', 'L4bit-swap', 'L1_ckpt', 'ckpt_swap']
+        for network in networks:
+            for alg in algs:
+                low, high = 8, 1024
                 max_batch_size = binary_search_max_batch(
-                    network, alg, low, high)
-                ips = get_ips(network, alg, max_batch_size)
+                    network, alg, low, high, layer_num=args.layer_num)
+                ips = get_ips(network, alg, max_batch_size, get_util = args.get_util)
 
                 out_file = "max_batch_results.json"
                 with open(out_file, "a") as fout:
                     val_dict = {
                         "network": network,
+                        "layer_num": args.layer_num,
                         "algorithm": alg,
                         "max_batch_size": max_batch_size,
                         "ips": ips,
@@ -235,7 +283,7 @@ if __name__ == "__main__":
             network = 'bert-large-cased'
             max_hidden_size = binary_search_max_hidden_size(
                 alg, low, high, network, batch_size)
-            ips = get_ips(network, alg, batch_size, hidden_size=max_hidden_size)
+            ips = get_ips(network, alg, batch_size, hidden_size=max_hidden_size, get_util = args.get_util)
             macs, params = get_macs(
                 network, alg, batch_size, hidden_size=max_hidden_size)
 
@@ -260,7 +308,7 @@ if __name__ == "__main__":
             batch_size = 16
             max_layer = binary_search_max_layer(alg, low, high, batch_size)
             network = 'bert-large-cased'
-            ips = get_ips(network, alg, batch_size, layer_num=max_layer)
+            ips = get_ips(network, alg, batch_size, layer_num=max_layer, get_util = args.get_util)
             macs, params = get_macs(network, alg, batch_size, layer_num=max_layer)
             out_file = "max_layer_results.json"
             with open(out_file, "a") as fout:
@@ -284,7 +332,7 @@ if __name__ == "__main__":
             max_intermediate_size = binary_search_max_intermediate_size(
                 alg, low, high, batch_size=batch_size)
             network = 'bert-large-cased'
-            ips = get_ips(network, alg, batch_size, intermediate_size=max_intermediate_size)
+            ips = get_ips(network, alg, batch_size, intermediate_size=max_intermediate_size,get_util = args.get_util)
             macs, params = get_macs(network, alg, batch_size, intermediate_size=max_intermediate_size)
 
             out_file = "max_intermediate_results.json"
@@ -314,15 +362,15 @@ if __name__ == "__main__":
             alg = 'swap'
             run_benchmark(network, alg, batch_size, debug_mem=True, debug_speed=False)
             
-            # # swap actnn 4 bit blocking
+            # # swap gact 4 bit blocking
             # alg = 'L4bit-block'
             # run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=True)
             
-            # swap actnn 4 bit
+            # swap gact 4 bit
             alg = 'L4bit-swap'
             run_benchmark(network, alg, batch_size, debug_mem=True, debug_speed=False)
             
-            # swap actnn 4 bit + prefetch
+            # swap gact 4 bit + prefetch
             alg = 'L4bit-swap-prefetch'
             run_benchmark(network, alg, batch_size, debug_mem=True, debug_speed=False)
     elif args.mode == 'ckpt-softmax':
@@ -337,11 +385,11 @@ if __name__ == "__main__":
             alg = 'ckpt'
             run_benchmark(network, alg, batch_size, debug_mem=True, debug_speed=False)
             
-            # swap actnn 4 bit
+            # swap gact 4 bit
             alg = 'L1_ckpt'
             run_benchmark(network, alg, batch_size, debug_mem=True, debug_speed=False)
             
-            # swap actnn 4 bit + prefetch
+            # swap gact 4 bit + prefetch
             alg = 'L1_ckpt_eff'
             run_benchmark(network, alg, batch_size, debug_mem=True, debug_speed=False)      
     elif args.mode == 'mem':
