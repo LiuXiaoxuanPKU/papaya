@@ -226,16 +226,14 @@ if __name__ == "__main__":
         algs = ['swap', None, 'ckpt', 'L1']
 
     if args.mode == 'linear_scan':
-        # algs = ['L1', 'ckpt', 'L4bit-swap', 'L1_ckpt', 'ckpt_swap', None]
-        algs = ['L4bit-swap', 'L1_ckpt', 'ckpt_swap']
-        batch_sizes = list(range(300, 600, 16))
+        algs = ['L1', 'ckpt', 'L4bit-swap', 'L1_ckpt', 'ckpt_swap', None]
         for network in networks:
             for alg in algs:
                 failed = 0
-                # if alg is None: batch_sizes = list(range(20, 64, 8)) + list(range(64, 600, 32))
-                # elif alg == "L1": batch_sizes = list(range(120, 600, 8))
-                # elif alg == "ckpt": batch_sizes = list(range(284, 600, 16))
-                # else: batch_sizes = list(range(328, 600, 16))
+                if alg is None: batch_sizes = list(range(20, 64, 8)) + list(range(64, 600, 32))
+                elif alg == "L1": batch_sizes = list(range(120, 600, 8))
+                elif alg == "ckpt": batch_sizes = list(range(284, 600, 16))
+                else: batch_sizes = list(range(328, 600, 16))
                 for batch_size in batch_sizes:
                     if run_benchmark(network, alg, batch_size, debug_mem=args.get_mem, debug_speed=(not args.get_mem), \
                         layer_num=args.layer_num, hidden_size=args.hidden_size, get_util = args.get_util) != 0 or \
