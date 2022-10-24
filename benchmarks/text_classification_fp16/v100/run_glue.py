@@ -499,10 +499,8 @@ def main():
     peak_mem = AverageMeter('Peak Memory', ':.4e')
     activation_mem = AverageMeter('Activation Memory', ':.4e')
 
-    best_metric = 0
+
     batch_total_time = 0
-
-
     start_record_time = True
     with UtilizationContext(args.get_util) as context:
         for epoch in range(args.num_train_epochs):
@@ -511,8 +509,8 @@ def main():
                 print(step, completed_steps)
                 if args.get_mem and step > 0:
                     torch.cuda.synchronize()
-                    # accelerator.print("===============After Data Loading=======================")
-                    init_mem = get_memory_usage(False)  # model size + data size
+                    accelerator.print("===============After Data Loading=======================")
+                    init_mem = get_memory_usage(True)  # model size + data size
                     data_size = gact.utils.compute_tensor_bytes(list(batch.values()))
                     model_size = init_mem - data_size
                     torch.cuda.reset_peak_memory_stats()
@@ -560,7 +558,7 @@ def main():
                     torch.cuda.synchronize()
                     for t in batch:
                         del t
-                    after_backward = get_memory_usage(False)  # model size
+                    after_backward = get_memory_usage(False)
                     # init : weight + optimizer state + data size + grad (iter > 1)
                     # before backward : weight + optimizer state + data size + activation + loss + output + grad (iter > 1)
                     # after backward : init
@@ -575,23 +573,24 @@ def main():
                         
                     workspace_mem = peak_mem.get_value() - total_mem.get_value()
 
-                    accelerator.print("peak %d MB" % (peak_mem.get_value() / 1024 / 1024))
-                    accelerator.print("total %d MB" % (total_mem.get_value() / 1024 / 1024))
-                    accelerator.print("activation %d MB" % (activation_mem.get_value() / 1024 / 1024))
-                    exp_recorder.record("network", args.model_name_or_path)
-                    if args.swap: exp_recorder.record("algorithm", "swap")
-                    else: exp_recorder.record("algorithm", args.opt_level)
-                    exp_recorder.record("batch_size", args.per_device_train_batch_size)
-                    exp_recorder.record("layer_num", config.num_hidden_layers)
-                    exp_recorder.record("hidden_size", config.hidden_size)
-                    exp_recorder.record("peak", peak_mem.get_value() / 1024 / 1024)
-                    exp_recorder.record("total", total_mem.get_value() / 1024 / 1024)
-                    exp_recorder.record("activation", activation_mem.get_value() / 1024 / 1024)
-                    exp_recorder.record("model_size", model_size / 1024 / 1024)
-                    exp_recorder.record("workspace_size", workspace_mem / 1024 / 1024)
-                    exp_recorder.record("tstamp", time.time(), 2)
-                    exp_recorder.dump('results/mem_results.json') 
-                    exit(0)
+                    if completed_steps == 6:
+                        accelerator.print("peak %d MB" % (peak_mem.get_value() / 1024 / 1024))
+                        accelerator.print("total %d MB" % (total_mem.get_value() / 1024 / 1024))
+                        accelerator.print("activation %d MB" % (activation_mem.get_value() / 1024 / 1024))
+                        exp_recorder.record("network", args.model_name_or_path)
+                        if args.swap: exp_recorder.record("algorithm", "swap")
+                        else: exp_recorder.record("algorithm", args.opt_level)
+                        exp_recorder.record("batch_size", args.per_device_train_batch_size)
+                        exp_recorder.record("layer_num", config.num_hidden_layers)
+                        exp_recorder.record("hidden_size", config.hidden_size)
+                        exp_recorder.record("peak", peak_mem.get_value() / 1024 / 1024)
+                        exp_recorder.record("total", total_mem.get_value() / 1024 / 1024)
+                        exp_recorder.record("activation", activation_mem.get_value() / 1024 / 1024)
+                        exp_recorder.record("model_size", model_size / 1024 / 1024)
+                        exp_recorder.record("workspace_size", workspace_mem / 1024 / 1024)
+                        exp_recorder.record("tstamp", time.time(), 2)
+                        exp_recorder.dump('results/mem_results.json') 
+                        exit(0)
                         
                 if args.get_speed and step > 0 and step % args.gradient_accumulation_steps == 0:
                     end.record()
