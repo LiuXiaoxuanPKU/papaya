@@ -29,15 +29,15 @@ def benchmark_all(args):
             fail = 0
             for bsz in list(range(1, 4)) + list(range(4, 40, 4)):
                 case = suite_gpt.BenchmarkCase(bsz, suite_gpt.GPTModelConfig(1024, 1024, depth, 16, 51200), 1, "uniform",
-                            suite_gpt.UniformParallelArgs(True, remat, 1, 2, 2, True))
+                            suite_gpt.UniformParallelArgs(True, remat, 1, 1, 1, True))
     # for case in benchmark_suites[args.suite][num_gpus]:
                 case = tuple(tuple(x) if isinstance(x, tuple) else x for x in case)
                 case_str = str((model,) + case)
 
                 if args.nnodes == 1:
                     # Single node
-                    ret = run_cmd('python3 -m torch.distributed.launch '
-                                f'--nproc_per_node {args.nproc_per_node} '
+                    ret = run_cmd('python3 '
+                                # f'--nproc_per_node {args.nproc_per_node} '
                                 'benchmark_gpt_bert_one_case.py '
                                 f'"{case_str}" '
                                 f'{output_name}')
