@@ -760,3 +760,8 @@
 {"network": "scaled_wide_resnet_512", "algorithm": "L1", "batch_size": 8, "ips": -1}
 {"network": "scaled_wide_resnet_512", "algorithm": "L1", "batch_size": 4, "ips": -1}
 {"network": "scaled_wide_resnet_512", "algorithm": "L1", "batch_size": 0, "ips": -1}
+{"network": "resnet50", "algorithm": "chen_ckpt", "batch_size": 4, "ips": -1}
+{"network": "resnet50", "algorithm": "chen_ckpt", "batch_size": 4, "ips": -1}
+{"network": "resnet50", "algorithm": "chen_ckpt", "batch_size": 4, "ips": -1}
+{"network": "resnet50", "algorithm": "chen_ckpt", "batch_size": 4, "ips": -1}
+{"network": "resnet50", "algorithm": "chen_ckpt", "batch_size": 8, "ips": -1}

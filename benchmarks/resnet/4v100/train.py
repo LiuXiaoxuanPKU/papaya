@@ -17,6 +17,7 @@ import torch.backends.cudnn as cudnn
 import torch.optim
 import torch.utils.data
 import torch.utils.data.distributed
+import torch.multiprocessing as mp
 import torch.distributed as dist
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
@@ -78,6 +79,8 @@ parser.add_argument('--gpu', default=None, type=int,
                     help='GPU id to use.')
 parser.add_argument('--ablation', action="store_true",
                     help="Do ablation?")
+parser.add_argument('--dist-backend', default='nccl', type=str,
+                    help='distributed backend')
 parser.add_argument('--benchmark', type=str, default='exact')
 parser.add_argument('--limit', type=float, default=1, help="memory percentage")
 parser.add_argument('--alg', type=str, default="L0",
@@ -94,7 +97,8 @@ def distributed_main(rank,args):
     args.rank = rank
     os.environ['MASTER_ADDR'] = 'localhost'
     os.environ['MASTER_PORT'] = '12355'
-    dist.init_process_group("papaya", rank=rank, world_size=args.world_size)
+    dist.init_process_group(backend=args.dist_backend, rank=rank, world_size=args.world_size)
+    print(f"Node rank #{rank} up using {args.dist_backend} as backend.")
     main_worker(args)
 
 def main():
