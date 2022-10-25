@@ -339,7 +339,7 @@ def train(train_loader, model, criterion, optimizer, epoch, args):
                 with torch.no_grad():
                     optimizer.step()
             
-                if i % args.print_freq == 0:
+                if i % args.print_freq == 0 and (not args.distributed or args.rank == 0):
                     progress.display(i)
                 
                 # measure elapsed time
@@ -427,7 +427,7 @@ def validate(val_loader, model, criterion, args):
             batch_time.update(time.time() - end)
             end = time.time()
 
-            if i % args.print_freq == 0:
+            if i % args.print_freq == 0 and (not args.distributed or args.rank == 0):
                 progress.display(i)
 
         # TODO: this should also be done with the ProgressMeter
