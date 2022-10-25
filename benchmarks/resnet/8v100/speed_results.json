@@ -116,3 +116,4 @@
 {"network": "wide_resnet50_2", "algorithm": "L1", "benchmark": "gact", "batch_size": 224, "ips": 1260.03, "tstamp": 1666714847.01}
 {"network": "wide_resnet50_2", "algorithm": "L1", "benchmark": "gact", "batch_size": 232, "ips": 1260.05, "tstamp": 1666714929.7}
 {"network": "wide_resnet50_2", "algorithm": "L1", "batch_size": 240, "ips": -1}
+{"network": "resnet152", "algorithm": null, "batch_size": 520, "ips": -1}
