@@ -60,8 +60,8 @@ if __name__ == "__main__":
 
     networks = ["swin_large"]
     # algs = ["fp32", "fp32-ckpt", "fp16O1", "fp16O1-ckpt", "fp16O2", "fp16O2-ckpt"]
-    algs = ["fp16O1", "fp16O1-ckpt", "fp16O1-L1", "fp16O1-swap"]
-    
+    # algs = ["fp16O1", "fp16O1-ckpt", "fp16O1-L1", "fp16O1-swap"]
+    algs = ["fp16O1", "fp16O1-ckpt", "fp16O1-L1"]
     for net in networks:
         for alg in algs:
             try_cnt = 0

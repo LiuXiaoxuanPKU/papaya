@@ -1,0 +1,29 @@
+{"network": "swin_large", "batch_size": 20, "ips": 204.34, "batch_time": 0.097878, "algorithm": null, "fp16": "O1", "ckpt": false, "tstamp": 1666671751.95}
+{"network": "swin_large", "batch_size": 24, "ips": 232.67, "batch_time": 0.10315, "algorithm": null, "fp16": "O1", "ckpt": false, "tstamp": 1666671792.5}
+{"network": "swin_large", "batch_size": 28, "ips": 268.32, "batch_time": 0.104355, "algorithm": null, "fp16": "O1", "ckpt": false, "tstamp": 1666671833.18}
+{"network": "swin_large", "batch_size": 32, "ips": 229.93, "batch_time": 0.139171, "algorithm": null, "fp16": "O1", "ckpt": false, "tstamp": 1666671879.05}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 36, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 40, "ips": -1}
+{"network": "swin_large", "algorithm": "fp16O1", "batch_size": 44, "ips": -1}
+{"network": "swin_large", "batch_size": 20, "ips": 376.31, "batch_time": 0.053147, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666672020.33}
+{"network": "swin_large", "batch_size": 24, "ips": 413.61, "batch_time": 0.058026, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666672056.68}
+{"network": "swin_large", "batch_size": 28, "ips": 409.53, "batch_time": 0.068371, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666672091.91}
+{"network": "swin_large", "batch_size": 32, "ips": 464.42, "batch_time": 0.068903, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666672127.76}
+{"network": "swin_large", "algorithm": "fp16O1-ckpt", "batch_size": 36, "ips": -1}
+{"network": "swin_large", "batch_size": 40, "ips": 479.63, "batch_time": 0.083397, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666675838.41}
+{"network": "swin_large", "batch_size": 44, "ips": 498.17, "batch_time": 0.088323, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666675884.1}
+{"network": "swin_large", "batch_size": 48, "ips": 493.12, "batch_time": 0.097339, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666675930.13}
+{"network": "swin_large", "batch_size": 52, "ips": 515.37, "batch_time": 0.100899, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666675976.16}
+{"network": "swin_large", "batch_size": 56, "ips": 524.94, "batch_time": 0.106679, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666676021.8}
+{"network": "swin_large", "batch_size": 60, "ips": 543.71, "batch_time": 0.110353, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666676067.9}
+{"network": "swin_large", "batch_size": 64, "ips": 550.8, "batch_time": 0.116196, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666676118.54}
+{"network": "swin_large", "batch_size": 68, "ips": 533.72, "batch_time": 0.127407, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666676169.35}
+{"network": "swin_large", "algorithm": "fp16O1-ckpt", "batch_size": 72, "ips": -1}
+{"network": "swin_large", "batch_size": 76, "ips": 572.47, "batch_time": 0.132758, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666678644.99}
+{"network": "swin_large", "batch_size": 80, "ips": 550.72, "batch_time": 0.145265, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666678700.96}
+{"network": "swin_large", "batch_size": 84, "ips": 584.21, "batch_time": 0.143785, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666678751.52}
+{"network": "swin_large", "batch_size": 88, "ips": 573.74, "batch_time": 0.153379, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666678802.4}
+{"network": "swin_large", "batch_size": 92, "ips": 572.24, "batch_time": 0.160773, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666678853.3}
+{"network": "swin_large", "batch_size": 96, "ips": 582.06, "batch_time": 0.164932, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666678904.4}
+{"network": "swin_large", "batch_size": 100, "ips": 594.57, "batch_time": 0.168189, "algorithm": null, "fp16": "O1", "ckpt": true, "tstamp": 1666678955.77}
+{"network": "swin_large", "algorithm": "fp16O1-ckpt", "batch_size": 104, "ips": -1}

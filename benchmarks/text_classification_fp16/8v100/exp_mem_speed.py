@@ -26,25 +26,25 @@ def run_benchmark(network, alg, batch_size, debug_mem=False, debug_speed=False,
         cmd += " --ckpt "
     elif alg == 'L1_ckpt':
         cmd += " --ckpt "
-        cmd += " --actnn --opt_level L1 "
+        cmd += " --gact --opt_level L1 "
     # elif alg == 'L1_ckpt_eff':
     #     cmd += " --ckpt "
-    #     cmd += " --actnn --opt_level L1 "
+    #     cmd += " --gact --opt_level L1 "
     #     cmd += " --eff "
     # elif alg == "L1.4_ckpt":
     #     cmd += " --ckpt "
-    #     cmd += " --actnn --opt_level L1.4 "
+    #     cmd += " --gact --opt_level L1.4 "
     # elif alg == "L1.4_ckpt_effi":
     #     cmd += " --ckpt "
-    #     cmd += " --actnn --opt_level L1.4 "
+    #     cmd += " --gact --opt_level L1.4 "
     #     cmd += " --eff "
     elif alg == "ckpt_swap":
         cmd += " --ckpt"
-        cmd += " --actnn --opt_level swap"
+        cmd += " --gact --opt_level swap"
     elif alg == "swap":
         cmd += " --swap --ckpt "
     elif alg != None:
-        cmd += " --output_dir log/sst2/LEVEL/ --actnn --opt_level LEVEL ".replace("LEVEL", alg)
+        cmd += " --output_dir log/sst2/LEVEL/ --gact --opt_level LEVEL ".replace("LEVEL", alg)
         
     if debug_speed:
         cmd += " --get_speed "
@@ -226,11 +226,11 @@ if __name__ == "__main__":
         algs = ['swap', None, 'ckpt', 'L1']
 
     if args.mode == 'linear_scan':
-        algs = ['L1', 'ckpt', 'L4bit-swap', 'L1_ckpt', 'ckpt_swap', None]
+        algs = [None]#, 'L4bit-swap']
         for network in networks:
             for alg in algs:
                 failed = 0
-                if alg is None: batch_sizes = list(range(20, 64, 8)) + list(range(64, 600, 32))
+                if alg is None: batch_sizes = list(range(28, 64, 4)) + list(range(64, 600, 32))
                 elif alg == "L1": batch_sizes = list(range(120, 600, 8))
                 elif alg == "ckpt": batch_sizes = list(range(284, 600, 16))
                 else: batch_sizes = list(range(328, 600, 16))
