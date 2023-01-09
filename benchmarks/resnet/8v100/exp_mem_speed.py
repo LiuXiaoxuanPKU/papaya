@@ -173,7 +173,7 @@ if __name__ == "__main__":
         algs = [None, 'L1']
     else:
         networks = ['resnet152']
-        algs = ['L1']
+        algs = [None, 'L1']
 
     if args.mode == 'linear_scan':
         for network in networks:
@@ -192,19 +192,19 @@ if __name__ == "__main__":
                 low, high = 16, 1024
                 max_batch_size = binary_search_max_batch(
                     network, alg, low, high)
-                ips = get_ips(network, alg, max_batch_size)
+                # ips = get_ips(network, alg, max_batch_size)
 
-                out_file = "max_batch_results.json"
-                with open(out_file, "a") as fout:
-                    val_dict = {
-                        "network": network,
-                        "algorithm": alg,
-                        "max_batch_size": max_batch_size,
-                        "ips": ips,
-                        "tstamp": time.time()
-                    }
-                    fout.write(json.dumps(val_dict) + "\n")
-                print(f"save results to {out_file}")
+                # out_file = "max_batch_results.json"
+                # with open(out_file, "a") as fout:
+                #     val_dict = {
+                #         "network": network,
+                #         "algorithm": alg,
+                #         "max_batch_size": max_batch_size,
+                #         "ips": ips,
+                #         "tstamp": time.time()
+                #     }
+                #     fout.write(json.dumps(val_dict) + "\n")
+                # print(f"save results to {out_file}")
 
     elif args.mode == 'binary_search_max_input_size':
         for alg in algs:
