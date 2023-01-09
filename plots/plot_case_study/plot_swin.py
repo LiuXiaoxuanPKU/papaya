@@ -49,12 +49,13 @@ def plot(network):
         
         ax.plot(sorted_x, sorted_y, label=ALG_MAP[alg], marker=ALG_MARKER[alg], \
                 color=ALG_COLOR[alg], markersize=8, linewidth=3)
-        ax.scatter([max_x+10], [max_y], marker='x', s=140, color='black', linewidths=3)
+        ax.scatter([max_x+10], [max_y], marker='x', s=140, color='black', linewidths=3, zorder=2)
         # ax.legend(prop={"size":13}, loc='upper right')
         # ax.legend(prop={"size":13}, loc=(-0.1, -0.6), ncol = 5)
 
     # ax.set_title(f"{NET_TO_NAME[network]}", size=22)
     plt.grid()
+    ax.set_axisbelow(True)
     ax.set_xlabel("Batch Size")
     # ax.set_ylabel("Throughput (images/s)")
     Util.set_tick_label_size([ax])

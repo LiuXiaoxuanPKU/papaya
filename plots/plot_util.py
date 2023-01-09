@@ -7,19 +7,22 @@ ALG_MAP = {
         "L1" : "Quantize",
         "L1_ckpt" : "Quantize+Checkpoint",
         "swap_ckpt" : "Swap+Checkpoint",
+        "cpu-off": "Swap+Checkpoint",
         "dtr" : "CKPT(DTR)"
     }
 
 ALG_MARKER = {
     "exact" : "o",
-    "swap" : "^",
+    "swap" : "<",
     "L4bit-swap" : "P",
     "swap-lz4" : "d",
     "ckpt" : "X",
     "L1" : "^",
-    "L1_ckpt" : "o",
-    "swap_ckpt" : "o",
-    "dtr" : "s"
+    "L1_ckpt" : ">",
+    "swap_ckpt" : "x",
+    "cpu-off": "x",
+    "dtr" : "X"
+    # "dtr" : "s"
 }
 
 ALG_COLOR = {
@@ -31,10 +34,12 @@ ALG_COLOR = {
     "L1" : "mediumvioletred",
     "L1_ckpt" : "lightseagreen",
     "swap_ckpt" : "dodgerblue",
-    "dtr" : "mediumpurple"
+    # "dtr" : "mediumpurple",
+    "dtr" : "olive",
+    "cpu-off" : "dodgerblue"
 }
 
-NET_TO_FOLER = {
+NET_TO_FOLDER = {
     "resnet50" : "resnet",
     "wide_resnet50_2" : "resnet",
     "resnet152" : "resnet",
@@ -46,8 +51,9 @@ NET_TO_FOLER = {
 NET_TO_ALGS = {
     "resnet50" : [None, "L1", "swap", "L4bit-swap", "dtr"],
     "wide_resnet50_2" : [None, "L1", "L4bit-swap", "swap", "dtr"],
-    # bert should have [None, "L1", "swap", "L4bit-swap"]
-    "bert-large-cased" : [None, "L1", "swap"],
+    "bert-large-cased" : [None, "L1", "ckpt", "swap_ckpt", "L4bit-swap"],
+    # "bert-large-cased" : [None, "ckpt"],
+    # "swin_large" : [None, "ckpt"],
     "swin_large" : [None, "L1", "swap", "ckpt", "L4bit-swap"],
     # gpt should have [None, "L1", "swap", "L4bit-swap"]
     "transformer_lm_gpt3_small" : [None, "L1", "ckpt", "L4bit-swap"]

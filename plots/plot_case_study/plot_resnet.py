@@ -53,6 +53,7 @@ def plot(network):
 
     # ax.set_title(f"{NET_TO_NAME[network]}", size=22)
     plt.grid()
+    ax.set_axisbelow(True)
     ax.set_xlabel("Batch Size")
     # if network == "resnet50":
     #     ax.set_ylabel("Throughput")

@@ -1,6 +1,6 @@
 import sys
 sys.path.append('.')
-from plots.plot_util import ALG_COLOR, ALG_MARKER, NET_TO_FOLER
+from plots.plot_util import ALG_COLOR, ALG_MARKER, NET_TO_FOLER, NET_TO_ALGS
 
 import numpy as np
 from pathlib import Path
@@ -23,15 +23,6 @@ GB_NORMALIZE = {
     "transformer_lm_gpt3_small" : 1e9
 }
 
-NET_TO_ALGS = {
-    "resnet50" : ["None", "L1", "swap", "L4bit-swap", "dtr"],
-    "wide_resnet50_2" : ["None", "L1", "L4bit-swap", "swap", "dtr"],
-    # bert should have [None, "L1", "swap", "L14bit-swap"]
-    "bert-large-cased" : [None, "L1", "swap"],
-    "swin_large" : [None, "L1", "swap", "ckpt", "L4bit-swap"],
-    # gpt should have [None, "L1", "swap", "L14bit-swap"]
-    "transformer_lm_gpt3_small" : [None, "L1", "ckpt"]
-}
 
 def cond_gen(network, alg):
     if network in ["resnet50", "wide_resnet50_2", "resnet152"]:

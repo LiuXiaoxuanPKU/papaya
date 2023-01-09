@@ -48,6 +48,7 @@ def plot(network):
         # ax.legend(prop={"size":13})
         # ax.set_yscale("log")
     plt.grid()
+    ax.set_axisbelow(True)
     ax.set_xlabel("Batch size",)
     # ax.set_ylabel("Throughput (record/s)")
     Util.set_tick_label_size([ax])

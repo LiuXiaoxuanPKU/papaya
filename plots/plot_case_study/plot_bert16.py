@@ -5,7 +5,7 @@ sys.path.append('.')
 from plots.plot_util import ALG_MAP, ALG_MARKER, ALG_COLOR
 from util import Util
 
-filename = 'benchmarks/text_classification/results/speed_results_no_limit.json'
+filename = 'benchmarks/text_classification_fp16/v100/results/speed_results.json'
 
 def load_data():
     results = {}
@@ -28,6 +28,8 @@ def load_data():
 def plot():
     results = load_data()
     fig, ax = plt.subplots()
+    plt.grid()
+    ax.set_axisbelow(True)
     for alg in results:
         sample_cnt = 10
         xs = Util.sample_data(list(results[alg].keys()), sample_cnt)
@@ -36,10 +38,9 @@ def plot():
         ax.scatter([max(xs)+30], [max(ys)], marker='x', s=140, color='black', linewidths=3)
 
     ax.set_xlabel("Batch size")
-    plt.grid()
     Util.set_tick_label_size([ax])
 
-    fig.savefig('graphs/case_study/bert32.pdf', bbox_inches='tight')
+    fig.savefig('graphs/case_study/bert16.pdf', bbox_inches='tight')
 
 
 plot()
