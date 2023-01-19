@@ -9,7 +9,8 @@ import warnings
 from argparse import Namespace
 from typing import Any, Callable, Dict, List
 from fairseq.logging import meters, metrics
-import torch, gact
+import torch
+from fairseq.gact_utils import compute_tensor_bytes
 from fairseq import metrics, search, tokenizer, utils
 from fairseq.data import Dictionary, FairseqDataset, data_utils, encoders, iterators
 from fairseq.dataclass import FairseqDataclass
@@ -514,7 +515,7 @@ class FairseqTask(object):
         if self.iter: 
             torch.cuda.synchronize()
             init_size = torch.cuda.memory_allocated()
-            data_size = gact.utils.compute_tensor_bytes(list(sample["net_input"].values()))
+            data_size = compute_tensor_bytes(list(sample["net_input"].values()))
             model_size = init_size-data_size
         with torch.autograd.profiler.record_function("forward"):
             with torch.cuda.amp.autocast(enabled=(isinstance(optimizer, AMPOptimizer))):
