@@ -1,0 +1,28 @@
+{"network": "scaled_wide_resnet_64", "algorithm": "None", "benchmark": "exact", "batch_size": 64, "ips": 152.03, "tstamp": 1683355630.56}
+{"network": "scaled_wide_resnet_96", "algorithm": "None", "benchmark": "exact", "batch_size": 64, "ips": 103.59, "tstamp": 1683355655.6}
+{"network": "scaled_wide_resnet_128", "algorithm": null, "batch_size": 64, "ips": -1}
+{"network": "scaled_wide_resnet_160", "algorithm": null, "batch_size": 64, "ips": -1}
+{"network": "scaled_wide_resnet_64", "algorithm": "L1", "benchmark": "gact", "batch_size": 64, "ips": 115.85, "tstamp": 1683355703.22}
+{"network": "scaled_wide_resnet_96", "algorithm": "L1", "benchmark": "gact", "batch_size": 64, "ips": 84.64, "tstamp": 1683355730.53}
+{"network": "scaled_wide_resnet_128", "algorithm": "L1", "benchmark": "gact", "batch_size": 64, "ips": 65.38, "tstamp": 1683355763.34}
+{"network": "scaled_wide_resnet_160", "algorithm": "L1", "benchmark": "gact", "batch_size": 64, "ips": 50.62, "tstamp": 1683355803.27}
+{"network": "scaled_wide_resnet_192", "algorithm": "L1", "benchmark": "gact", "batch_size": 64, "ips": 41.68, "tstamp": 1683355850.79}
+{"network": "scaled_wide_resnet_224", "algorithm": "L1", "benchmark": "gact", "batch_size": 64, "ips": 34.37, "tstamp": 1683355906.06}
+{"network": "scaled_wide_resnet_256", "algorithm": "L1", "benchmark": "gact", "batch_size": 64, "ips": 28.56, "tstamp": 1683355970.09}
+{"network": "scaled_wide_resnet_288", "algorithm": "L1", "benchmark": "gact", "batch_size": 64, "ips": 23.04, "tstamp": 1683356048.11}
+{"network": "scaled_wide_resnet_320", "algorithm": "L1", "batch_size": 64, "ips": -1}
+{"network": "scaled_wide_resnet_352", "algorithm": "L1", "batch_size": 64, "ips": -1}
+{"network": "scaled_wide_resnet_64", "algorithm": "swap", "benchmark": "gact", "batch_size": 64, "ips": 19.94, "tstamp": 1683356189.58}
+{"network": "scaled_wide_resnet_96", "algorithm": "swap", "benchmark": "gact", "batch_size": 64, "ips": 16.57, "tstamp": 1683356285.99}
+{"network": "scaled_wide_resnet_128", "algorithm": "swap", "benchmark": "gact", "batch_size": 64, "ips": 14.34, "tstamp": 1683356396.77}
+{"network": "scaled_wide_resnet_64", "algorithm": "L4bit-swap", "benchmark": "gact", "batch_size": 64, "ips": 82.16, "tstamp": 1683356980.67}
+{"network": "scaled_wide_resnet_96", "algorithm": "L4bit-swap", "benchmark": "gact", "batch_size": 64, "ips": 63.82, "tstamp": 1683357014.23}
+{"network": "scaled_wide_resnet_128", "algorithm": "L4bit-swap", "benchmark": "gact", "batch_size": 64, "ips": 51.48, "tstamp": 1683357053.45}
+{"network": "scaled_wide_resnet_160", "algorithm": "L4bit-swap", "benchmark": "gact", "batch_size": 64, "ips": 41.46, "tstamp": 1683357100.11}
+{"network": "scaled_wide_resnet_192", "algorithm": "L4bit-swap", "benchmark": "gact", "batch_size": 64, "ips": 34.96, "tstamp": 1683357154.27}
+{"network": "scaled_wide_resnet_224", "algorithm": "L4bit-swap", "benchmark": "gact", "batch_size": 64, "ips": 29.41, "tstamp": 1683357217.1}
+{"network": "scaled_wide_resnet_256", "algorithm": "L4bit-swap", "benchmark": "gact", "batch_size": 64, "ips": 24.97, "tstamp": 1683357289.05}
+{"network": "scaled_wide_resnet_288", "algorithm": "L4bit-swap", "benchmark": "gact", "batch_size": 64, "ips": 21.29, "tstamp": 1683357372.97}
+{"network": "scaled_wide_resnet_320", "algorithm": "L4bit-swap", "benchmark": "gact", "batch_size": 64, "ips": 18.68, "tstamp": 1683357467.32}
+{"network": "scaled_wide_resnet_352", "algorithm": "L4bit-swap", "batch_size": 64, "ips": -1}
+{"network": "scaled_wide_resnet_384", "algorithm": "L4bit-swap", "batch_size": 64, "ips": -1}
